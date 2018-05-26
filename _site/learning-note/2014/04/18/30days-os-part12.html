@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>《30天自制操作系统》笔记一二 | whosxavierwu’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="《30天自制操作系统》笔记一二" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="最近买了本书《30天自制操作系统》，打算跟着这本书来对操作系统有个更为深入的理解。" />
+<meta property="og:description" content="最近买了本书《30天自制操作系统》，打算跟着这本书来对操作系统有个更为深入的理解。" />
+<link rel="canonical" href="http://localhost:4000/learning-note/2014/04/18/30days-os-part12.html" />
+<meta property="og:url" content="http://localhost:4000/learning-note/2014/04/18/30days-os-part12.html" />
+<meta property="og:site_name" content="whosxavierwu’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-04-18T20:48:25+08:00" />
+<script type="application/ld+json">
+{"description":"最近买了本书《30天自制操作系统》，打算跟着这本书来对操作系统有个更为深入的理解。","@type":"BlogPosting","url":"http://localhost:4000/learning-note/2014/04/18/30days-os-part12.html","headline":"《30天自制操作系统》笔记一二","dateModified":"2014-04-18T20:48:25+08:00","datePublished":"2014-04-18T20:48:25+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/learning-note/2014/04/18/30days-os-part12.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="whosxavierwu's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">whosxavierwu&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">《30天自制操作系统》笔记一二</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-04-18T20:48:25+08:00" itemprop="datePublished">Apr 18, 2014
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>最近买了本书《30天自制操作系统》，打算跟着这本书来对操作系统有个更为深入的理解。</p>
+
+<p>这个系列的博客（其实所有博客基本也都是）主要还是作为一个学习的笔记来用的，或者说备忘，所以可能排版也比较随意，大家不要太介意哈~</p>
+
+<p>第一天主要是安装相关的软件，以及学会用模拟操作系统的运行。我们希望能够在虚拟机中打出QEMU。</p>
+
+<p>第二天学习到的主要是寄存器的一些知识以及Makefile的基本知识。</p>
+
+<p>从第一天来看，总的来说，我们所做的事情是：</p>
+
+<p>helloos.nas ==&gt; 利用nask.exe编译 ==&gt; helloos.img ==&gt; 在qemu中运行。</p>
+
+<p>这里要用到两个软件：nask.exe以及qemu。</p>
+
+<p>其实主要还是熟悉整个操作流程而已，更多的还是软件的使用，并没有太多理论上的知识收获。（就我个人来说）</p>
+
+<p>第二天则比较有意思。</p>
+
+<p>首先是helloos.nas文件的分析。</p>
+
+<p>由于这学期也是在学习计算机组成原理，所以汇编学起来也还比较快。</p>
+
+<p>值得留意的一些指令是：</p>
+
+<p>ORG    0x7c00 ；指明程序的装载地址</p>
+
+<p>DB是define byte，1B；</p>
+
+<p>DW是define word，2B；</p>
+
+<p>DD是define double-word，4B</p>
+
+<p>RESB是reserve byte；</p>
+
+<p>在RESB 0x1fe-$中，$是指前面所已经输出的字节，所以这句指令是说将该文件后面的全部保留下来。</p>
+
+<p>然后还有寄存器们（16b，分割线后面的是8b）：</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>AX == accumulator</td>
+      <td>AL, AH</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>CX == counter</td>
+      <td>BL, BH</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>DX == data</td>
+      <td>CL, CH</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>BX == base</td>
+      <td>DL, DH</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>SP == stack pointer</p>
+
+<p>BP == base pointer</p>
+
+<p>SI == source index</p>
+
+<p>DI == destination index</p>
+
+<p>ES == extra segment</p>
+
+<p>CS == code segment</p>
+
+<p>SS == stack segment</p>
+
+<p>DS == data segment</p>
+
+<p>FS, GS：无名</p>
+
+<p>还有一些需要记一下的是：</p>
+
+<p>直接输出信息：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MOV	SI, msg		; Source index loop:
+MOV	AL, [SI]
+ADD	SI, 1
+CMP	AL, 0
+JE	fin
+; call BIOS
+MOV	AH, 0x0e
+MOV	BX, 15
+INT	0x10
+
+JMP	loop msg:
+DB	0x0a, 0x0a
+DB	"Hello, xavier!"
+DB	0x0a
+DB	"How are you?"
+DB	0x0a
+DB	0 主要还是从http://community.osdev.info/?%28AT%29BIOS 可以找到更多信息。（日文！= =||） 0x00007c00~0x00007dff：启动区内容的装载地址
+</code></pre></div></div>
+
+<p>helloos.nas ==&gt; helloos.img ==&gt; 在qemu中运行：</p>
+
+<p>../z_tools/nask.exe helloos.nas</p>
+
+<p>../z_tools/make.exe -r helloos.img</p>
+
+<p>copy helloos.img ..\z_tools\qemu\fdimage0.bin
+    ../z_tools/make.exe -C ../z_tools/qemu</p>
+
+<p>最后就是一些Makefile的入门知识。</p>
+
+<p>语法就是</p>
+
+<p>ipl.bin:	ipl.nas Makefile
+	../z_tools/nask.exe ipl.nas ipl.bin ipl.lst
+要制作ipl.bin就需要文件ipl.nas以及Makefile，需要执行语句：
+../z_tools/nask.exe ipl.nas ipl.bin ipl.lst</p>
+
+<p>Makefile能够分析文件依赖性。
+常用的大概是这样：</p>
+
+<p>default:
+	../z_tools/make.exe img</p>
+
+<p>ipl.bin:	ipl.nas Makefile
+	../z_tools/nask.exe ipl.nas ipl.bin ipl.lst</p>
+
+<p>helloos.img:	ipl.bin Makefile
+	../z_tools/edimg.exe	imgin:../z_tools/fdimg0at.tek \
+		wbinimg src:ipl.bin len:512 from:0 to:0		imgout:helloos.img</p>
+
+<p>img:
+	../z_tools/make.exe -r helloos.img</p>
+
+<p>asm:
+	../z_tools/make.exe -r ipl.bin</p>
+
+<p>run:
+	../z_tools/make.exe img
+	copy helloos.img ..\z_tools\qemu\fdimage0.bin
+	../z_tools/make.exe -C ../z_tools/qemu</p>
+
+<p>install:
+	../z_tools/make.exe img
+	../z_tools/imgtol.com w a: helloos.img</p>
+
+<p>clean:
+	-del ipl.bin
+	-del ipl.lst</p>
+
+<p>没错，基本上就这么多了~</p>
+
+
+  </div><a class="u-url" href="/learning-note/2014/04/18/30days-os-part12.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">whosxavierwu&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">whosxavierwu&#39;s blog</li><li><a class="u-email" href="mailto:whosxavierwu@gmail.com">whosxavierwu@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/whosxavierwu"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">whosxavierwu</span></a></li><li><a href="https://www.linkedin.com/in/zeweiwu"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">zeweiwu</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Keep learning, deep learning. </p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

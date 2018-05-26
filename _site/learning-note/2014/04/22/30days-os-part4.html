@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>《30天自制操作系统》笔记四 | whosxavierwu’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="《30天自制操作系统》笔记四" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="第四天我们所要做的事情是使用指针以及显示一个简单的图形界面。" />
+<meta property="og:description" content="第四天我们所要做的事情是使用指针以及显示一个简单的图形界面。" />
+<link rel="canonical" href="http://localhost:4000/learning-note/2014/04/22/30days-os-part4.html" />
+<meta property="og:url" content="http://localhost:4000/learning-note/2014/04/22/30days-os-part4.html" />
+<meta property="og:site_name" content="whosxavierwu’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-04-22T11:22:17+08:00" />
+<script type="application/ld+json">
+{"description":"第四天我们所要做的事情是使用指针以及显示一个简单的图形界面。","@type":"BlogPosting","url":"http://localhost:4000/learning-note/2014/04/22/30days-os-part4.html","headline":"《30天自制操作系统》笔记四","dateModified":"2014-04-22T11:22:17+08:00","datePublished":"2014-04-22T11:22:17+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/learning-note/2014/04/22/30days-os-part4.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="whosxavierwu's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">whosxavierwu&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">《30天自制操作系统》笔记四</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-04-22T11:22:17+08:00" itemprop="datePublished">Apr 22, 2014
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>第四天我们所要做的事情是使用指针以及显示一个简单的图形界面。</p>
+
+<p>对于有C语言基础的人来说，指针这一部分基本没问题，主要还是图形界面的设置上。</p>
+
+<p>我们要修改的是bootpack.c以及naskfunc.nas。在naskfunc.nas中加入了一些IO相关的函数：</p>
+
+<p>; io interrupt
+GLOBAL		_io_hlt, _io_cli, _io_sti, _io_stihlt
+; io in
+GLOBAL		_io_in8, _io_in16, _io_in32
+; io out
+GLOBAL 	_io_out8, _io_out16, _io_out32
+; about EFLAGS
+GLOBAL		_io_load_eflags, _io_store_eflags
+值得一提的是最后的两个函数。EFLAGS是一个存储着各种标志的寄存器。</p>
+
+<p>接下来就是C语言的天地了。</p>
+
+<p>关于颜色，由于这次使用的是320x200的8位颜色模式，也就是最多只能使用0~255共256种颜色了。这里我们只用16种：</p>
+
+<p>先来初始化调色板：init_palette()</p>
+
+<p>void init_palette (void) {
+	static unsigned char table_rgb[16 * 3] = {
+		/<em>R, G, B</em>/
+		0x00, 0x00, 0x00,	/*  0:black<em>/
+		0xff, 0x00, 0x00,	/</em>  1:light red<em>/
+		0x00, 0xff, 0x00,	/</em>  2:light green<em>/
+		0xff, 0xff, 0x00,	/</em>  3:light yellow<em>/
+		0x00, 0x00, 0xff,	/</em>  4:light blue<em>/
+		0xff, 0x00, 0xff,	/</em>  5:light purple<em>/
+		0x00, 0xff, 0xff,	/</em>  6:soft light blue<em>/
+		0xff, 0xff, 0xff,	/</em>  7:white<em>/
+		0xc6, 0xc6, 0xc6,	/</em>  8:light grey<em>/
+		0x84, 0x00, 0x00,	/</em>  9:dark red<em>/
+		0x00, 0x84, 0x00,	/</em> 10:dark green<em>/
+		0x84, 0x84, 0x00,	/</em> 11:dark yellow<em>/
+		0x00, 0x00, 0x84,	/</em> 12:dark blue<em>/
+		0x84, 0x00, 0x84,	/</em> 13:dark purple<em>/
+		0x00, 0x84, 0x84,	/</em> 14:soft dark blue<em>/
+		0x84, 0x84, 0x84	/</em> 15:dark grey*/
+	};
+	set_palette (0, 15, table_rgb);
+	return ;
+}
+其实主要就是对“调色板”table_rgb进行声明（虽然看起来真的很恶心……），然后再用set_palette来设置：
+void set_palette (int start, int end, unsigned char *rgb) {
+	int i;
+	int eflags = io_load_eflags();
+	io_cli();</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>io_out8(0x03c8, start);	
+for (i = start; i &lt;= end; ++i) {
+	io_out8(0x03c9, *(rgb+0) / 4);
+	io_out8(0x03c9, *(rgb+1) / 4);
+	io_out8(0x03c9, *(rgb+2) / 4);
+	rgb += 3;
+}
+io_store_eflags(eflags);
+return ; } 这里跟作者给的代码有一点点的不同就在于我把rgb[0]改成了*(rgb+0)，主要是觉得在之前声明 的时候rgb是数组，如果第一眼看循环体内的代码可能会觉得是只用到了rgb数组的前三个。事实上，因为后面还有一句“rgb+=3”，使得代码是按照声明的部分当中一行一行的来进行io_out的。 这里我们还用到了和eflags有关的几个函数，是因为要进行防止设置调色板的这个过程被中断了。
+</code></pre></div></div>
+
+<p>而为什么是这样的来io_out，0x03c8以及0x03c9又是哪里来的呢？这里详情可以看：http://community.osdev.info/?VGA</p>
+
+<p>书上的说法是：</p>
+
+<p>完了以后我们就可以开始用色了。</p>
+
+<p>这里书上的参考函数：</p>
+
+<p>void boxfill8(unsigned char *vram, int xsize, unsigned char c, 
+		int x0, int y0, int x1, int y1) {
+	int x, y;
+	for (y = y0; y &lt;= y1; y++)
+		for (x = x0; x &lt;= x1; x++)
+			vram[y * xsize + x] = c;
+	return;
+}
+就是绘制矩形。
+其中c代表的是color的编号，这里被我重新宏定义了（真不明白作者的宏定义为什么他自己可以看得懂……）</p>
+
+<p>/* colors */
+#define BLACK		0
+#define LIGHT_RED	1
+#define LIGHT_GREEN	2
+#define LIGHT_YELLOW	3
+#define LIGHT_BLUE	4
+#define LIGHT_PURPLE	5
+#define SOFT_LIGHT_BLUE	6
+#define WHITE		7
+#define LIGHT_GREY	8
+#define DARK_RED	9
+#define DARK_GREEN	10
+#define DARK_YELLOW	11
+#define DARK_BLUE	12
+#define DARK_PURPLE	13
+#define SOFT_DARK_BLUE	14
+#define DARK_GREY	15
+今天的也就这么多了。</p>
+
+
+  </div><a class="u-url" href="/learning-note/2014/04/22/30days-os-part4.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">whosxavierwu&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">whosxavierwu&#39;s blog</li><li><a class="u-email" href="mailto:whosxavierwu@gmail.com">whosxavierwu@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/whosxavierwu"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">whosxavierwu</span></a></li><li><a href="https://www.linkedin.com/in/zeweiwu"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">zeweiwu</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Keep learning, deep learning. </p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

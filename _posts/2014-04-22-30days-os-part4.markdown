@@ -1,0 +1,115 @@
+---
+layout: post
+title:  "《30天自制操作系统》笔记四"
+date:   2014-04-22 11:22:17 +0800
+categories: learning-note
+---
+
+第四天我们所要做的事情是使用指针以及显示一个简单的图形界面。
+
+对于有C语言基础的人来说，指针这一部分基本没问题，主要还是图形界面的设置上。
+
+我们要修改的是bootpack.c以及naskfunc.nas。在naskfunc.nas中加入了一些IO相关的函数：
+
+; io interrupt
+GLOBAL		_io_hlt, _io_cli, _io_sti, _io_stihlt
+; io in
+GLOBAL		_io_in8, _io_in16, _io_in32
+; io out
+GLOBAL 	_io_out8, _io_out16, _io_out32
+; about EFLAGS
+GLOBAL		_io_load_eflags, _io_store_eflags
+值得一提的是最后的两个函数。EFLAGS是一个存储着各种标志的寄存器。
+
+
+接下来就是C语言的天地了。
+
+
+
+关于颜色，由于这次使用的是320x200的8位颜色模式，也就是最多只能使用0~255共256种颜色了。这里我们只用16种：
+
+
+
+先来初始化调色板：init_palette()
+
+void init_palette (void) {
+	static unsigned char table_rgb[16 * 3] = {
+		/*R, G, B*/
+		0x00, 0x00, 0x00,	/*  0:black*/
+		0xff, 0x00, 0x00,	/*  1:light red*/
+		0x00, 0xff, 0x00,	/*  2:light green*/
+		0xff, 0xff, 0x00,	/*  3:light yellow*/
+		0x00, 0x00, 0xff,	/*  4:light blue*/
+		0xff, 0x00, 0xff,	/*  5:light purple*/
+		0x00, 0xff, 0xff,	/*  6:soft light blue*/
+		0xff, 0xff, 0xff,	/*  7:white*/
+		0xc6, 0xc6, 0xc6,	/*  8:light grey*/
+		0x84, 0x00, 0x00,	/*  9:dark red*/
+		0x00, 0x84, 0x00,	/* 10:dark green*/
+		0x84, 0x84, 0x00,	/* 11:dark yellow*/
+		0x00, 0x00, 0x84,	/* 12:dark blue*/
+		0x84, 0x00, 0x84,	/* 13:dark purple*/
+		0x00, 0x84, 0x84,	/* 14:soft dark blue*/
+		0x84, 0x84, 0x84	/* 15:dark grey*/
+	};
+	set_palette (0, 15, table_rgb);
+	return ;
+}
+其实主要就是对“调色板”table_rgb进行声明（虽然看起来真的很恶心……），然后再用set_palette来设置：
+void set_palette (int start, int end, unsigned char *rgb) {
+	int i;
+	int eflags = io_load_eflags();
+	io_cli();
+	
+	io_out8(0x03c8, start);	
+	for (i = start; i <= end; ++i) {
+		io_out8(0x03c9, *(rgb+0) / 4);
+		io_out8(0x03c9, *(rgb+1) / 4);
+		io_out8(0x03c9, *(rgb+2) / 4);
+		rgb += 3;
+	}
+	io_store_eflags(eflags);
+	return ;
+}
+这里跟作者给的代码有一点点的不同就在于我把rgb[0]改成了*(rgb+0)，主要是觉得在之前声明 的时候rgb是数组，如果第一眼看循环体内的代码可能会觉得是只用到了rgb数组的前三个。事实上，因为后面还有一句“rgb+=3”，使得代码是按照声明的部分当中一行一行的来进行io_out的。
+这里我们还用到了和eflags有关的几个函数，是因为要进行防止设置调色板的这个过程被中断了。
+
+而为什么是这样的来io_out，0x03c8以及0x03c9又是哪里来的呢？这里详情可以看：http://community.osdev.info/?VGA
+
+书上的说法是：
+
+
+完了以后我们就可以开始用色了。
+
+这里书上的参考函数：
+
+void boxfill8(unsigned char *vram, int xsize, unsigned char c, 
+		int x0, int y0, int x1, int y1) {
+	int x, y;
+	for (y = y0; y <= y1; y++)
+		for (x = x0; x <= x1; x++)
+			vram[y * xsize + x] = c;
+	return;
+}
+就是绘制矩形。
+其中c代表的是color的编号，这里被我重新宏定义了（真不明白作者的宏定义为什么他自己可以看得懂……）
+
+/* colors */
+#define BLACK		0
+#define LIGHT_RED	1
+#define LIGHT_GREEN	2
+#define LIGHT_YELLOW	3
+#define LIGHT_BLUE	4
+#define LIGHT_PURPLE	5
+#define SOFT_LIGHT_BLUE	6
+#define WHITE		7
+#define LIGHT_GREY	8
+#define DARK_RED	9
+#define DARK_GREEN	10
+#define DARK_YELLOW	11
+#define DARK_BLUE	12
+#define DARK_PURPLE	13
+#define SOFT_DARK_BLUE	14
+#define DARK_GREY	15
+今天的也就这么多了。
+
