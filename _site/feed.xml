@@ -1,4 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-26T11:39:28+08:00</updated><id>http://localhost:4000/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">My first post in jekyll</title><link href="http://localhost:4000/test/2018/05/26/my-first-post-in-jekyll.html" rel="alternate" type="text/html" title="My first post in jekyll" /><published>2018-05-26T11:36:00+08:00</published><updated>2018-05-26T11:36:00+08:00</updated><id>http://localhost:4000/test/2018/05/26/my-first-post-in-jekyll</id><content type="html" xml:base="http://localhost:4000/test/2018/05/26/my-first-post-in-jekyll.html">&lt;p&gt;Hello world!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-26T17:11:26+08:00</updated><id>http://localhost:4000/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">阶段总结-跳槽</title><link href="http://localhost:4000/thinking/2018/05/26/review.html" rel="alternate" type="text/html" title="阶段总结-跳槽" /><published>2018-05-26T12:00:00+08:00</published><updated>2018-05-26T12:00:00+08:00</updated><id>http://localhost:4000/thinking/2018/05/26/review</id><content type="html" xml:base="http://localhost:4000/thinking/2018/05/26/review.html">&lt;p&gt;三月底开始投简历、约面试，清明几天打飞的来北京密集面试，最终敲定的是汽车之家的offer，五月下旬入职。&lt;/p&gt;
+
+&lt;p&gt;两个多月的时间里发生了不少事情，这里做点总结。大体上，跳槽可以分为这么几个阶段：&lt;/p&gt;
+
+&lt;h1 id=&quot;一准备阶段&quot;&gt;一、准备阶段&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;明确动机。是确定了要跳槽，还是单纯想了解市场情况？后者随意，前者需要留意”金三银四”的时间，提前准备。&lt;/li&gt;
+  &lt;li&gt;明确方向。确定期望的城市、岗位、薪酬、公司类型等，上拉勾等招聘网站更新基本信息，并持续关注。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;我就是因为没有做好以上两点，后面一直很被动。&lt;/p&gt;
+
+&lt;h1 id=&quot;二简历阶段&quot;&gt;二、简历阶段&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;用心！用心！用心！
+别高估了自己的抢手程度，对简历要多上点心。
+STAR法则、岗位职责、岗位要求等等，都好好理解一下。&lt;/li&gt;
+  &lt;li&gt;不要脸！不要脸！不要脸！
+尽可能找人内推。
+简历也让同行朋友们给点建议。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;用心去做一份好的简历是很花时间的，这也是前面强调提前准备的原因。&lt;/p&gt;
+
+&lt;h1 id=&quot;三面试阶段&quot;&gt;三、面试阶段&lt;/h1&gt;
+&lt;p&gt;就数据挖掘这一类岗位来看，面试一般会有这几方面的问题：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;编程基础。刷题！刷题！刷题！&lt;/li&gt;
+  &lt;li&gt;理论基础。常用的模型要理解透彻了，要到能随手推导的程度。模型调用、调参都得比较熟悉。&lt;/li&gt;
+  &lt;li&gt;项目经历。挑一两个跟应聘岗位相关的项目，着重说明，所用的算法模型、遇到的难题、解决思路、最终效果等等，都得搞清楚。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;面试阶段最最重要的是坚持！尽可能不要被前面发挥不好的面试所影响，而是要不断调整自己的面试策略、面试表现。
+不到最后一刻不要放弃！&lt;/p&gt;
+
+&lt;h1 id=&quot;四offer阶段&quot;&gt;四、offer阶段&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;对HR别轻易透底，让对方先开价。（你不知道我开价后发现HR开的价比我的更高时是有多后悔……）&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;其他发现与感想&quot;&gt;其他发现与感想&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;学历是有用的。数据挖掘岗把硕士定为门槛是很常见的事情。&lt;/li&gt;
+  &lt;li&gt;所在公司是有影响的。从小公司出来面试时要解释这家公司做什么其实是挺麻烦的。&lt;/li&gt;
+  &lt;li&gt;弱关系会在一些地方发挥着重要的作用。内推、招聘信息、租房信息等等。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;平时积累最重要。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Anyway, 目前在汽车之家试用期，整体感觉还是很不错的，加油！&lt;/p&gt;</content><author><name></name></author><summary type="html">三月底开始投简历、约面试，清明几天打飞的来北京密集面试，最终敲定的是汽车之家的offer，五月下旬入职。</summary></entry><entry><title type="html">My first post in jekyll</title><link href="http://localhost:4000/test/2018/05/26/my-first-post-in-jekyll.html" rel="alternate" type="text/html" title="My first post in jekyll" /><published>2018-05-26T11:36:00+08:00</published><updated>2018-05-26T11:36:00+08:00</updated><id>http://localhost:4000/test/2018/05/26/my-first-post-in-jekyll</id><content type="html" xml:base="http://localhost:4000/test/2018/05/26/my-first-post-in-jekyll.html">&lt;p&gt;Hello world!&lt;/p&gt;
 
 &lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
 
