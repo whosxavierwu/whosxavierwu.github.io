@@ -1,0 +1,10 @@
+---
+layout: post
+title:  "TODO Exercises of ESL Chap.2"
+date:   2018-05-31 23:02:00 +0800
+categories: esl
+---
+
+（待填坑）
+
+近期重新拿起了经典的 "The Elements of Statistical Learning" 来好好学习。

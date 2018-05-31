@@ -1,4 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-26T18:10:36+08:00</updated><id>http://localhost:4000/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">阶段总结-跳槽</title><link href="http://localhost:4000/thinking/2018/05/26/review.html" rel="alternate" type="text/html" title="阶段总结-跳槽" /><published>2018-05-26T17:20:00+08:00</published><updated>2018-05-26T17:20:00+08:00</updated><id>http://localhost:4000/thinking/2018/05/26/review</id><content type="html" xml:base="http://localhost:4000/thinking/2018/05/26/review.html">&lt;p&gt;三月底开始投简历、约面试，清明几天打飞的来北京密集面试，最终敲定的是汽车之家的offer，五月下旬入职。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-31T23:13:01+08:00</updated><id>http://localhost:4000/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">TODO LeetCode #22</title><link href="http://localhost:4000/leetcode/2018/05/31/leetcode-22.html" rel="alternate" type="text/html" title="TODO LeetCode #22" /><published>2018-05-31T23:11:00+08:00</published><updated>2018-05-31T23:11:00+08:00</updated><id>http://localhost:4000/leetcode/2018/05/31/leetcode-22</id><content type="html" xml:base="http://localhost:4000/leetcode/2018/05/31/leetcode-22.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+
+&lt;p&gt;最近重新开始刷题。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO Exercises of ESL Chap.2</title><link href="http://localhost:4000/esl/2018/05/31/esl-2.html" rel="alternate" type="text/html" title="TODO Exercises of ESL Chap.2" /><published>2018-05-31T23:02:00+08:00</published><updated>2018-05-31T23:02:00+08:00</updated><id>http://localhost:4000/esl/2018/05/31/esl-2</id><content type="html" xml:base="http://localhost:4000/esl/2018/05/31/esl-2.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+
+&lt;p&gt;近期重新拿起了经典的 “The Elements of Statistical Learning” 来好好学习。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO 实时标签</title><link href="http://localhost:4000/work/2018/05/31/realtime-tag.html" rel="alternate" type="text/html" title="TODO 实时标签" /><published>2018-05-31T23:01:00+08:00</published><updated>2018-05-31T23:01:00+08:00</updated><id>http://localhost:4000/work/2018/05/31/realtime-tag</id><content type="html" xml:base="http://localhost:4000/work/2018/05/31/realtime-tag.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+
+&lt;p&gt;最近新接手的任务——用户实时标签生成。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO 流量预估</title><link href="http://localhost:4000/work/2018/05/31/impose-predict.html" rel="alternate" type="text/html" title="TODO 流量预估" /><published>2018-05-31T23:00:00+08:00</published><updated>2018-05-31T23:00:00+08:00</updated><id>http://localhost:4000/work/2018/05/31/impose-predict</id><content type="html" xml:base="http://localhost:4000/work/2018/05/31/impose-predict.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+
+&lt;p&gt;最近在做的一个小需求——广告流量预估。这个需求给我带来的收获更多的是技术以外的经验。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">阶段总结-跳槽</title><link href="http://localhost:4000/thinking/2018/05/26/review.html" rel="alternate" type="text/html" title="阶段总结-跳槽" /><published>2018-05-26T17:20:00+08:00</published><updated>2018-05-26T17:20:00+08:00</updated><id>http://localhost:4000/thinking/2018/05/26/review</id><content type="html" xml:base="http://localhost:4000/thinking/2018/05/26/review.html">&lt;p&gt;三月底开始投简历、约面试，清明几天打飞的来北京密集面试，最终敲定的是汽车之家的offer，五月下旬入职。&lt;/p&gt;
 
 &lt;p&gt;两个多月的时间里发生了不少事情，这里做点总结。大体上，跳槽可以分为这么几个阶段：&lt;/p&gt;
 
@@ -44,9 +52,7 @@ STAR法则、岗位职责、岗位要求等等，都好好理解一下。&lt;/li
   &lt;li&gt;所在公司是有影响的。从小公司出来面试时要解释这家公司做什么其实是挺麻烦的。&lt;/li&gt;
   &lt;li&gt;弱关系会在一些地方发挥着重要的作用。内推、招聘信息、租房信息等等。&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;平时积累最重要。&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Anyway, 目前在汽车之家试用期，整体感觉还是很不错的，加油！&lt;/p&gt;</content><author><name></name></author><summary type="html">三月底开始投简历、约面试，清明几天打飞的来北京密集面试，最终敲定的是汽车之家的offer，五月下旬入职。</summary></entry><entry><title type="html">序</title><link href="http://localhost:4000/others/2018/05/26/my-first-post.html" rel="alternate" type="text/html" title="序" /><published>2018-05-26T17:16:00+08:00</published><updated>2018-05-26T17:16:00+08:00</updated><id>http://localhost:4000/others/2018/05/26/my-first-post</id><content type="html" xml:base="http://localhost:4000/others/2018/05/26/my-first-post.html">&lt;p&gt;寻思写博客这事，也不是一天两天了。&lt;/p&gt;
+&lt;/ol&gt;</content><author><name></name></author><summary type="html">三月底开始投简历、约面试，清明几天打飞的来北京密集面试，最终敲定的是汽车之家的offer，五月下旬入职。</summary></entry><entry><title type="html">序</title><link href="http://localhost:4000/others/2018/05/26/my-first-post.html" rel="alternate" type="text/html" title="序" /><published>2018-05-26T17:16:00+08:00</published><updated>2018-05-26T17:16:00+08:00</updated><id>http://localhost:4000/others/2018/05/26/my-first-post</id><content type="html" xml:base="http://localhost:4000/others/2018/05/26/my-first-post.html">&lt;p&gt;寻思写博客这事，也不是一天两天了。&lt;/p&gt;
 
 &lt;p&gt;和大家一样，我知道写博客有各种好处；和绝大多数人一样，我也没能累积下来多少篇。
 虽然不知道这次能坚持多久，但能写一篇算一篇吧。&lt;/p&gt;</content><author><name></name></author><summary type="html">寻思写博客这事，也不是一天两天了。</summary></entry><entry><title type="html">聚类算法总结 - Hierarchical Clustering</title><link href="http://localhost:4000/datamining/2015/09/24/hierarchical-clustering.html" rel="alternate" type="text/html" title="聚类算法总结 - Hierarchical Clustering" /><published>2015-09-24T16:22:00+08:00</published><updated>2015-09-24T16:22:00+08:00</updated><id>http://localhost:4000/datamining/2015/09/24/hierarchical-clustering</id><content type="html" xml:base="http://localhost:4000/datamining/2015/09/24/hierarchical-clustering.html">&lt;table&gt;
@@ -421,229 +427,4 @@ return ; } 这里跟作者给的代码有一点点的不同就在于我把rgb[0]
 #define DARK_PURPLE	13
 #define SOFT_DARK_BLUE	14
 #define DARK_GREY	15
-今天的也就这么多了。&lt;/p&gt;</content><author><name></name></author><summary type="html">第四天我们所要做的事情是使用指针以及显示一个简单的图形界面。</summary></entry><entry><title type="html">《30天自制操作系统》笔记三</title><link href="http://localhost:4000/learning-note/2014/04/21/30days-os-part3.html" rel="alternate" type="text/html" title="《30天自制操作系统》笔记三" /><published>2014-04-21T18:17:54+08:00</published><updated>2014-04-21T18:17:54+08:00</updated><id>http://localhost:4000/learning-note/2014/04/21/30days-os-part3</id><content type="html" xml:base="http://localhost:4000/learning-note/2014/04/21/30days-os-part3.html">&lt;p&gt;第三天的主要内容是要制作一个真正的IPL。然后搭建相关的环境，为后期的C语言使用做准备。&lt;/p&gt;
-
-&lt;p&gt;在第一次做完以后，并没有想得比较仔细的就往后继续了，等到回过头来要写博客时才发现自己忘得差不多了，或者根本就是理解不够，又重新理顺了一遍。&lt;/p&gt;
-
-&lt;p&gt;事实上，从Makefile中可以看到整个框架：&lt;/p&gt;
-
-&lt;p&gt;haribote.img
-|-ipl_10.bin
-   |- ipl_10.nas
-|-haribote.sys
-   |- asmhead.bin
-      |- asmhead.nas
-   |- bootpack.hrb
-      |- bootpack.bim
-         |- bootpack.obj
-           |- bootpack.nas
-              |- bootpack.gas
-                 |- bootpack.c
-         |- naskfunc.obj
-           |- naskfunc.nas&lt;/p&gt;
-
-&lt;p&gt;所以可以看到，无论如何我们最终是得到一个haribote.img，以供qemu运行。
-然后这里分成了两支：ipl_10.bin和haribote.sys。&lt;/p&gt;
-
-&lt;p&gt;其中，ipl_10.bin是源于ipl_10.nas，是我们的initialprogram loader，它所做的事情是检测磁盘是否有错。&lt;/p&gt;
-
-&lt;p&gt;尔后，haribote.sys则是操作系统的大部分程序了。&lt;/p&gt;
-
-&lt;p&gt;又分为asmhead.bin以及bootpack.hrb，而这两个，从Makefile可以看出，只是简单的拼接在一起就组成了 haribote.sys。正如作者在书中所说的，asmhead.bin是前面一部分要用汇编语言来写的，有关基本设定的。而bootpack.hrb 则源于C语言。&lt;/p&gt;
-
-&lt;p&gt;而bootpack.c要变为机器码，实际上是经过了.c-&amp;gt;.gas-&amp;gt;.nas-&amp;gt;.obj-&amp;gt;.bim-&amp;gt;.hrb这么一个漫长的旅程。其中还引用了一个用汇编语言写成的函数，在naskfunc.nas。&lt;/p&gt;</content><author><name></name></author><summary type="html">第三天的主要内容是要制作一个真正的IPL。然后搭建相关的环境，为后期的C语言使用做准备。</summary></entry><entry><title type="html">《30天自制操作系统》笔记一二</title><link href="http://localhost:4000/learning-note/2014/04/18/30days-os-part12.html" rel="alternate" type="text/html" title="《30天自制操作系统》笔记一二" /><published>2014-04-18T20:48:25+08:00</published><updated>2014-04-18T20:48:25+08:00</updated><id>http://localhost:4000/learning-note/2014/04/18/30days-os-part12</id><content type="html" xml:base="http://localhost:4000/learning-note/2014/04/18/30days-os-part12.html">&lt;p&gt;最近买了本书《30天自制操作系统》，打算跟着这本书来对操作系统有个更为深入的理解。&lt;/p&gt;
-
-&lt;p&gt;这个系列的博客（其实所有博客基本也都是）主要还是作为一个学习的笔记来用的，或者说备忘，所以可能排版也比较随意，大家不要太介意哈~&lt;/p&gt;
-
-&lt;p&gt;第一天主要是安装相关的软件，以及学会用模拟操作系统的运行。我们希望能够在虚拟机中打出QEMU。&lt;/p&gt;
-
-&lt;p&gt;第二天学习到的主要是寄存器的一些知识以及Makefile的基本知识。&lt;/p&gt;
-
-&lt;p&gt;从第一天来看，总的来说，我们所做的事情是：&lt;/p&gt;
-
-&lt;p&gt;helloos.nas ==&amp;gt; 利用nask.exe编译 ==&amp;gt; helloos.img ==&amp;gt; 在qemu中运行。&lt;/p&gt;
-
-&lt;p&gt;这里要用到两个软件：nask.exe以及qemu。&lt;/p&gt;
-
-&lt;p&gt;其实主要还是熟悉整个操作流程而已，更多的还是软件的使用，并没有太多理论上的知识收获。（就我个人来说）&lt;/p&gt;
-
-&lt;p&gt;第二天则比较有意思。&lt;/p&gt;
-
-&lt;p&gt;首先是helloos.nas文件的分析。&lt;/p&gt;
-
-&lt;p&gt;由于这学期也是在学习计算机组成原理，所以汇编学起来也还比较快。&lt;/p&gt;
-
-&lt;p&gt;值得留意的一些指令是：&lt;/p&gt;
-
-&lt;p&gt;ORG    0x7c00 ；指明程序的装载地址&lt;/p&gt;
-
-&lt;p&gt;DB是define byte，1B；&lt;/p&gt;
-
-&lt;p&gt;DW是define word，2B；&lt;/p&gt;
-
-&lt;p&gt;DD是define double-word，4B&lt;/p&gt;
-
-&lt;p&gt;RESB是reserve byte；&lt;/p&gt;
-
-&lt;p&gt;在RESB 0x1fe-$中，$是指前面所已经输出的字节，所以这句指令是说将该文件后面的全部保留下来。&lt;/p&gt;
-
-&lt;p&gt;然后还有寄存器们（16b，分割线后面的是8b）：&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;AX == accumulator&lt;/td&gt;
-      &lt;td&gt;AL, AH&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;CX == counter&lt;/td&gt;
-      &lt;td&gt;BL, BH&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;DX == data&lt;/td&gt;
-      &lt;td&gt;CL, CH&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;BX == base&lt;/td&gt;
-      &lt;td&gt;DL, DH&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;SP == stack pointer&lt;/p&gt;
-
-&lt;p&gt;BP == base pointer&lt;/p&gt;
-
-&lt;p&gt;SI == source index&lt;/p&gt;
-
-&lt;p&gt;DI == destination index&lt;/p&gt;
-
-&lt;p&gt;ES == extra segment&lt;/p&gt;
-
-&lt;p&gt;CS == code segment&lt;/p&gt;
-
-&lt;p&gt;SS == stack segment&lt;/p&gt;
-
-&lt;p&gt;DS == data segment&lt;/p&gt;
-
-&lt;p&gt;FS, GS：无名&lt;/p&gt;
-
-&lt;p&gt;还有一些需要记一下的是：&lt;/p&gt;
-
-&lt;p&gt;直接输出信息：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MOV	SI, msg		; Source index loop:
-MOV	AL, [SI]
-ADD	SI, 1
-CMP	AL, 0
-JE	fin
-; call BIOS
-MOV	AH, 0x0e
-MOV	BX, 15
-INT	0x10
-
-JMP	loop msg:
-DB	0x0a, 0x0a
-DB	&quot;Hello, xavier!&quot;
-DB	0x0a
-DB	&quot;How are you?&quot;
-DB	0x0a
-DB	0 主要还是从http://community.osdev.info/?%28AT%29BIOS 可以找到更多信息。（日文！= =||） 0x00007c00~0x00007dff：启动区内容的装载地址
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;helloos.nas ==&amp;gt; helloos.img ==&amp;gt; 在qemu中运行：&lt;/p&gt;
-
-&lt;p&gt;../z_tools/nask.exe helloos.nas&lt;/p&gt;
-
-&lt;p&gt;../z_tools/make.exe -r helloos.img&lt;/p&gt;
-
-&lt;p&gt;copy helloos.img ..\z_tools\qemu\fdimage0.bin
-    ../z_tools/make.exe -C ../z_tools/qemu&lt;/p&gt;
-
-&lt;p&gt;最后就是一些Makefile的入门知识。&lt;/p&gt;
-
-&lt;p&gt;语法就是&lt;/p&gt;
-
-&lt;p&gt;ipl.bin:	ipl.nas Makefile
-	../z_tools/nask.exe ipl.nas ipl.bin ipl.lst
-要制作ipl.bin就需要文件ipl.nas以及Makefile，需要执行语句：
-../z_tools/nask.exe ipl.nas ipl.bin ipl.lst&lt;/p&gt;
-
-&lt;p&gt;Makefile能够分析文件依赖性。
-常用的大概是这样：&lt;/p&gt;
-
-&lt;p&gt;default:
-	../z_tools/make.exe img&lt;/p&gt;
-
-&lt;p&gt;ipl.bin:	ipl.nas Makefile
-	../z_tools/nask.exe ipl.nas ipl.bin ipl.lst&lt;/p&gt;
-
-&lt;p&gt;helloos.img:	ipl.bin Makefile
-	../z_tools/edimg.exe	imgin:../z_tools/fdimg0at.tek \
-		wbinimg src:ipl.bin len:512 from:0 to:0		imgout:helloos.img&lt;/p&gt;
-
-&lt;p&gt;img:
-	../z_tools/make.exe -r helloos.img&lt;/p&gt;
-
-&lt;p&gt;asm:
-	../z_tools/make.exe -r ipl.bin&lt;/p&gt;
-
-&lt;p&gt;run:
-	../z_tools/make.exe img
-	copy helloos.img ..\z_tools\qemu\fdimage0.bin
-	../z_tools/make.exe -C ../z_tools/qemu&lt;/p&gt;
-
-&lt;p&gt;install:
-	../z_tools/make.exe img
-	../z_tools/imgtol.com w a: helloos.img&lt;/p&gt;
-
-&lt;p&gt;clean:
-	-del ipl.bin
-	-del ipl.lst&lt;/p&gt;
-
-&lt;p&gt;没错，基本上就这么多了~&lt;/p&gt;</content><author><name></name></author><summary type="html">最近买了本书《30天自制操作系统》，打算跟着这本书来对操作系统有个更为深入的理解。</summary></entry><entry><title type="html">双系统中增加Ubuntu空间大小</title><link href="http://localhost:4000/linux/2014/04/17/ubuntu-memory.html" rel="alternate" type="text/html" title="双系统中增加Ubuntu空间大小" /><published>2014-04-17T23:03:37+08:00</published><updated>2014-04-17T23:03:37+08:00</updated><id>http://localhost:4000/linux/2014/04/17/ubuntu-memory</id><content type="html" xml:base="http://localhost:4000/linux/2014/04/17/ubuntu-memory.html">&lt;p&gt;今天发现自己的根目录下竟然只剩下不到2G，所以就想说从Win7那里再剥削一点。结果忙了一整天，绕了许多弯，唉，实在一把辛酸泪。&lt;/p&gt;
-
-&lt;p&gt;总的来说，一种正确的做法是：&lt;/p&gt;
-
-&lt;p&gt;1）用live CD或者U盘启动盘，试用Ubuntu。&lt;/p&gt;
-
-&lt;p&gt;2）安装gparted&lt;/p&gt;
-
-&lt;p&gt;3）利用gparted就可以很轻松的解决问题啦～&lt;/p&gt;
-
-&lt;p&gt;不过值得注意的是，基本上别指望在你的Ubuntu上面来进行这些操作。&lt;/p&gt;
-
-&lt;p&gt;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&lt;/p&gt;
-
-&lt;p&gt;我今天就因为是在原有的Ubuntu上面进行操作，用gparted从F盘压榨了50G出来，但是之后却发现没办法把根目录给Unmount掉。&lt;/p&gt;
-
-&lt;p&gt;之后还傻BB的直接退出了，等到重新启动的时候，就发现啥都没有！&lt;/p&gt;
-
-&lt;p&gt;只有两句黑底白字的冷冰冰的英文，大意是说没有Boot设备……&lt;/p&gt;
-
-&lt;p&gt;当时我瞬间惊呆了………………&lt;/p&gt;
-
-&lt;p&gt;后来的后来，我是找了个启动盘，然后先按照上面的方法来弄，为了能正常开机，便又用了一个叫”boot-repair”的软件，实在太棒了！&lt;/p&gt;
-
-&lt;p&gt;但是win7却又闹别扭了= =&lt;/p&gt;
-
-&lt;p&gt;蓝屏7B错误……&lt;/p&gt;
-
-&lt;p&gt;后来呢，也忘了怎么搞了，就用它自带的修复工具搞定了。&lt;/p&gt;
-
-&lt;p&gt;得到的一个教训是：还是得准备个启动盘才好唉！&lt;/p&gt;</content><author><name></name></author><summary type="html">今天发现自己的根目录下竟然只剩下不到2G，所以就想说从Win7那里再剥削一点。结果忙了一整天，绕了许多弯，唉，实在一把辛酸泪。</summary></entry></feed>
+今天的也就这么多了。&lt;/p&gt;</content><author><name></name></author><summary type="html">第四天我们所要做的事情是使用指针以及显示一个简单的图形界面。</summary></entry></feed>
