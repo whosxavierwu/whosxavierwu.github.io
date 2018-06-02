@@ -1,0 +1,102 @@
+---
+layout: post
+title:  "LeetCode #22"
+date:   2018-06-02 22:30:00 +0800
+categories: leetcode
+---
+
+最近重新开始了在刷题，也尽量多写一写吧。
+
+# 一、题目大意
+
+指定有N对括号，需要输出所有可能的、形式上正确的括号组合情况。例如N=3时，有
+
+> 
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+
+这五种可能的排列。
+
+# 二、解题思路：
+
+主要参考两篇文章：
+
+https://leetcode.com/problems/generate-parentheses/solution/
+
+https://blog.csdn.net/runningtortoises/article/details/45625363
+
+分别有这么几种思路：
+
+1、暴力破解
+
+把所有可能的串都输出来，然后逐个判断合法性。
+
+2、回溯
+
+
+3、Closure Number
+
+这种思路是我最为喜欢的一种。我们可以发现，一个合法的串总是可以递归的表示为：
+
+>**(**子串1**)**子串2
+
+两个合法的子串以及一对括号。
+
+想到这一点之后，其实后面的思路很自然的也能想通了：
+两个子串的括号对数为N-1，我们只需要遍历所有可能的组合情况就行了，从(0, N-1), (1, N-2), ..., (N-1, 0)。
+这种思路实际上是按顺序生成 0, 1, ..., N 的所有解。
+
+4、增量
+
+不断的判断左右括号的数量，进而选择添加左括号还是添加右括号。
+
+# 三、具体实现：
+
+这里就只贴第二种思路的吧。
+
+{% highlight python linenos %}
+class Solution(object):
+    """
+    递归版
+    """
+    def generateParenthesis(self, N):
+        if N == 0: return ['']
+        ans = []
+        for c in xrange(N):
+            for left in self.generateParenthesis(c):
+                for right in self.generateParenthesis(N-1-c):
+                    ans.append('({}){}'.format(left, right))
+        return ans
+
+class Solution(object):
+    """
+    非递归版
+    """
+    def generateParenthesis(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """
+        if n==0: return ['']
+        res_dict = {0:['']}
+        for i in range(1, n+1):
+            tmp_res = []
+            for left_count in range(1, i+1):
+                for left in res_dict[left_count-1]:
+                    for right in res_dict[i-left_count]:
+                        tmp_res.append('({}){}'.format(left, right))
+            res_dict[i] = tmp_res
+        return res_dict[n]
+{% endhighlight %}
+
+四、其他
+
+python的好处在于，代码可以相当精简。同样的算法在c里面去实现的话，难度往往会大很多。
+python用久了之后，会发现自己“变笨了”，差不多连c都不会用了。
+所以偶尔还是得多练练手的。
+
