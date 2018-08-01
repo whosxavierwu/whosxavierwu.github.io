@@ -1,0 +1,32 @@
+<p>第三天的主要内容是要制作一个真正的IPL。然后搭建相关的环境，为后期的C语言使用做准备。</p>
+
+<p>在第一次做完以后，并没有想得比较仔细的就往后继续了，等到回过头来要写博客时才发现自己忘得差不多了，或者根本就是理解不够，又重新理顺了一遍。</p>
+
+<p>事实上，从Makefile中可以看到整个框架：</p>
+
+<p>haribote.img
+|-ipl_10.bin
+   |- ipl_10.nas
+|-haribote.sys
+   |- asmhead.bin
+      |- asmhead.nas
+   |- bootpack.hrb
+      |- bootpack.bim
+         |- bootpack.obj
+           |- bootpack.nas
+              |- bootpack.gas
+                 |- bootpack.c
+         |- naskfunc.obj
+           |- naskfunc.nas</p>
+
+<p>所以可以看到，无论如何我们最终是得到一个haribote.img，以供qemu运行。
+然后这里分成了两支：ipl_10.bin和haribote.sys。</p>
+
+<p>其中，ipl_10.bin是源于ipl_10.nas，是我们的initialprogram loader，它所做的事情是检测磁盘是否有错。</p>
+
+<p>尔后，haribote.sys则是操作系统的大部分程序了。</p>
+
+<p>又分为asmhead.bin以及bootpack.hrb，而这两个，从Makefile可以看出，只是简单的拼接在一起就组成了 haribote.sys。正如作者在书中所说的，asmhead.bin是前面一部分要用汇编语言来写的，有关基本设定的。而bootpack.hrb 则源于C语言。</p>
+
+<p>而bootpack.c要变为机器码，实际上是经过了.c-&gt;.gas-&gt;.nas-&gt;.obj-&gt;.bim-&gt;.hrb这么一个漫长的旅程。其中还引用了一个用汇编语言写成的函数，在naskfunc.nas。</p>
+
