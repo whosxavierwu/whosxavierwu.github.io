@@ -1,14 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:8080/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:8080/" rel="alternate" type="text/html" /><updated>2019-03-16T12:11:55+08:00</updated><id>http://localhost:8080/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">（TODO）自动文本摘要</title><link href="http://localhost:8080/text-summarization/2019/03/15/automatic-text-summarization.html" rel="alternate" type="text/html" title="（TODO）自动文本摘要" /><published>2019-03-15T17:00:00+08:00</published><updated>2019-03-15T17:00:00+08:00</updated><id>http://localhost:8080/text-summarization/2019/03/15/automatic-text-summarization</id><content type="html" xml:base="http://localhost:8080/text-summarization/2019/03/15/automatic-text-summarization.html">&lt;h1 id=&quot;自动文本摘要&quot;&gt;自动文本摘要&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:8080/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:8080/" rel="alternate" type="text/html" /><updated>2019-03-16T17:37:31+08:00</updated><id>http://localhost:8080/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">自动文本摘要</title><link href="http://localhost:8080/text-summarization/2019/03/15/automatic-text-summarization.html" rel="alternate" type="text/html" title="自动文本摘要" /><published>2019-03-15T17:00:00+08:00</published><updated>2019-03-15T17:00:00+08:00</updated><id>http://localhost:8080/text-summarization/2019/03/15/automatic-text-summarization</id><content type="html" xml:base="http://localhost:8080/text-summarization/2019/03/15/automatic-text-summarization.html">&lt;p&gt;最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。&lt;/p&gt;
 
-&lt;p&gt;最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。&lt;/p&gt;
-
-&lt;h2 id=&quot;0概述&quot;&gt;0、概述&lt;/h2&gt;
+&lt;h1 id=&quot;0概述&quot;&gt;0、概述&lt;/h1&gt;
 
 &lt;p&gt;自动文本摘要，顾名思义，就是自动的从文本中生成摘要。&lt;/p&gt;
 
 &lt;p&gt;其实这方面的研究最早在1950年代就开始了，但一直得不到大众的关注，在国际上尚且如此，在国内的情况就更加尴尬了。基于中文文本的自动摘要，在国内能找到的资料、工具并不多。&lt;/p&gt;
 
-&lt;h2 id=&quot;1应用场景&quot;&gt;1、应用场景&lt;/h2&gt;
+&lt;h1 id=&quot;1应用场景&quot;&gt;1、应用场景&lt;/h1&gt;
 
 &lt;p&gt;自动文本摘要能用在哪些地方呢？从个人习惯来说，我倾向于把日常接触到的文字内容分为“水货”和“干货”两种。&lt;/p&gt;
 
@@ -32,9 +30,7 @@
 
 &lt;p&gt;用在股市研报上，我们能看到市场对特定股票的态度。&lt;/p&gt;
 
-&lt;p&gt;另外，搜索引擎也能用。我们可以取用户的所有搜索行为作为日志，然后来做文摘……？&lt;/p&gt;
-
-&lt;h2 id=&quot;2任务拆解&quot;&gt;2、任务拆解&lt;/h2&gt;
+&lt;h1 id=&quot;2任务拆解&quot;&gt;2、任务拆解&lt;/h1&gt;
 
 &lt;p&gt;从数据源来看，我们发现自动文本摘要可以分为两大块方向：单文档摘要和多文档摘要。&lt;/p&gt;
 
@@ -48,7 +44,7 @@
 
 &lt;p&gt;不难想到，单文档摘要比多文档摘要简单一些，抽取式比生成式要简单一些。也正因如此，很多人在写文本摘要的算法博客以及工业实用时，都只讲TextRank，因为这是最好实现的抽取式文本摘要，而且后面我们会提到，这个算法连训练集都不需要！&lt;/p&gt;
 
-&lt;h2 id=&quot;3效果评估&quot;&gt;3、效果评估&lt;/h2&gt;
+&lt;h1 id=&quot;3效果评估&quot;&gt;3、效果评估&lt;/h1&gt;
 
 &lt;p&gt;在展开来谈算法之前，有必要先提一下自动摘要的效果评估方式。一方面是没有效果评估就没法谈优化、没法谈项目贡献，在公司中，这样的项目可能根本就无法通过立项；另一方面也是怕同学们在看了后面一大堆算法之后就不想看这块内容了（笑）。&lt;/p&gt;
 
@@ -72,7 +68,7 @@
 
 &lt;p&gt;如何基于信息量打分、如何基于长度打分、如何基于可读性打分、如何权衡三个打分，对于这些问题给出不同解决方案，就是不同评估方式之间的本质区别。&lt;/p&gt;
 
-&lt;h3 id=&quot;rouge&quot;&gt;ROUGE&lt;/h3&gt;
+&lt;h2 id=&quot;rouge&quot;&gt;ROUGE&lt;/h2&gt;
 
 &lt;p&gt;目前比较常用的是ROUGE类的指标，ROUGE=Recall-Oriented Understudy for Gisting Evaluation，字面意思是：用于要点评估的召回导向的替代（原谅我翻译渣…）。&lt;/p&gt;
 
@@ -98,21 +94,25 @@
 
 &lt;p&gt;&lt;strong&gt;ROUGE-SU&lt;/strong&gt;: Skip-bigram plus unigram-based co-occurrence statistics.&lt;/p&gt;
 
-&lt;h3 id=&quot;信息论&quot;&gt;信息论&lt;/h3&gt;
+&lt;h2 id=&quot;信息论&quot;&gt;信息论&lt;/h2&gt;
 
 &lt;p&gt;这一类评估方法，主要思想是看两个分布的散度。主要有两种：&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;KL divergence&lt;/strong&gt;&lt;/p&gt;
 
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;KL(p^{\theta_A}||p^{\theta_R})=\sum_{i=1}^{m}p_i^{\theta_A}log \frac{p_i^{\theta_A}}{p_i^{\theta_R}}&lt;/script&gt;
+
 &lt;p&gt;&lt;strong&gt;Jensen-Shannon divergence&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;4算法&quot;&gt;4、算法&lt;/h2&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;JS(p^{\theta_A}||p^{\theta_R})=(KL(p^{\theta_A}||r)+KL(p^{\theta_A}||r))/2=H(r)-H(p^{\theta_A})/2-H(p^{\theta_R})/2&lt;/script&gt;
+
+&lt;h1 id=&quot;4算法&quot;&gt;4、算法&lt;/h1&gt;
 
 &lt;p&gt;接下来就是最核心的部分了——算法。&lt;/p&gt;
 
 &lt;p&gt;正如前面所说的，自动摘要主要分抽取式和生成式两种。基于这两种方式，算法难度上有很大的不同。&lt;/p&gt;
 
-&lt;h3 id=&quot;41-抽取式&quot;&gt;4.1 抽取式&lt;/h3&gt;
+&lt;h2 id=&quot;41-抽取式&quot;&gt;4.1 抽取式&lt;/h2&gt;
 
 &lt;p&gt;抽取式自动摘要的核心思路是，对文档中的所有句子打分，最终挑出若干个权重高的句子来组成摘要。&lt;/p&gt;
 
@@ -120,59 +120,87 @@
 
 &lt;p&gt;当然了，随着发展，算法变得越来越“高级”，效果也越来越好。&lt;/p&gt;
 
-&lt;p&gt;目前来看，主要有这么几大派：&lt;/p&gt;
+&lt;p&gt;抽取式自动摘要存在两个重要的基础技术：&lt;/p&gt;
 
-&lt;h4 id=&quot;411-图&quot;&gt;4.1.1 图&lt;/h4&gt;
+&lt;p&gt;1、句子的特征向量表示&lt;/p&gt;
+
+&lt;p&gt;常见的有以下几种：&lt;/p&gt;
+
+&lt;p&gt;基于统计的：我们用一个长度跟语料库（假设$D$由若干个句子组成${s_1,s_2,…,s_M}$）相等的向量 $W=[w_1, w_2, …, w_N]$ 来表示，这个向量中的一个值对应语料库中一个词的重要性。这个值可以是简单的0或1，表示该词语是否存在于特定句子中。又或者是更常见的，TFIDF值：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;TFIDF(s,w)=TF(s,w)*IDF(D,w)=(\frac{count(w \in s)}{len(s)})*log(\frac{len(D)}{len(D|w\in D)+1})&lt;/script&gt;
+
+&lt;p&gt;TF表示词语在该句子中出现的频率；IDF则是通过看该词语是否在很多句子里都存在来评估词语是否“过于常见”。&lt;/p&gt;
+
+&lt;p&gt;基于潜在语义的：这种出来的特征向量长度不一，基本是可以人为控制的，旨在找到隐藏在词句背后的潜在语义特征，比如LDA，word2vec等等，一般缺少明确的可解释性。&lt;/p&gt;
+
+&lt;p&gt;LDA是在构建了TFIDF矩阵后，运用SVD将其拆分成是三个子矩阵，并将其中两个子矩阵提出来相乘得到句子-主题的一个向量。&lt;/p&gt;
+
+&lt;p&gt;word2vec则是通过神经网络进行学习而得。&lt;/p&gt;
+
+&lt;p&gt;当然了，你也可以把上面几种特征向量都拼在一起来用。&lt;/p&gt;
+
+&lt;p&gt;2、句子间的相似度计算&lt;/p&gt;
+
+&lt;p&gt;在有了两个句子的特征向量后，我们需要基于这两个向量来做相似度计算。&lt;/p&gt;
+
+&lt;p&gt;最常用的自然是余弦相似度了：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;CosSim(s_1,s_2)=\frac{s_1*s_2}{|s_1|*|s_2|}&lt;/script&gt;
+
+&lt;p&gt;也就是计算这两个向量间角度的余弦值。&lt;/p&gt;
+
+&lt;p&gt;偶尔可能还会用到Jaccard系数：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J(v_i,v_j)=\frac{\sum_k min(v_{ik}, v_{jk})}{\sum_kmax(v_{ik},v_{jk})}&lt;/script&gt;
+
+&lt;p&gt;再其他的就很少见了。&lt;/p&gt;
+
+&lt;h3 id=&quot;411-图&quot;&gt;4.1.1 图&lt;/h3&gt;
 
 &lt;p&gt;大名鼎鼎的TextRank和LexRank就是这一类算法。主要都是参考了PageRank的思想。&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;TextRank&lt;/strong&gt;的好处太多：易于实现、不需要训练集、效果往往还行，总而言之，特别适合伸手党。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TextRank&lt;/strong&gt;的好处太多：易于实现、不需要训练集、效果还不错，总而言之，特别适合伸手党。&lt;/p&gt;
 
-&lt;p&gt;具体而言，我们把句子作为一个点，而句子间的连接关系作为一条边，然后去推算出特定的句子在整个图中的重要性，最终按这个重要性来选取句子、组成摘要。&lt;/p&gt;
-
-&lt;p&gt;对于特定一个点，分值取决于射入它的其它点的分值。我们既要考虑这个点它有多少入边，还要考虑它的入边的点有多少出边。迭代公式如下：&lt;/p&gt;
+&lt;p&gt;就PageRank具体而言，我们先构造一个图 $G={V,E}​$ 。把网页作为一个点，而如果 $V_j​$ 后跟随着 $V_i ​$ ，我们则认为存在一条 $V_j =&amp;gt; V_i​$ 的边。先对图中所有的点赋初始值，然后按照以下公式持续迭代：&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;WS(V_i)=(1-d)+d*\sum_{V_j\in IN(V_i)} \frac{w_{ji}}{\sum_{V_k \in OUT(V_j)} w_{jk}}*WS(V_j)&lt;/script&gt;
 
-&lt;p&gt;$d$ 称为阻尼系数，一般取0.85。&lt;/p&gt;
+&lt;p&gt;$d$ 称为阻尼系数，一般取0.85。从迭代的公式中，可以看到，对于特定一个点，分值取决于指向它的其它点的分值，该公式既考虑了这个点有多少入边，还考虑了指向它的点本身有多少出边。&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;LexRank&lt;/strong&gt;与TextRank基本相似，主要的区别在于：……&lt;/p&gt;
+&lt;p&gt;TextRank基本就是把PageRank直接搬了过来：将句子作为点，取所有的点构造全连接图，两个点之间的边的权重则用句子间相似度来计算。&lt;/p&gt;
 
-&lt;h4 id=&quot;412-主题聚类&quot;&gt;4.1.2 主题聚类&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;LexRank&lt;/strong&gt;与TextRank基本相似。（好吧，暂时查不到这两者的区别）&lt;/p&gt;
 
-&lt;p&gt;我们先想办法获取句子的特征向量，然后再进行聚类，从而把文章能分成几块主题。最后再从每个主题里面提取一些句子出来，组成摘要就可以了。&lt;/p&gt;
+&lt;h3 id=&quot;412-聚类&quot;&gt;4.1.2 聚类&lt;/h3&gt;
 
-&lt;p&gt;所以这里的关键在于，在构建句子的特征向量时，应使之尽可能的与主题相关。&lt;/p&gt;
+&lt;p&gt;这个方向的思路是：在获取了句子的特征向量之后进行聚类，从而把文章能分成几块主题。最后只要从每个主题里面提取一些句子出来，组成摘要就可以了。&lt;/p&gt;
 
-&lt;p&gt;于是就是TFIDF、LSA、LDA等技术的发挥地方。&lt;/p&gt;
+&lt;p&gt;聚类的通用算法自然可以往上套了，比如K-Means，OBSCAN等等。&lt;/p&gt;
 
-&lt;p&gt;特征向量&lt;/p&gt;
+&lt;h3 id=&quot;413-分类&quot;&gt;4.1.3 分类&lt;/h3&gt;
 
-&lt;p&gt;TFIDF&lt;/p&gt;
-
-&lt;p&gt;LSA&lt;/p&gt;
-
-&lt;p&gt;LDA&lt;/p&gt;
-
-&lt;p&gt;文本相似度&lt;/p&gt;
-
-&lt;p&gt;聚类&lt;/p&gt;
-
-&lt;h4 id=&quot;413-分类&quot;&gt;4.1.3 分类&lt;/h4&gt;
-
-&lt;p&gt;这一派主要是通过训练一个分类模型来判断特定句子是否应该放在摘要中。既然转成了二分类问题，那所有分类模型都能往上面套了。&lt;/p&gt;
+&lt;p&gt;另外一种思路是通过训练一个分类模型来判断特定句子是否应该放在摘要中。既然转成了二分类问题，那所有分类模型都能往上面套了。&lt;/p&gt;
 
 &lt;p&gt;比如贝叶斯、决策树、SVM、HMM、CRF、神经网络等等。&lt;/p&gt;
 
-&lt;h4 id=&quot;414-基于语义&quot;&gt;4.1.4 基于语义&lt;/h4&gt;
+&lt;h3 id=&quot;414-深层次自然语言分析&quot;&gt;4.1.4 深层次自然语言分析&lt;/h3&gt;
+
+&lt;p&gt;除了机器学习，有一些人在尝试着通过一些较复杂的自然语言分析处理技术来进行文本摘要。总的来说，人们尝试对文本进行解构。&lt;/p&gt;
+
+&lt;p&gt;整体的流程是：分割文档、识别词汇链、通过强词汇链来找到重要语句。&lt;/p&gt;
+
+&lt;h3 id=&quot;415-基于群体智能&quot;&gt;4.1.5 基于群体智能&lt;/h3&gt;
 
 &lt;p&gt;太高级了，没看懂……&lt;/p&gt;
 
-&lt;h4 id=&quot;415-基于群体智能&quot;&gt;4.1.5 基于群体智能&lt;/h4&gt;
+&lt;p&gt;particle swarm optimization&lt;/p&gt;
 
-&lt;p&gt;太高级了，没看懂……&lt;/p&gt;
+&lt;p&gt;cuckoo optimization&lt;/p&gt;
 
-&lt;h3 id=&quot;42-生成式&quot;&gt;4.2 生成式&lt;/h3&gt;
+&lt;p&gt;bacterial foraging optimization&lt;/p&gt;
+
+&lt;h2 id=&quot;42-生成式&quot;&gt;4.2 生成式&lt;/h2&gt;
 
 &lt;p&gt;生成式文本摘要 &lt;a href=&quot;https://zhuanlan.zhihu.com/p/30559757&quot;&gt;https://zhuanlan.zhihu.com/p/30559757&lt;/a&gt;&lt;/p&gt;
 
@@ -194,19 +222,33 @@
 
 &lt;p&gt;tensorflow-textsum &lt;a href=&quot;https://github.com/tensorflow/models/tree/master/research/textsum&quot;&gt;https://github.com/tensorflow/models/tree/master/research/textsum&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;aided&quot;&gt;aided&lt;/h3&gt;
+&lt;h1 id=&quot;5中文文本&quot;&gt;5、中文文本&lt;/h1&gt;
 
-&lt;h3 id=&quot;fusion&quot;&gt;fusion&lt;/h3&gt;
+&lt;p&gt;关于中文自然语言处理，&lt;a href=&quot;https://github.com/hankcs/HanLP&quot;&gt;HanLP&lt;/a&gt; 是个相当全面的工具，但这是用Java开发的，虽然有提供Python接口（&lt;a href=&quot;https://pypi.org/project/pyhanlp/&quot;&gt;pyhanlp&lt;/a&gt;），但不好改动（太久没用Java，懒得重温…），所以后来我主要还是用 &lt;a href=&quot;https://github.com/letiantian/TextRank4ZH&quot;&gt;TextRank4ZH&lt;/a&gt; ，粗略来看效果也略好一些。&lt;/p&gt;
 
-&lt;h3 id=&quot;compression&quot;&gt;compression&lt;/h3&gt;
+&lt;h1 id=&quot;6结语&quot;&gt;6、结语&lt;/h1&gt;
 
-&lt;h2 id=&quot;5结语&quot;&gt;5、结语&lt;/h2&gt;
+&lt;p&gt;通过这段时间的了解，发现这块领域还是很有意思的，但现成的工具比较少，主要也就TextRank了。&lt;/p&gt;
 
-&lt;p&gt;通过这段时间的了解，发现这块领域还是很有意思的，但现成的工具比较少，主要也就TextRank了。就个人而言，对生成式自动摘要的兴趣更强一些。&lt;/p&gt;
+&lt;p&gt;就个人而言，对生成式自动摘要的兴趣更强一些，因为目前项目涉及到的主要是短文本。&lt;/p&gt;
 
-&lt;h2 id=&quot;6引用&quot;&gt;6、引用&lt;/h2&gt;
+&lt;h1 id=&quot;7引用&quot;&gt;7、引用&lt;/h1&gt;
 
-&lt;p&gt;引用了这么一些论文……&lt;/p&gt;</content><author><name></name></author><summary type="html">自动文本摘要</summary></entry><entry><title type="html">（TODO） Bias-Variance Tradeoff</title><link href="http://localhost:8080/esl/2018/06/11/bias-variance-tradeoff.html" rel="alternate" type="text/html" title="（TODO） Bias-Variance Tradeoff" /><published>2018-06-11T11:15:00+08:00</published><updated>2018-06-11T11:15:00+08:00</updated><id>http://localhost:8080/esl/2018/06/11/bias-variance-tradeoff</id><content type="html" xml:base="http://localhost:8080/esl/2018/06/11/bias-variance-tradeoff.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+&lt;p&gt;综述：&lt;/p&gt;
+
+&lt;p&gt;Text Summarization Techniques: A Brief Survey&lt;/p&gt;
+
+&lt;p&gt;A survey on Automatic Text Summarization&lt;/p&gt;
+
+&lt;p&gt;A Survey on Automatic Text Summarization, Dipanjan Das&lt;/p&gt;
+
+&lt;p&gt;A survey on Automatic Text Summarization, N.Nazari&lt;/p&gt;
+
+&lt;p&gt;生成式自动摘要：&lt;/p&gt;
+
+&lt;p&gt;A Deep Reinforced Model for Abstractive Summarization&lt;/p&gt;
+
+&lt;p&gt;Convolutional Sequence to Sequence Learning&lt;/p&gt;</content><author><name></name></author><summary type="html">最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。</summary></entry><entry><title type="html">（TODO） Bias-Variance Tradeoff</title><link href="http://localhost:8080/esl/2018/06/11/bias-variance-tradeoff.html" rel="alternate" type="text/html" title="（TODO） Bias-Variance Tradeoff" /><published>2018-06-11T11:15:00+08:00</published><updated>2018-06-11T11:15:00+08:00</updated><id>http://localhost:8080/esl/2018/06/11/bias-variance-tradeoff</id><content type="html" xml:base="http://localhost:8080/esl/2018/06/11/bias-variance-tradeoff.html">&lt;p&gt;（待填坑）&lt;/p&gt;
 
 &lt;p&gt;周末仔细研读了ESL的第二章，最大的收获就在于对Bias-Variance有了更清晰的了解。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">LeetCode #22</title><link href="http://localhost:8080/leetcode/2018/06/02/leetcode-22.html" rel="alternate" type="text/html" title="LeetCode #22" /><published>2018-06-02T22:30:00+08:00</published><updated>2018-06-02T22:30:00+08:00</updated><id>http://localhost:8080/leetcode/2018/06/02/leetcode-22</id><content type="html" xml:base="http://localhost:8080/leetcode/2018/06/02/leetcode-22.html">&lt;p&gt;最近重新开始了在刷题，也尽量多写一写吧。&lt;/p&gt;
 
