@@ -121,64 +121,79 @@ $$
 
 接下来就是最核心的部分了——算法。
 
-正如前面所说的，自动摘要主要分抽取式和生成式两种。基于这两种方式，算法难度上有很大的不同。
+正如前面所说的，自动摘要主要分抽取式和生成式两种。基于这两种方式，算法难度上有很大的不同。	
 
 ### 4.1 抽取式
 
-Intermediate Representation
+抽取式自动摘要的核心思路是，对文档中的所有句子打分，最终挑出若干个权重高的句子来组成摘要。
 
-1. topic representation
+最简单粗暴（往往也很靠谱）的做法自然是根据人为规则来挑选句子了，这也是1950年代人们刚开始做自动摘要的思路——利用一些简单的统计特征，例如：句子所包含的单词或短语的数量，句子在文档中的位置，句子是否包含重要单词或短语，句子跟文档标题的词语重叠程度等等，来衡量不同句子的重要性，进而组成摘要。
 
-2. 1. frequency-driven
+当然了，随着发展，算法变得越来越“高级”，效果也越来越好。
 
-   2. 1. word probability (SumBasic system: greedy)
-      2. TFIDF (Centroid-based summarization ???)
+目前来看，主要有这么几大派：
 
-   3. topic words (topic signature)
+#### 4.1.1 图
 
-   4. 1. log-likelihood ratio test ???
-      2. a function of the number of topic signatures it contains (prefer long sentence)
-      3. the porpotion of the topic signatures in the sentence
+大名鼎鼎的TextRank和LexRank就是这一类算法。主要都是参考了PageRank的思想。
 
-   5. latent semantic analysis (TFIDF matrix + SVD)
+**TextRank**的好处太多：易于实现、不需要训练集、效果往往还行，总而言之，特别适合伸手党。
 
-   6. Bayesian topic models
+具体而言，我们把句子作为一个点，而句子间的连接关系作为一条边，然后去推算出特定的句子在整个图中的重要性，最终按这个重要性来选取句子、组成摘要。
 
-   7. 1. Kullbak-Liebler divergence (KL) ???
-      2. Latent Dirichlet Allocation (LDA) ???
+对于特定一个点，分值取决于射入它的其它点的分值。我们既要考虑这个点它有多少入边，还要考虑它的入边的点有多少出边。迭代公式如下：
+$$
+WS(V_i)=(1-d)+d*\sum_{V_j\in IN(V_i)} \frac{w_{ji}}{\sum_{V_k \in OUT(V_j)} w_{jk}}*WS(V_j)
+$$
+$d$ 称为阻尼系数，一般取0.85。
 
-3. indicator representation
+**LexRank**与TextRank基本相似，主要的区别在于：……
 
-4. 1. graph methods
+#### 4.1.2 主题聚类
 
-   2. 1. TextRank
-      2. LexRank
+我们先想办法获取句子的特征向量，然后再进行聚类，从而把文章能分成几块主题。最后再从每个主题里面提取一些句子出来，组成摘要就可以了。
 
-   3. machine learning
+所以这里的关键在于，在构建句子的特征向量时，应使之尽可能的与主题相关。
 
-   4. 1. Naive Bayes: 根据句子的特征向量，算出特定句子应该放到摘要中的概率。 DimSum system
-      2. Decision trees: feature-based, non-sequential
-      3. SVM
-      4. HMM ???
-      5. CRF ???
-      6. semi-supervised learning ??? 
-      7. Log-Linear Models ???
-      8. Neural Networks: RankNet ???
+于是就是TFIDF、LSA、LDA等技术的发挥地方。
 
-Sentence Score
+特征向量
 
-Summary Sentences Selection
+TFIDF
 
-1. greedy algorithm
-2. optimization problem
+LSA
+
+LDA
+
+文本相似度
+
+聚类
+
+#### 4.1.3 分类
+
+这一派主要是通过训练一个分类模型来判断特定句子是否应该放在摘要中。既然转成了二分类问题，那所有分类模型都能往上面套了。
+
+比如贝叶斯、决策树、SVM、HMM、CRF、神经网络等等。
+
+#### 4.1.4 基于语义
+
+太高级了，没看懂……
+
+#### 4.1.5 基于群体智能
+
+太高级了，没看懂……
 
 ### 4.2 生成式
 
 生成式文本摘要 <https://zhuanlan.zhihu.com/p/30559757>
 
+1、基于RNN
+
 A Deep Reinforced Model for Abstractive Summarization
 
 目前最好的基于RNN的Seq2Seq生成式文本摘要模型之一来自Salesforce，在基本的模型架构上，使用了注意力机制（attention mechanism）和强化学习（reinforcement learning）。
+
+2、基于CNN
 
 Convolutional Sequence to Sequence Learning
 
@@ -192,9 +207,17 @@ sumy <https://github.com/miso-belica/sumy>
 
 tensorflow-textsum <https://github.com/tensorflow/models/tree/master/research/textsum>
 
+### aided
+
+### fusion
+
+### compression
+
+
+
 ## 5、结语
 
-通过这段时间的了解，发现这块领域还是很有意思的，但是就没有通用的算法。就个人而言，对生成式自动摘要的兴趣更强一些。
+通过这段时间的了解，发现这块领域还是很有意思的，但现成的工具比较少，主要也就TextRank了。就个人而言，对生成式自动摘要的兴趣更强一些。
 
 ## 6、引用
 
