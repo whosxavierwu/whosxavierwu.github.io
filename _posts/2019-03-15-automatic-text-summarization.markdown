@@ -86,21 +86,30 @@ categories: text-summarization
 我们假设有一组参考摘要 $R=\{r_1,r_2,...,r_m\}$ ； $s$ 作为自动生成的摘要； $\Phi_n(d)$ 表示特定文档的n-gram 0-1向量，长度为所有可能的n-gram数量。
 
 于是我们常见的**ROUGE-N**是这样定义的：
+
+
 $$
 ROUGE_n(s)=\frac{\sum_{r\in R}(\Phi_n(r)*\Phi_n(s))}{\sum_{r\in R}(\Phi_n(r)*\Phi_n(r))}
 $$
+
+
 简单来说，就是(重叠的N-gram数)/(参考摘要中的N-gram数)。好了，熟悉机器学习的同学们请坐下，这确实就是Recall。
 
 ROUGE-N是基于N-grams来计算的，后来有人想出来用最长共同子串（LCS），同时改Recall为F-measure，这就是**ROUGE-L**：
+
+
 $$
-ROUGE_L(s)=\frac{(1+\beta^2)R_{LCS}P_{LCS}}{R_{LCS}+\beta^2P_{LCS}};
-R_{LCS}(s)=\frac{a}{b};
-P_{LCS}(s)=\frac{a}{b}
+ROUGE_L(s)=\frac{(1+\beta^2)R_{LCS}P_{LCS}}{R_{LCS}+\beta^2P_{LCS}}
 $$
+
+
 其中：
+
+
 $$
 R_{LCS}(s)=\frac{\sum LCS(r_i, s)}{\sum |r_i|}; P_{LCS}(s)=\frac{\sum LCS(r_i,s)}{|s|}
 $$
+
 
 
 **ROUGE-W**: 从ROUGE-L改进而来，加了权重。
@@ -142,9 +151,13 @@ $$
 具体而言，我们把句子作为一个点，而句子间的连接关系作为一条边，然后去推算出特定的句子在整个图中的重要性，最终按这个重要性来选取句子、组成摘要。
 
 对于特定一个点，分值取决于射入它的其它点的分值。我们既要考虑这个点它有多少入边，还要考虑它的入边的点有多少出边。迭代公式如下：
+
+
 $$
 WS(V_i)=(1-d)+d*\sum_{V_j\in IN(V_i)} \frac{w_{ji}}{\sum_{V_k \in OUT(V_j)} w_{jk}}*WS(V_j)
 $$
+
+
 $d$ 称为阻尼系数，一般取0.85。
 
 **LexRank**与TextRank基本相似，主要的区别在于：……
