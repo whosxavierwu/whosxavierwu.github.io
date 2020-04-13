@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Deep Neural Network for YouTube Recommendation System | whosxavierwu’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="Deep Neural Network for YouTube Recommendation System" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="概述" />
+<meta property="og:description" content="概述" />
+<link rel="canonical" href="http://localhost:4304/recommender/2020/04/13/dnn-for-youtube-recommend.html" />
+<meta property="og:url" content="http://localhost:4304/recommender/2020/04/13/dnn-for-youtube-recommend.html" />
+<meta property="og:site_name" content="whosxavierwu’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-13T00:00:00+08:00" />
+<script type="application/ld+json">
+{"headline":"Deep Neural Network for YouTube Recommendation System","dateModified":"2020-04-13T00:00:00+08:00","datePublished":"2020-04-13T00:00:00+08:00","url":"http://localhost:4304/recommender/2020/04/13/dnn-for-youtube-recommend.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4304/recommender/2020/04/13/dnn-for-youtube-recommend.html"},"description":"概述","@type":"BlogPosting","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4304/feed.xml" title="whosxavierwu's blog" /></head>
+<body><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      inlineMath: [['$','$']]
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Deep Neural Network for YouTube Recommendation System</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2020-04-13T00:00:00+08:00" itemprop="datePublished">Apr 13, 2020
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="概述">概述</h1>
+
+<p>这篇论文是对YouTube中基于DNN的推荐系统的整体描述。本文旨在对论文进行总结。</p>
+
+<p>整个系统主要分 Candidate Generation 和 Ranking，也就是召回和排序两部分。召回模块从数百万的视频集合中挑选出数百个候选视频；排序模块则是从数百个中挑选出几十个视频，并排序后推送给用户。</p>
+
+<p>下图是整体框架：</p>
+
+<p><img src="http://localhost:4304/assets/youtube-dnn-whole.jpg" alt="整体框架" /></p>
+
+<h1 id="一召回">一、召回</h1>
+
+<p><img src="http://localhost:4304/assets/youtube-dnn-candidate-generate.jpg" alt="Candidate Generation" /></p>
+
+<h2 id="1-问题定义">1. 问题定义</h2>
+
+<p>YouTube将召回问题转化为一个多分类问题去处理，建模以预测：在$t$时刻发生的某次视频观看事件$w_t$中，具体观看的是视频集合$V$中的哪个视频。</p>
+
+<p>假设用$U$表示这次事件中的用户、用$C$表示上下文，用$u$表示对$U$、$C$一起进行embedding后的特征向量，用$v_i$表示对视频$i$进行embedding后的特征向量。则我们需要预测的分类到视频$i$的概率可以形式化如下：</p>
+
+<script type="math/tex; mode=display">P(w_t=i|U,C)=\frac{e^{v_iu}}{\sum_{j\in V}e^{v_ju}}</script>
+
+<p>通过这样的问题转化以后，理想情况下，我们能预测到在当前用户、当前情景下，每个视频被观看的概率。取概率最高的前M个视频即可作为召回模块的输出。</p>
+
+<p>随之而来的一个问题是：当类别数量多达数百万时，如何使模型仍然能有效地进行学习？YouTube所选择的解决方案是 Negative Sampling。</p>
+
+<h2 id="negative-sampling">Negative Sampling</h2>
+
+<p>？</p>
+
+<h2 id="2-数据准备">2. 数据准备</h2>
+
+<p>在准备数据样本时，需要注意：</p>
+
+<ol>
+  <li>应采用所有YouTube视频的观看事件（如嵌在其他网站的），而不仅仅是YouTube主站上的。</li>
+  <li>采用 Negative Sampling，论文中提到，一般会采样出数千负样本。</li>
+  <li>应该限制每个用户带来的训练样本的数量。</li>
+  <li>注意避免样本的时间穿越问题，核心是只能用打标之前的数据来做feature。</li>
+</ol>
+
+<p><img src="http://localhost:4304/assets/youtube-dnn-dataset.jpg" alt="训练数据筛选" /></p>
+
+<h2 id="3-特征处理">3. 特征处理</h2>
+
+<p>主要包括以下一些特征：</p>
+
+<h3 id="31-watch-vector用户最近观看过的视频">3.1. “watch vector”，用户最近观看过的视频；</h3>
+
+<p>在固定好历史watch的长度，比如过去20次浏览的video，可能存在部分用户所有的历史浏览video数量都不足20次，在average的时候，是应该除以固定长度（比如上述例子中的20）还是选择除以用户真实的浏览video数量？</p>
+
+<p><strong>embedding是如何做的？</strong></p>
+
+<h3 id="32-search-vector用户最近的搜索">3.2. “search vector”，用户最近的搜索；</h3>
+
+<p>同样有上面的问题</p>
+
+<h3 id="33-geographic-embedding用户所处的地理位置所使用的设备等">3.3. “geographic embedding”，用户所处的地理位置、所使用的设备等；</h3>
+
+<h3 id="34-example-age样本日期">3.4. “Example Age”，样本日期</h3>
+
+<h3 id="35-其他如性别等">3.5. 其他如性别等。</h3>
+
+<p><img src="http://localhost:4304/assets/youtube-dnn-example-age.jpg" alt="Example Age" /></p>
+
+<p>作者在论文中给出了不同特征组合的效果对比：</p>
+
+<p><img src="http://localhost:4304/assets/youtube-dnn-feature-select.jpg" alt="Features" /></p>
+
+<h2 id="4-模型上线">4. 模型上线</h2>
+
+<p>“video vectors”具体含义：
+需要单独的embed video vector，还是延用最下方的embedded video watches里面的已经embed好的结果？</p>
+
+<p>online serving 为什么不直接用模型进行预测？而是采用 nearest neighbor search ?</p>
+
+<h1 id="二排序">二、排序</h1>
+
+<p><img src="http://localhost:4304/assets/youtube-dnn-ranking.jpg" alt="Ranking" /></p>
+
+<h2 id="1-问题定义-1">1. 问题定义</h2>
+
+<p>YouTube的推荐系统中，将排序问题转化为一个对视频观看时长的预测问题。</p>
+
+<h2 id="2-数据">2. 数据</h2>
+
+<h2 id="3-特征">3. 特征</h2>
+
+<h3 id="31-video-embedding">3.1. “video embedding”</h3>
+
+<h3 id="32-language-embedding">3.2. “language embedding”</h3>
+
+<h3 id="33-time-since-last-watch">3.3. “time since last watch”</h3>
+
+<h3 id="34-number-of-previous-impressions">3.4. “number of previous impressions”</h3>
+
+<h1 id="参考">参考</h1>
+
+<ol>
+  <li><a href="https://dl.acm.org/doi/10.1145/2959100.2959190">论文地址</a></li>
+  <li><a href="https://zhuanlan.zhihu.com/p/52169807">王喆-1</a></li>
+  <li><a href="https://zhuanlan.zhihu.com/p/52504407">王喆-十个工程问题</a></li>
+  <li><a href="https://zhuanlan.zhihu.com/p/61827629">王喆-模型Serving</a></li>
+  <li><a href="https://zhuanlan.zhihu.com/p/38638747">工程再现</a></li>
+</ol>
+
+  </div><a class="u-url" href="/recommender/2020/04/13/dnn-for-youtube-recommend.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">whosxavierwu&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">whosxavierwu&#39;s blog</li><li><a class="u-email" href="mailto:whosxavierwu@gmail.com">whosxavierwu@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/whosxavierwu"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">whosxavierwu</span></a></li><li><a href="https://www.linkedin.com/in/zeweiwu"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">zeweiwu</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Keep learning, deep learning. </p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,4 +1,147 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:8181/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:8181/" rel="alternate" type="text/html" /><updated>2019-03-18T09:54:21+08:00</updated><id>http://localhost:8181/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">自动文本摘要</title><link href="http://localhost:8181/text-summarization/2019/03/15/automatic-text-summarization.html" rel="alternate" type="text/html" title="自动文本摘要" /><published>2019-03-15T17:00:00+08:00</published><updated>2019-03-15T17:00:00+08:00</updated><id>http://localhost:8181/text-summarization/2019/03/15/automatic-text-summarization</id><content type="html" xml:base="http://localhost:8181/text-summarization/2019/03/15/automatic-text-summarization.html">&lt;p&gt;最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4304/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4304/" rel="alternate" type="text/html" /><updated>2020-04-13T18:37:48+08:00</updated><id>http://localhost:4304/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Deep Neural Network for YouTube Recommendation System</title><link href="http://localhost:4304/recommender/2020/04/13/dnn-for-youtube-recommend.html" rel="alternate" type="text/html" title="Deep Neural Network for YouTube Recommendation System" /><published>2020-04-13T00:00:00+08:00</published><updated>2020-04-13T00:00:00+08:00</updated><id>http://localhost:4304/recommender/2020/04/13/dnn-for-youtube-recommend</id><content type="html" xml:base="http://localhost:4304/recommender/2020/04/13/dnn-for-youtube-recommend.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+
+&lt;p&gt;这篇论文是对YouTube中基于DNN的推荐系统的整体描述。本文旨在对论文进行总结。&lt;/p&gt;
+
+&lt;p&gt;整个系统主要分 Candidate Generation 和 Ranking，也就是召回和排序两部分。召回模块从数百万的视频集合中挑选出数百个候选视频；排序模块则是从数百个中挑选出几十个视频，并排序后推送给用户。&lt;/p&gt;
+
+&lt;p&gt;下图是整体框架：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-whole.jpg&quot; alt=&quot;整体框架&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;一召回&quot;&gt;一、召回&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-candidate-generate.jpg&quot; alt=&quot;Candidate Generation&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;1-问题定义&quot;&gt;1. 问题定义&lt;/h2&gt;
+
+&lt;p&gt;YouTube将召回问题转化为一个多分类问题去处理，建模以预测：在$t$时刻发生的某次视频观看事件$w_t$中，具体观看的是视频集合$V$中的哪个视频。&lt;/p&gt;
+
+&lt;p&gt;假设用$U$表示这次事件中的用户、用$C$表示上下文，用$u$表示对$U$、$C$一起进行embedding后的特征向量，用$v_i$表示对视频$i$进行embedding后的特征向量。则我们需要预测的分类到视频$i$的概率可以形式化如下：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(w_t=i|U,C)=\frac{e^{v_iu}}{\sum_{j\in V}e^{v_ju}}&lt;/script&gt;
+
+&lt;p&gt;通过这样的问题转化以后，理想情况下，我们能预测到在当前用户、当前情景下，每个视频被观看的概率。取概率最高的前M个视频即可作为召回模块的输出。&lt;/p&gt;
+
+&lt;p&gt;随之而来的一个问题是：当类别数量多达数百万时，如何使模型仍然能有效地进行学习？YouTube所选择的解决方案是 Negative Sampling。&lt;/p&gt;
+
+&lt;h2 id=&quot;negative-sampling&quot;&gt;Negative Sampling&lt;/h2&gt;
+
+&lt;p&gt;？&lt;/p&gt;
+
+&lt;h2 id=&quot;2-数据准备&quot;&gt;2. 数据准备&lt;/h2&gt;
+
+&lt;p&gt;在准备数据样本时，需要注意：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;应采用所有YouTube视频的观看事件（如嵌在其他网站的），而不仅仅是YouTube主站上的。&lt;/li&gt;
+  &lt;li&gt;采用 Negative Sampling，论文中提到，一般会采样出数千负样本。&lt;/li&gt;
+  &lt;li&gt;应该限制每个用户带来的训练样本的数量。&lt;/li&gt;
+  &lt;li&gt;注意避免样本的时间穿越问题，核心是只能用打标之前的数据来做feature。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-dataset.jpg&quot; alt=&quot;训练数据筛选&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;3-特征处理&quot;&gt;3. 特征处理&lt;/h2&gt;
+
+&lt;p&gt;主要包括以下一些特征：&lt;/p&gt;
+
+&lt;h3 id=&quot;31-watch-vector用户最近观看过的视频&quot;&gt;3.1. “watch vector”，用户最近观看过的视频；&lt;/h3&gt;
+
+&lt;p&gt;在固定好历史watch的长度，比如过去20次浏览的video，可能存在部分用户所有的历史浏览video数量都不足20次，在average的时候，是应该除以固定长度（比如上述例子中的20）还是选择除以用户真实的浏览video数量？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;embedding是如何做的？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;32-search-vector用户最近的搜索&quot;&gt;3.2. “search vector”，用户最近的搜索；&lt;/h3&gt;
+
+&lt;p&gt;同样有上面的问题&lt;/p&gt;
+
+&lt;h3 id=&quot;33-geographic-embedding用户所处的地理位置所使用的设备等&quot;&gt;3.3. “geographic embedding”，用户所处的地理位置、所使用的设备等；&lt;/h3&gt;
+
+&lt;h3 id=&quot;34-example-age样本日期&quot;&gt;3.4. “Example Age”，样本日期&lt;/h3&gt;
+
+&lt;h3 id=&quot;35-其他如性别等&quot;&gt;3.5. 其他如性别等。&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-example-age.jpg&quot; alt=&quot;Example Age&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;作者在论文中给出了不同特征组合的效果对比：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-feature-select.jpg&quot; alt=&quot;Features&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;4-模型上线&quot;&gt;4. 模型上线&lt;/h2&gt;
+
+&lt;p&gt;“video vectors”具体含义：
+需要单独的embed video vector，还是延用最下方的embedded video watches里面的已经embed好的结果？&lt;/p&gt;
+
+&lt;p&gt;online serving 为什么不直接用模型进行预测？而是采用 nearest neighbor search ?&lt;/p&gt;
+
+&lt;h1 id=&quot;二排序&quot;&gt;二、排序&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-ranking.jpg&quot; alt=&quot;Ranking&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;1-问题定义-1&quot;&gt;1. 问题定义&lt;/h2&gt;
+
+&lt;p&gt;YouTube的推荐系统中，将排序问题转化为一个对视频观看时长的预测问题。&lt;/p&gt;
+
+&lt;h2 id=&quot;2-数据&quot;&gt;2. 数据&lt;/h2&gt;
+
+&lt;h2 id=&quot;3-特征&quot;&gt;3. 特征&lt;/h2&gt;
+
+&lt;h3 id=&quot;31-video-embedding&quot;&gt;3.1. “video embedding”&lt;/h3&gt;
+
+&lt;h3 id=&quot;32-language-embedding&quot;&gt;3.2. “language embedding”&lt;/h3&gt;
+
+&lt;h3 id=&quot;33-time-since-last-watch&quot;&gt;3.3. “time since last watch”&lt;/h3&gt;
+
+&lt;h3 id=&quot;34-number-of-previous-impressions&quot;&gt;3.4. “number of previous impressions”&lt;/h3&gt;
+
+&lt;h1 id=&quot;参考&quot;&gt;参考&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://dl.acm.org/doi/10.1145/2959100.2959190&quot;&gt;论文地址&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/52169807&quot;&gt;王喆-1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/52504407&quot;&gt;王喆-十个工程问题&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/61827629&quot;&gt;王喆-模型Serving&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/38638747&quot;&gt;工程再现&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">Data Split</title><link href="http://localhost:4304/2019/10/07/data-split.html" rel="alternate" type="text/html" title="Data Split" /><published>2019-10-07T00:00:00+08:00</published><updated>2019-10-07T00:00:00+08:00</updated><id>http://localhost:4304/2019/10/07/data-split</id><content type="html" xml:base="http://localhost:4304/2019/10/07/data-split.html">&lt;h1 id=&quot;数据集划分方式&quot;&gt;数据集划分方式&lt;/h1&gt;
+
+&lt;p&gt;训练集、验证集、测试集、线上数据&lt;/p&gt;
+
+&lt;p&gt;比赛时，我们的目标是尽可能的在测试集上拟合，至于测试集跟线上数据之间的偏差如何，参赛者可以不考虑在内。&lt;/p&gt;
+
+&lt;p&gt;而实际工作中，我们需要在线上数据中拟合得好。&lt;/p&gt;
+
+&lt;p&gt;从某种角度来看，实际工作中，测试集就是线上数据。&lt;/p&gt;
+
+&lt;p&gt;无论如何，测试集的特点就在于——我们完全看不到。&lt;/p&gt;
+
+&lt;p&gt;所以在建模时，我们实际上看到的是训练集+验证集的总和。&lt;/p&gt;
+
+&lt;p&gt;为什么需要单独拎出来一个验证集？&lt;/p&gt;
+
+&lt;p&gt;是为了线下简单验证模型的效果，如果能在线上数据直接验证模型效果那当然是最理想的了。&lt;/p&gt;
+
+&lt;p&gt;如果可见集（训练集+验证集）的分布跟不可见集（线上数据或测试集）的分布完全一致。&lt;/p&gt;
+
+&lt;p&gt;那随便一个模型都能打出完美的效果。&lt;/p&gt;
+
+&lt;p&gt;正因为分布不同，我们才需要划出来一个验证集，就是因为我们希望、也认为，验证集跟测试集相对接近。&lt;/p&gt;
+
+&lt;p&gt;所以在对可见集进行划分的时候，最最重要的是，想办法让验证集跟测试集的分布相似。&lt;/p&gt;
+
+&lt;p&gt;可是我们又完全看不到测试集长什么样，该怎么办呢？&lt;/p&gt;
+
+&lt;p&gt;于是有两种：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;完全随机的抽出来作为验证集&lt;/li&gt;
+  &lt;li&gt;让验证集的分布跟可见集的分布接近&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><summary type="html">数据集划分方式</summary></entry><entry><title type="html">Qa Logistic Regression</title><link href="http://localhost:4304/2019/10/05/qa-logistic-regression.html" rel="alternate" type="text/html" title="Qa Logistic Regression" /><published>2019-10-05T00:00:00+08:00</published><updated>2019-10-05T00:00:00+08:00</updated><id>http://localhost:4304/2019/10/05/qa-logistic-regression</id><content type="html" xml:base="http://localhost:4304/2019/10/05/qa-logistic-regression.html">&lt;h1 id=&quot;qa-logistic-regression&quot;&gt;Q&amp;amp;A: Logistic Regression&lt;/h1&gt;
+
+&lt;p&gt;Q1: 与线性回归相比，有何异同？&lt;/p&gt;
+
+&lt;p&gt;Q2: 如何用于多标签分类问题？&lt;/p&gt;
+
+&lt;p&gt;Q3: 线性回归在实现时是如何求解的？也是用梯度下降？&lt;/p&gt;</content><author><name></name></author><summary type="html">Q&amp;amp;A: Logistic Regression</summary></entry><entry><title type="html">自动文本摘要</title><link href="http://localhost:4304/text-summarization/2019/03/15/automatic-text-summarization.html" rel="alternate" type="text/html" title="自动文本摘要" /><published>2019-03-15T17:00:00+08:00</published><updated>2019-03-15T17:00:00+08:00</updated><id>http://localhost:4304/text-summarization/2019/03/15/automatic-text-summarization</id><content type="html" xml:base="http://localhost:4304/text-summarization/2019/03/15/automatic-text-summarization.html">&lt;p&gt;最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。&lt;/p&gt;
 
 &lt;h1 id=&quot;0概述&quot;&gt;0、概述&lt;/h1&gt;
 
@@ -248,9 +391,9 @@
 
 &lt;p&gt;A Deep Reinforced Model for Abstractive Summarization&lt;/p&gt;
 
-&lt;p&gt;Convolutional Sequence to Sequence Learning&lt;/p&gt;</content><author><name></name></author><summary type="html">最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。</summary></entry><entry><title type="html">（TODO） Bias-Variance Tradeoff</title><link href="http://localhost:8181/esl/2018/06/11/bias-variance-tradeoff.html" rel="alternate" type="text/html" title="（TODO） Bias-Variance Tradeoff" /><published>2018-06-11T11:15:00+08:00</published><updated>2018-06-11T11:15:00+08:00</updated><id>http://localhost:8181/esl/2018/06/11/bias-variance-tradeoff</id><content type="html" xml:base="http://localhost:8181/esl/2018/06/11/bias-variance-tradeoff.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+&lt;p&gt;Convolutional Sequence to Sequence Learning&lt;/p&gt;</content><author><name></name></author><summary type="html">最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。</summary></entry><entry><title type="html">（TODO） Bias-Variance Tradeoff</title><link href="http://localhost:4304/esl/2018/06/11/bias-variance-tradeoff.html" rel="alternate" type="text/html" title="（TODO） Bias-Variance Tradeoff" /><published>2018-06-11T11:15:00+08:00</published><updated>2018-06-11T11:15:00+08:00</updated><id>http://localhost:4304/esl/2018/06/11/bias-variance-tradeoff</id><content type="html" xml:base="http://localhost:4304/esl/2018/06/11/bias-variance-tradeoff.html">&lt;p&gt;（待填坑）&lt;/p&gt;
 
-&lt;p&gt;周末仔细研读了ESL的第二章，最大的收获就在于对Bias-Variance有了更清晰的了解。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">LeetCode #22</title><link href="http://localhost:8181/leetcode/2018/06/02/leetcode-22.html" rel="alternate" type="text/html" title="LeetCode #22" /><published>2018-06-02T22:30:00+08:00</published><updated>2018-06-02T22:30:00+08:00</updated><id>http://localhost:8181/leetcode/2018/06/02/leetcode-22</id><content type="html" xml:base="http://localhost:8181/leetcode/2018/06/02/leetcode-22.html">&lt;p&gt;最近重新开始了在刷题，也尽量多写一写吧。&lt;/p&gt;
+&lt;p&gt;周末仔细研读了ESL的第二章，最大的收获就在于对Bias-Variance有了更清晰的了解。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">LeetCode #22</title><link href="http://localhost:4304/leetcode/2018/06/02/leetcode-22.html" rel="alternate" type="text/html" title="LeetCode #22" /><published>2018-06-02T22:30:00+08:00</published><updated>2018-06-02T22:30:00+08:00</updated><id>http://localhost:4304/leetcode/2018/06/02/leetcode-22</id><content type="html" xml:base="http://localhost:4304/leetcode/2018/06/02/leetcode-22.html">&lt;p&gt;最近重新开始了在刷题，也尽量多写一写吧。&lt;/p&gt;
 
 &lt;h1 id=&quot;一题目大意&quot;&gt;一、题目大意&lt;/h1&gt;
 
@@ -376,287 +519,13 @@
 
 &lt;p&gt;python的好处在于，代码可以相当精简。同样的算法在c里面去实现的话，难度往往会大很多。
 python用久了之后，会发现自己“变笨了”，差不多连c都不会用了。
-所以偶尔还是得多练练手的。&lt;/p&gt;</content><author><name></name></author><summary type="html">最近重新开始了在刷题，也尽量多写一写吧。</summary></entry><entry><title type="html">TODO Exercises of ESL Chap.2</title><link href="http://localhost:8181/esl/2018/05/31/esl-2.html" rel="alternate" type="text/html" title="TODO Exercises of ESL Chap.2" /><published>2018-05-31T23:02:00+08:00</published><updated>2018-05-31T23:02:00+08:00</updated><id>http://localhost:8181/esl/2018/05/31/esl-2</id><content type="html" xml:base="http://localhost:8181/esl/2018/05/31/esl-2.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+所以偶尔还是得多练练手的。&lt;/p&gt;</content><author><name></name></author><summary type="html">最近重新开始了在刷题，也尽量多写一写吧。</summary></entry><entry><title type="html">TODO Exercises of ESL Chap.2</title><link href="http://localhost:4304/esl/2018/05/31/esl-2.html" rel="alternate" type="text/html" title="TODO Exercises of ESL Chap.2" /><published>2018-05-31T23:02:00+08:00</published><updated>2018-05-31T23:02:00+08:00</updated><id>http://localhost:4304/esl/2018/05/31/esl-2</id><content type="html" xml:base="http://localhost:4304/esl/2018/05/31/esl-2.html">&lt;p&gt;（待填坑）&lt;/p&gt;
 
-&lt;p&gt;近期重新拿起了经典的 “The Elements of Statistical Learning” 来好好学习。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO 实时标签</title><link href="http://localhost:8181/work/2018/05/31/realtime-tag.html" rel="alternate" type="text/html" title="TODO 实时标签" /><published>2018-05-31T23:01:00+08:00</published><updated>2018-05-31T23:01:00+08:00</updated><id>http://localhost:8181/work/2018/05/31/realtime-tag</id><content type="html" xml:base="http://localhost:8181/work/2018/05/31/realtime-tag.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+&lt;p&gt;近期重新拿起了经典的 “The Elements of Statistical Learning” 来好好学习。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO 实时标签</title><link href="http://localhost:4304/work/2018/05/31/realtime-tag.html" rel="alternate" type="text/html" title="TODO 实时标签" /><published>2018-05-31T23:01:00+08:00</published><updated>2018-05-31T23:01:00+08:00</updated><id>http://localhost:4304/work/2018/05/31/realtime-tag</id><content type="html" xml:base="http://localhost:4304/work/2018/05/31/realtime-tag.html">&lt;p&gt;（待填坑）&lt;/p&gt;
 
-&lt;p&gt;最近新接手的任务——用户实时标签生成。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO 流量预估</title><link href="http://localhost:8181/work/2018/05/31/impose-predict.html" rel="alternate" type="text/html" title="TODO 流量预估" /><published>2018-05-31T23:00:00+08:00</published><updated>2018-05-31T23:00:00+08:00</updated><id>http://localhost:8181/work/2018/05/31/impose-predict</id><content type="html" xml:base="http://localhost:8181/work/2018/05/31/impose-predict.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+&lt;p&gt;最近新接手的任务——用户实时标签生成。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO 流量预估</title><link href="http://localhost:4304/work/2018/05/31/impose-predict.html" rel="alternate" type="text/html" title="TODO 流量预估" /><published>2018-05-31T23:00:00+08:00</published><updated>2018-05-31T23:00:00+08:00</updated><id>http://localhost:4304/work/2018/05/31/impose-predict</id><content type="html" xml:base="http://localhost:4304/work/2018/05/31/impose-predict.html">&lt;p&gt;（待填坑）&lt;/p&gt;
 
-&lt;p&gt;最近在做的一个小需求——广告流量预估。这个需求给我带来的收获更多的是技术以外的经验。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">序</title><link href="http://localhost:8181/others/2018/05/26/my-first-post.html" rel="alternate" type="text/html" title="序" /><published>2018-05-26T17:16:00+08:00</published><updated>2018-05-26T17:16:00+08:00</updated><id>http://localhost:8181/others/2018/05/26/my-first-post</id><content type="html" xml:base="http://localhost:8181/others/2018/05/26/my-first-post.html">&lt;p&gt;寻思写博客这事，也不是一天两天了。&lt;/p&gt;
+&lt;p&gt;最近在做的一个小需求——广告流量预估。这个需求给我带来的收获更多的是技术以外的经验。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">序</title><link href="http://localhost:4304/others/2018/05/26/my-first-post.html" rel="alternate" type="text/html" title="序" /><published>2018-05-26T17:16:00+08:00</published><updated>2018-05-26T17:16:00+08:00</updated><id>http://localhost:4304/others/2018/05/26/my-first-post</id><content type="html" xml:base="http://localhost:4304/others/2018/05/26/my-first-post.html">&lt;p&gt;寻思写博客这事，也不是一天两天了。&lt;/p&gt;
 
 &lt;p&gt;和大家一样，我知道写博客有各种好处；和绝大多数人一样，我也没能累积下来多少篇。
-虽然不知道这次能坚持多久，但能写一篇算一篇吧。&lt;/p&gt;</content><author><name></name></author><summary type="html">寻思写博客这事，也不是一天两天了。</summary></entry><entry><title type="html">聚类算法总结 - Hierarchical Clustering</title><link href="http://localhost:8181/datamining/2015/09/24/hierarchical-clustering.html" rel="alternate" type="text/html" title="聚类算法总结 - Hierarchical Clustering" /><published>2015-09-24T16:22:00+08:00</published><updated>2015-09-24T16:22:00+08:00</updated><id>http://localhost:8181/datamining/2015/09/24/hierarchical-clustering</id><content type="html" xml:base="http://localhost:8181/datamining/2015/09/24/hierarchical-clustering.html">&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;算法&lt;/th&gt;
-      &lt;th&gt;概括&lt;/th&gt;
-      &lt;th&gt;优缺点&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;AGNES&lt;/td&gt;
-      &lt;td&gt;典型的凝聚式层次聚类&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;DIANA&lt;/td&gt;
-      &lt;td&gt;典型的划分式层次聚类&lt;/td&gt;
-      &lt;td&gt;划分式层次聚类的复杂度比凝聚式的大得多，所以较为少用。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;CURE&lt;/td&gt;
-      &lt;td&gt;用到了kd-tree跟heap。&lt;br /&gt;合并两个类的时候，先选若干well-scattered的点。从中挑出离中心最远的点，之后再挑离该点最远的点…如此得到一堆代表点，基于这些点去做层次聚类。&lt;br /&gt;&lt;br /&gt;对于大数据：先随机抽样，再对样本进行分区，然后对每个分区局部聚类，最后对局部聚类进行全局聚类。&lt;/td&gt;
-      &lt;td&gt;时间上最坏是：$O(n^2log(n))$&lt;br /&gt;若数据维度较小，可以降到：$O(n^2)$&lt;br /&gt;空间复杂度是：$O(n)$&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;ROCK&lt;/td&gt;
-      &lt;td&gt;1.生成相似度矩阵。&lt;br /&gt;2.根据相似度阈值得到邻居矩阵-A。&lt;br /&gt;3.计算链接矩阵-L=A x A &lt;br /&gt;4.计算相似性的度量（Goodness Measure），将相似性最高的两个对象合并。（用到了链接矩阵）&lt;br /&gt;&lt;br /&gt;ROCK算法首先用相似度阀值和共同邻居的概念，从给定的数据相似度矩阵中构建一个稀疏图，然后对该稀疏图使用分层聚类算法进行聚类&lt;/td&gt;
-      &lt;td&gt;CURE算法不能处理枚举型数据，而ROCK算法是在CURE基础之上适用于枚举数据的聚结分层聚类算法。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Chameleon&lt;/td&gt;
-      &lt;td&gt;1.由数据集构造成一个K-近邻图$G_k$&lt;br /&gt;2.通过图的划分算法将图$G_k$划分成大量的子图，每个子图代表一个初始子簇&lt;br /&gt;3.凝聚式层次聚类&lt;/td&gt;
-      &lt;td&gt;Chameleon跟CURE和DBSCAN相比，在发现高质量的任意形状的聚类方面有更强的能力。但是，在最坏的情况下，高维数据的处理代价可能对n个对象需要$O(n^2)$的时间。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;BIRCH&lt;/td&gt;
-      &lt;td&gt;用到了$CF&amp;lt;n, LS, SS&amp;gt;$&lt;br /&gt;CF-tree类似于B-树，有两个参数：内部节点平衡因子$B$，叶节点平衡因子$L$，簇半径阈值$T$。&lt;br /&gt;&lt;br /&gt;1.自上而下选择最近的子节点&lt;br /&gt;2.到达子节点后，检查最近的元组$CF_i$能否吸收此数据点&lt;br /&gt;若能吸收，则更新CF值&lt;br /&gt;否则考虑是否可以添加一个新的元组&lt;br /&gt;如果可以，则添加一个新的元组&lt;br /&gt;否则，分裂最远的一对元组，作为种子，按最近距离重新分配其它元组&lt;br /&gt;3.更新每个非叶节点的CF信息，如果分裂节点，在父节点中插入新的元组，检查分裂，直到root&lt;/td&gt;
-      &lt;td&gt;BIRCH优点：&lt;br /&gt;1.节省内存。叶子节点放在磁盘分区&lt;br /&gt;2. 在对树进行插入或查找操作很快。&lt;br /&gt;3.一遍扫描数据库即可建树。&lt;br /&gt;4.可识别噪声点。&lt;br /&gt;5. 可作为其他聚类算法的预处理过程&lt;br /&gt;&lt;br /&gt;BIRCH缺点：&lt;br /&gt;1.结果依赖于数据点的插入顺序。&lt;br /&gt;2.对非球状的簇聚类效果不好。&lt;br /&gt;3.对高维数据聚类效果不好。&lt;br /&gt;4.最后得出来的簇可能和自然簇相差很大。&lt;br /&gt;5.在整个过程中算法一旦中断，一切必须从头再来。&lt;br /&gt;6.局部性&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;*BUBBLE&lt;/td&gt;
-      &lt;td&gt;把BIRCH算法的中心和半径概念推广到普通的距离空间&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;*BUBBLE-FM&lt;/td&gt;
-      &lt;td&gt;通过减少距离的计算次数，提高了BUBBLE算法的效率&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Probabilistic agglomerative clustering&lt;/td&gt;
-      &lt;td&gt;距离度量用：&lt;br /&gt;&lt;script type=&quot;math/tex&quot;&gt;dist(C_1,C_2 )=-log ((P(C_1∪C_2))/(P(C_1)P(C_2)) )&lt;/script&gt; &lt;br /&gt;如果dist小于零，则合并两个簇。&lt;/td&gt;
-      &lt;td&gt;易于理解&lt;br /&gt;一般跟其他凝聚式层次聚类算法的效率差不多&lt;br /&gt;但是：it outputs only one hierarchy with respect to a chosen probabilistic model; it cannot handle the uncertainty of cluster hierarchies.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name></name></author><summary type="html">算法 概括 优缺点 AGNES 典型的凝聚式层次聚类   DIANA 典型的划分式层次聚类 划分式层次聚类的复杂度比凝聚式的大得多，所以较为少用。 CURE 用到了kd-tree跟heap。合并两个类的时候，先选若干well-scattered的点。从中挑出离中心最远的点，之后再挑离该点最远的点…如此得到一堆代表点，基于这些点去做层次聚类。对于大数据：先随机抽样，再对样本进行分区，然后对每个分区局部聚类，最后对局部聚类进行全局聚类。 时间上最坏是：$O(n^2log(n))$若数据维度较小，可以降到：$O(n^2)$空间复杂度是：$O(n)$ ROCK 1.生成相似度矩阵。2.根据相似度阈值得到邻居矩阵-A。3.计算链接矩阵-L=A x A 4.计算相似性的度量（Goodness Measure），将相似性最高的两个对象合并。（用到了链接矩阵）ROCK算法首先用相似度阀值和共同邻居的概念，从给定的数据相似度矩阵中构建一个稀疏图，然后对该稀疏图使用分层聚类算法进行聚类 CURE算法不能处理枚举型数据，而ROCK算法是在CURE基础之上适用于枚举数据的聚结分层聚类算法。 Chameleon 1.由数据集构造成一个K-近邻图$G_k$2.通过图的划分算法将图$G_k$划分成大量的子图，每个子图代表一个初始子簇3.凝聚式层次聚类 Chameleon跟CURE和DBSCAN相比，在发现高质量的任意形状的聚类方面有更强的能力。但是，在最坏的情况下，高维数据的处理代价可能对n个对象需要$O(n^2)$的时间。 BIRCH 用到了$CF&amp;lt;n, LS, SS&amp;gt;$CF-tree类似于B-树，有两个参数：内部节点平衡因子$B$，叶节点平衡因子$L$，簇半径阈值$T$。1.自上而下选择最近的子节点2.到达子节点后，检查最近的元组$CF_i$能否吸收此数据点若能吸收，则更新CF值否则考虑是否可以添加一个新的元组如果可以，则添加一个新的元组否则，分裂最远的一对元组，作为种子，按最近距离重新分配其它元组3.更新每个非叶节点的CF信息，如果分裂节点，在父节点中插入新的元组，检查分裂，直到root BIRCH优点：1.节省内存。叶子节点放在磁盘分区2. 在对树进行插入或查找操作很快。3.一遍扫描数据库即可建树。4.可识别噪声点。5. 可作为其他聚类算法的预处理过程BIRCH缺点：1.结果依赖于数据点的插入顺序。2.对非球状的簇聚类效果不好。3.对高维数据聚类效果不好。4.最后得出来的簇可能和自然簇相差很大。5.在整个过程中算法一旦中断，一切必须从头再来。6.局部性 *BUBBLE 把BIRCH算法的中心和半径概念推广到普通的距离空间   *BUBBLE-FM 通过减少距离的计算次数，提高了BUBBLE算法的效率   Probabilistic agglomerative clustering 距离度量用： 如果dist小于零，则合并两个簇。 易于理解一般跟其他凝聚式层次聚类算法的效率差不多但是：it outputs only one hierarchy with respect to a chosen probabilistic model; it cannot handle the uncertainty of cluster hierarchies.</summary></entry><entry><title type="html">聚类算法总结 - Partitional Clustering</title><link href="http://localhost:8181/datamining/2015/09/21/partitinoal-clustering.html" rel="alternate" type="text/html" title="聚类算法总结 - Partitional Clustering" /><published>2015-09-21T10:31:05+08:00</published><updated>2015-09-21T10:31:05+08:00</updated><id>http://localhost:8181/datamining/2015/09/21/partitinoal-clustering</id><content type="html" xml:base="http://localhost:8181/datamining/2015/09/21/partitinoal-clustering.html">&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;算法&lt;/th&gt;
-      &lt;th&gt;概括&lt;/th&gt;
-      &lt;th&gt;优缺点&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;k-means&lt;/td&gt;
-      &lt;td&gt;每次从类中求均值作为中心点&lt;br /&gt;用到了EM的思想&lt;br /&gt;目标是最小化sum of squared error&lt;/td&gt;
-      &lt;td&gt;要求预设k值&lt;br /&gt;易受噪音和离异点的影响 &lt;br /&gt;对不规则形状的类聚类效果不好&lt;br /&gt;不保证全局最优&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;k-means++&lt;/td&gt;
-      &lt;td&gt;目标是找到k个合理的初始种子点给k-means。&lt;br /&gt;1. 随机挑个随机点当“种子点”&lt;br /&gt;2. 对于每个点，计算其和最近的“种子点”的距离D(x)并保存，然后把这些距离加起来得到Sum(D(x))。&lt;br /&gt;3. 再取一个随机值，用权重的方式来取计算下一个“种子点”。这个算法的实现是，先取一个能落在Sum(D(x))中的随机值Random，然后用Random -= D(x)，直到其&amp;lt;=0，此时的点就是下一个“种子点”。&lt;br /&gt;4. 重复2和3直到k个中心被选出来&lt;br /&gt;5. 利用这k个初始的聚类中心来运行标准的k-means算法&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;k-modes&lt;/td&gt;
-      &lt;td&gt;K-Means算法的扩展&lt;br /&gt;对于分类型数据，用mode求中心点&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;k-prototypes&lt;/td&gt;
-      &lt;td&gt;结合了k-means和k-modes&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;k-medoids&lt;/td&gt;
-      &lt;td&gt;每次从类中找一个具体的点来做中心点。目标是最小化absolute error。&lt;br /&gt;PAM是一种典型的k-medoids实现。&lt;/td&gt;
-      &lt;td&gt;对噪音和离异点不那么敏感&lt;br /&gt;然而计算量大很多&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;CLARA&lt;/td&gt;
-      &lt;td&gt;先抽样，再用PAM&lt;/td&gt;
-      &lt;td&gt;对于大数据比PAM好点&lt;br /&gt;主要是看sample的效果&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;CLARANS&lt;/td&gt;
-      &lt;td&gt;每次随机的抓一个medoid跟一般点，然后判断，这两者如果替换的话，能不能减小absolute-error&lt;/td&gt;
-      &lt;td&gt;融合了PAM和CLARA两者的优点，是第一个用于空间数据库的聚类算法&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name></name></author><summary type="html">算法 概括 优缺点 k-means 每次从类中求均值作为中心点用到了EM的思想目标是最小化sum of squared error 要求预设k值易受噪音和离异点的影响 对不规则形状的类聚类效果不好不保证全局最优 k-means++ 目标是找到k个合理的初始种子点给k-means。1. 随机挑个随机点当“种子点”2. 对于每个点，计算其和最近的“种子点”的距离D(x)并保存，然后把这些距离加起来得到Sum(D(x))。3. 再取一个随机值，用权重的方式来取计算下一个“种子点”。这个算法的实现是，先取一个能落在Sum(D(x))中的随机值Random，然后用Random -= D(x)，直到其&amp;lt;=0，此时的点就是下一个“种子点”。4. 重复2和3直到k个中心被选出来5. 利用这k个初始的聚类中心来运行标准的k-means算法   k-modes K-Means算法的扩展对于分类型数据，用mode求中心点   k-prototypes 结合了k-means和k-modes   k-medoids 每次从类中找一个具体的点来做中心点。目标是最小化absolute error。PAM是一种典型的k-medoids实现。 对噪音和离异点不那么敏感然而计算量大很多 CLARA 先抽样，再用PAM 对于大数据比PAM好点主要是看sample的效果 CLARANS 每次随机的抓一个medoid跟一般点，然后判断，这两者如果替换的话，能不能减小absolute-error 融合了PAM和CLARA两者的优点，是第一个用于空间数据库的聚类算法</summary></entry><entry><title type="html">《30天自制操作系统》笔记五六</title><link href="http://localhost:8181/learning-note/2014/04/23/30days-os-part56.html" rel="alternate" type="text/html" title="《30天自制操作系统》笔记五六" /><published>2014-04-23T15:22:11+08:00</published><updated>2014-04-23T15:22:11+08:00</updated><id>http://localhost:8181/learning-note/2014/04/23/30days-os-part56</id><content type="html" xml:base="http://localhost:8181/learning-note/2014/04/23/30days-os-part56.html">&lt;p&gt;书上第五六天所涉及的内容主要是GDT、IDT以及PIC。这两部分我就合在一起写好了。（主要的原因是做完第五天的以后看到代码乱得惨不忍睹，就自己开始整理了一下，随后又发现第六天就是讲分割源文件的，所以就继续看了下去。）&lt;/p&gt;
-
-&lt;p&gt;第五天一上来，作者就介绍了结构体。于是，出现了struct boot_info，struct seg_desc，以及struct gate_desc三者。（命名我是按照自己的习惯来改动的。）&lt;/p&gt;
-
-&lt;p&gt;C语言语法上的东西就不提了。&lt;/p&gt;
-
-&lt;p&gt;有点意思的是，继之前恶心简洁的图形化界面之后，我们这次来做文字显示。&lt;/p&gt;
-
-&lt;p&gt;字体怎么来呢？最简单的一种方法就是按照之前做图像的时候的方法来做，也就是用boxfill8()，但是这样也太不专业了吧= =&lt;/p&gt;
-
-&lt;p&gt;我们有一种好一点的方法，就是重写一个putfont8()函数，用来做字符显示。（ps：后来我改名为print_char()了）直接用作者给的hankaku.txt来导入字体。（其实这个字体包也没有多高端嘛……要用到新的工具makefont.exe。可以从hankaku.txt得到hankaku.bin。之后我们再用bin2obj.exe来将其转化为hankaku.obj文件。同时，对应的修改Makefile。&lt;/p&gt;
-
-&lt;p&gt;值得注意的是：一定要加上”$BIN2OBJ ……“的说明！当时就是因为抄漏而导致了大量的失败。&lt;/p&gt;
-
-&lt;p&gt;而显示变量名按照上面的来做基本也没问题。不过不知道为什么，到后面我多加”#include “bootpack.h”“语句之后，直接就只声明“char s[40]”是不够的，要初始化！可以是”char s[40]={‘0’}”。如果没有初始化，就会发现那个字符就是显示不出来，然后你还以为是print_str或者print_char的问题，对照源代码N次！！！（TAT）&lt;/p&gt;
-
-&lt;p&gt;再来是鼠标的指针，这个其实还是蛮无聊有趣的。为了凸显我跟作者的不一样，我把指针弄成了8x8大小的，结果……其实也还是能用的，而且大小我（我不是处女座……）也刚好合适。&lt;/p&gt;
-
-&lt;p&gt;文件分割不难，略过。也就是多出了graphic.c，dsctbl.c，以及后面的int.c。&lt;/p&gt;
-
-&lt;p&gt;有一点是新学习到的，那就是Makefile的一般规则：&lt;/p&gt;
-
-&lt;h1 id=&quot;general-rules-for-gas-nas-and-obj&quot;&gt;general rules for *.gas, *.nas and *.obj&lt;/h1&gt;
-&lt;p&gt;%.gas : %.c Makefile
-	$(CC1) -o $&lt;em&gt;.gas $&lt;/em&gt;.c
-%.nas : %.gas Makefile
-	$(GAS2NASK) $&lt;em&gt;.gas $&lt;/em&gt;.nas
-%.obj : %.nas Makefile
-	$(NASK) $&lt;em&gt;.nas $&lt;/em&gt;.obj $*.lst
-关于Makefile，有个很详细的教程：http://bbs.chinaunix.net/thread-408225-1-1.html
-之后得找时间认真学习一下才行。&lt;/p&gt;
-
-&lt;p&gt;本次学习遇到的第一个重难点在于GDT以及IDT。&lt;/p&gt;
-
-&lt;p&gt;其实作者的文笔还是挺好的，写得很顺畅。（虽然到后来发现他有些地方机智的绕掉了……）&lt;/p&gt;
-
-&lt;p&gt;该记住的有：&lt;/p&gt;
-
-&lt;p&gt;GDT大小为2^13*(8B) = 64KB&lt;/p&gt;
-
-&lt;p&gt;/* segment descriptor, 8B &lt;em&gt;/
-/&lt;/em&gt; base	       : base_low(2B), base_mid(1B) and base_high(1B)&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;limit       : limit_low(1B) and limit_high(1B)&lt;/li&gt;
-  &lt;li&gt;access_right: the highest bit is Gbit, when Gbit==1, 
-              the unit of limit is PAGE; the highest 4bits are put into the 
-      highest 4bits of limit_high. thus, to program, access_right
-      is xxxx0000xxxxxxxx; the highest 4bits are “GD00”(used after 
-      386), G is Gbit, D means 32-mode or 16-mode.
-      lowest 8bits:
-      0x00: unused descriptor table
-      0x92: for system. RW-.
-      0x9a: for system. R-X.
-      0xf2: for applications. RW-.
-      0xfa: for applications. R-X.
- */
-struct seg_desc {
- short 	limit_low;
- short 	base_low;
- char 	base_mid; 
- char 	access_right;
- char 	limit_high; 
- char 	base_high;
-};
-而后面的gate_desc，类比一下就好。
-set_seg_desc，set_gate_desc，init_gdt_idt就慢慢看代码吧。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;C不能直接给GDTR赋值，所以要用load_gdtr，在naskfunc.nas中：&lt;/p&gt;
-
-&lt;p&gt;_load_gdtr:		; void load_gdtr(int limit, int addr);
-	; “MOV [ESP+6] [ESP+4]”
-	MOV	AX, [ESP+4]	; limit
-	MOV	[ESP+6], AX
-	LGDT	[ESP+6]
-	RET
-看起来，这段函数似乎做的就是”MOV [ESP+6] [ESP+4]”但是为什么要这么做呢？为什么不直接”LGDT [ESP+4]”呢？
-这其中可是大有奥秘的。&lt;/p&gt;
-
-&lt;p&gt;首先，GDTR的低16位是段上限，高32位是地址。我们不能直接用MOV来赋值，而只能直接指定一个内存地址，让它去读这48位。想想看，假设我们传的段上限是0x0000ffff，而地址是00270000（事实上我们用的也就是这个）。这时候，地址从ESP+4往高处走是：【FF FF 00 00 00 00 27 00】。但我们希望给GDTR的是这样一部分：【FF FF 00 00 27 00】那可以看到，作者在这里把ESP+4赋值到ESP+6，然后就变成了【FF FF FF FF 00 00 27 00】，只要直接从ESP+6开始读就可以了。&lt;/p&gt;
-
-&lt;p&gt;哎，在这里实在不得不感叹一声作者太神了！事实上如果你传参数的时候，两个参数的位置如果换一下的话，你会发现很不好处理！（我一开始是想这么干来着。）&lt;/p&gt;
-
-&lt;p&gt;set_seg_desc太高深，跳过。（作者也没讲多少）&lt;/p&gt;
-
-&lt;p&gt;然后就到PIC。一到硬件就各种蛋疼哎！&lt;/p&gt;
-
-&lt;p&gt;PIC指的是Programmable interrupt controller。&lt;/p&gt;
-
-&lt;p&gt;然后看图：&lt;/p&gt;
-
-&lt;p&gt;用图比较容易理解。&lt;/p&gt;
-
-&lt;p&gt;简而言之，PIC监视着输入管脚的8个中断信号，只要有一个中断信号进来，就将唯一的输出管脚信号变成ON，并通知CPU。&lt;/p&gt;
-
-&lt;p&gt;然后下面是一段咋看之下很不明觉厉的代码：&lt;/p&gt;
-
-&lt;p&gt;void init_pic(void);&lt;/p&gt;
-
-&lt;p&gt;#define PIC0_ICW1	0x0020
-#define PIC0_OCW2	0x0020
-#define PIC0_IMR	0x0021
-#define PIC0_ICW2	0x0021
-#define PIC0_ICW3	0x0021
-#define PIC0_ICW4	0x0021
-#define PIC1_ICW1	0x00a0
-#define PIC1_OCW2	0x00a0
-#define PIC1_IMR	0x00a1
-#define PIC1_ICW2	0x00a1
-#define PIC1_ICW3	0x00a1
-#define PIC1_ICW4	0x00a1 
-/* Initialization of pic &lt;em&gt;/
-void init_pic (void) {
-	io_out8(PIC0_IMR,  0xff  ); /&lt;/em&gt; disable all interrupts &lt;em&gt;/
-	io_out8(PIC1_IMR,  0xff  ); /&lt;/em&gt; disable all interrupts */&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;io_out8(PIC0_ICW1, 0x11  ); /* edge trigger mode*/
-io_out8(PIC0_ICW2, 0x20  ); /* IRQ-7 is received by INT20-27 */
-io_out8(PIC0_ICW3, 1 &amp;lt;&amp;lt; 2); /* PIC1 is connected by IRQ2*/
-io_out8(PIC0_ICW4, 0x01  ); /* no-buffer mode */
-
-io_out8(PIC1_ICW1, 0x11  ); /* edge trigger mode */
-io_out8(PIC1_ICW2, 0x28  ); /* IRQ-15 is received by INT28-2f */
-io_out8(PIC1_ICW3, 2     ); /* PIC1 is connected by IRQ2 */
-io_out8(PIC1_ICW4, 0x01  ); /* no-buffer mode */
-
-io_out8(PIC0_IMR,  0xfb  ); /* 11111011 disable all except PIC1 */
-io_out8(PIC1_IMR,  0xff  ); /* 11111111 disable all interrupt */ } 简单的翻译一下，IMR指的是interrupt mask register，ICW指的是&quot;initial control word&quot;，都是8位寄存器。 IMR中8位分别对应8个IRQ信号，如果某一位为1，则该为对应的信号被屏蔽，PIC就忽略之。
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;ICW不一定是16位，因硬件而不同。有4个，分别编号1~4，共有4个字节的数据。&lt;/p&gt;
-
-&lt;p&gt;ICW1和4与硬件有关，忽略之。&lt;/p&gt;
-
-&lt;p&gt;ICW3是有关主从连接的设定，对主PIC而言，第几号IRQ与从PIC相连，是用8位来决定的。如果把这些为全部设为1，则主PIC能驱动8个从PIC。&lt;/p&gt;
-
-&lt;p&gt;不过呢……这个是硬件决定的，我们也无力。&lt;/p&gt;
-
-&lt;p&gt;所以只能改ICW2咯。&lt;/p&gt;
-
-&lt;p&gt;ICW2决定了IRQ以哪一号中断通知CPU。通过PIC用数据信号线传送给CPU“0xcd 0x??”来实现的。这里的0xcd实际上就是调用BIOS时用的INT指令。&lt;/p&gt;
-
-&lt;p&gt;这次以INT0x20~0x2f接收中断信号IRQ0~15而设定的。&lt;/p&gt;
-
-&lt;p&gt;开始看程序，注意鼠标时IRQ12, 键盘是IRQ1。&lt;/p&gt;
-
-&lt;p&gt;void inthandler21(int &lt;em&gt;esp)
-/&lt;/em&gt; interrupt from PS/2 keyboard */
-{
-	struct boot_info *binfo = (struct boot_info *) BOOT_ADDR;
-	boxfill8(binfo-&amp;gt;vram, binfo-&amp;gt;scrnx, BLACK, 0, 0, 32 * 8 - 1, 15);
-	print_str(binfo-&amp;gt;vram, binfo-&amp;gt;scrnx, 0, 0, WHITE, “INT 21 (IRQ-1) : PS/2 keyboard”);
-	for (;;) {
-		io_hlt();
-	}
-}
-完了之后还得让它执行IRETD：
-_asm_inthandler21:
-		PUSH	ES
-		PUSH	DS
-		PUSHAD
-		MOV		EAX,ESP
-		PUSH	EAX
-		MOV		AX,SS
-		MOV		DS,AX
-		MOV		ES,AX
-		CALL	_inthandler21
-		POP		EAX
-		POPAD
-		POP		DS
-		POP		ES
-		IRETD
-关于栈，不解释。&lt;/p&gt;
-
-&lt;p&gt;这些差不多就是今天全部的内容了。（唉，累……）&lt;/p&gt;</content><author><name></name></author><summary type="html">书上第五六天所涉及的内容主要是GDT、IDT以及PIC。这两部分我就合在一起写好了。（主要的原因是做完第五天的以后看到代码乱得惨不忍睹，就自己开始整理了一下，随后又发现第六天就是讲分割源文件的，所以就继续看了下去。）</summary></entry></feed>
+虽然不知道这次能坚持多久，但能写一篇算一篇吧。&lt;/p&gt;</content><author><name></name></author><summary type="html">寻思写博客这事，也不是一天两天了。</summary></entry></feed>
