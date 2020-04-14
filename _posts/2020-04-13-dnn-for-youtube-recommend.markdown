@@ -154,7 +154,7 @@ $$
 2. 进行矩阵乘法$\vec{z}=\vec{u}^T\vec{W}$；
 3. 进行指数运算$exp(\vec{z})$；
 4. 归一化$\vec{y}=exp(\vec{z})/\|\|exp(\vec{z})\|\|_1$；
-5. 按$y_j$进行倒序取Top-N作为召回结果；
+5. 按$y_j$进行倒序取Top-N视频作为召回结果；
 
 观察到，由于指数运算具有单调性，且在进行召回时只关注模型输出的相对值，而不关注绝对值；我们发现3、4两步可以省略掉，直接在计算出${\vec{z}}$之后，取$z_j$的值来作为排序的依据即可。
 
@@ -168,20 +168,71 @@ $$
 
 ## 1. 问题定义
 
-YouTube的推荐系统中，将排序问题转化为一个对视频观看时长的预测问题。
+YouTube的推荐系统中，将排序问题转化为预测：给用户$u_i$曝光视频$v_j$后，用户的观看时长。
 
-## 2. 数据
+为什么不转化为预测CTR？因为光看CTR容易使模型偏好“标题党”或者“封面党”，进而影响用户体验、商业变现等。
 
-## 3. 特征
+## 2. 数据准备
+
+对于每一次视频曝光事件（给用户$u_i$曝光视频$v_j$），如果用户点击观看了视频，则取视频观看时长$T_i$作为预测值；如果没有点击，则取单位值作为预测值。
+
+## 3. 特征处理
+
+![Ranking Features]({{ site.url }}/assets/youtube-dnn-ranking-feature.jpg)
+
+抽象来看，所用到的特征可以分为：用户属性特征、用户行为特征、视频属性特征、上下文特征。
 
 ### 3.1. "video embedding"
 
+对于视频ID，先按照召回模块中相似的处理方式（是否完全一样？），单独训练得到video embedding，维度约为$klog(V)$。**注意：作者提到，对于点击次数较少的长尾视频，直接采用零向量作为embedding。**
+
+- 对于输入的视频ID，直接取相应的embedding输入到网络中；
+- 对于用户观看过的视频ID序列（全部或者最近K个？），获取相应的embedding取均值输入到网络中；
+
 ### 3.2. "language embedding"
+
+作者没有明说，但按我理解应该是指文本相关的特征，例如用户上一次搜索的数据等。
 
 ### 3.3. "time since last watch"
 
+对于连续值特征，YouTube采用了一种颇为特别的处理方式。
+
+首先是对连续值特征进行正则化：假设$x$的分布函数是$f$，则正则化后$\acute{x}=\int^1_0{x}$
+
+> A continuous feature x with distribution f is transformed to ˜ x by
+scaling the values such that the feature is equally distributed
+in [0, 1) using the cumulative distribution, ˜ x = R"1 x df.
+This integral is approximated with linear interpolation on
+the quantiles of the feature values computed in a single pass
+over the data before training begins.
+
+其次是在正则化后的值基础上，还通过取平方$x^2$与开根号$\sqrt{x}$引入了两个特征值，进而引入了非线性特征。
+
 ### 3.4. "number of previous impressions"
 
+当前视频给这个用户曝光过多少次？
+
+### 其他
+用户看过多少同频道的视频？
+用户上一次看同频道或同主题的视频是什么时候？
+
+用户过往与相似视频的交互特征特别重要
+
+来自召回模块的特征：
+
+用户是否登录
+
+## 4. 模型训练与线上服务
+
+### 4.1 训练技巧： Weighted Logistic
+
+直觉来看，既然将排序问题转化为预测问题，似乎应该和常见的回归模型一样，用均方差等作为损失函数才对，而YouTube并没有这样做，而是继续用Logistic Regression，为什么呢？
+
+### 4.2 线上服务
+
+![Ranking Serving]({{ site.url }}/assets/youtube-dnn-ranking-serving.jpg)
+
+Ranking框架图的serving部分，和Candidate Generation框架图上的同样令人一眼看去摸不着头脑。
 
 # 参考
 

@@ -203,7 +203,7 @@
   <li>进行矩阵乘法$\vec{z}=\vec{u}^T\vec{W}$；</li>
   <li>进行指数运算$exp(\vec{z})$；</li>
   <li>归一化$\vec{y}=exp(\vec{z})/||exp(\vec{z})||_1$；</li>
-  <li>按$y_j$进行倒序取Top-N作为召回结果；</li>
+  <li>按$y_j$进行倒序取Top-N视频作为召回结果；</li>
 </ol>
 
 <p>观察到，由于指数运算具有单调性，且在进行召回时只关注模型输出的相对值，而不关注绝对值；我们发现3、4两步可以省略掉，直接在计算出${\vec{z}}$之后，取$z_j$的值来作为排序的依据即可。</p>
@@ -218,19 +218,75 @@
 
 <h2 id="1-问题定义-1">1. 问题定义</h2>
 
-<p>YouTube的推荐系统中，将排序问题转化为一个对视频观看时长的预测问题。</p>
+<p>YouTube的推荐系统中，将排序问题转化为预测：给用户$u_i$曝光视频$v_j$后，用户的观看时长。</p>
 
-<h2 id="2-数据">2. 数据</h2>
+<p>为什么不转化为预测CTR？因为光看CTR容易使模型偏好“标题党”或者“封面党”，进而影响用户体验、商业变现等。</p>
 
-<h2 id="3-特征">3. 特征</h2>
+<h2 id="2-数据准备-1">2. 数据准备</h2>
+
+<p>对于每一次视频曝光事件（给用户$u_i$曝光视频$v_j$），如果用户点击观看了视频，则取视频观看时长$T_i$作为预测值；如果没有点击，则取单位值作为预测值。</p>
+
+<h2 id="3-特征处理-1">3. 特征处理</h2>
+
+<p><img src="http://localhost:4034/assets/youtube-dnn-ranking-feature.jpg" alt="Ranking Features" /></p>
+
+<p>抽象来看，所用到的特征可以分为：用户属性特征、用户行为特征、视频属性特征、上下文特征。</p>
 
 <h3 id="31-video-embedding">3.1. “video embedding”</h3>
 
+<p>对于视频ID，先按照召回模块中相似的处理方式（是否完全一样？），单独训练得到video embedding，维度约为$klog(V)$。<strong>注意：作者提到，对于点击次数较少的长尾视频，直接采用零向量作为embedding。</strong></p>
+
+<ul>
+  <li>对于输入的视频ID，直接取相应的embedding输入到网络中；</li>
+  <li>对于用户观看过的视频ID序列（全部或者最近K个？），获取相应的embedding取均值输入到网络中；</li>
+</ul>
+
 <h3 id="32-language-embedding">3.2. “language embedding”</h3>
+
+<p>作者没有明说，但按我理解应该是指文本相关的特征，例如用户上一次搜索的数据等。</p>
 
 <h3 id="33-time-since-last-watch">3.3. “time since last watch”</h3>
 
+<p>对于连续值特征，YouTube采用了一种颇为特别的处理方式。</p>
+
+<p>首先是对连续值特征进行正则化：假设$x$的分布函数是$f$，则正则化后$\acute{x}=\int^1_0{x}$</p>
+
+<blockquote>
+  <p>A continuous feature x with distribution f is transformed to ˜ x by
+scaling the values such that the feature is equally distributed
+in [0, 1) using the cumulative distribution, ˜ x = R”1 x df.
+This integral is approximated with linear interpolation on
+the quantiles of the feature values computed in a single pass
+over the data before training begins.</p>
+</blockquote>
+
+<p>其次是在正则化后的值基础上，还通过取平方$x^2$与开根号$\sqrt{x}$引入了两个特征值，进而引入了非线性特征。</p>
+
 <h3 id="34-number-of-previous-impressions">3.4. “number of previous impressions”</h3>
+
+<p>当前视频给这个用户曝光过多少次？</p>
+
+<h3 id="其他">其他</h3>
+<p>用户看过多少同频道的视频？
+用户上一次看同频道或同主题的视频是什么时候？</p>
+
+<p>用户过往与相似视频的交互特征特别重要</p>
+
+<p>来自召回模块的特征：</p>
+
+<p>用户是否登录</p>
+
+<h2 id="4-模型训练与线上服务-1">4. 模型训练与线上服务</h2>
+
+<h3 id="41-训练技巧-weighted-logistic">4.1 训练技巧： Weighted Logistic</h3>
+
+<p>直觉来看，既然将排序问题转化为预测问题，似乎应该和常见的回归模型一样，用均方差等作为损失函数才对，而YouTube并没有这样做，而是继续用Logistic Regression，为什么呢？</p>
+
+<h3 id="42-线上服务-1">4.2 线上服务</h3>
+
+<p><img src="http://localhost:4034/assets/youtube-dnn-ranking-serving.jpg" alt="Ranking Serving" /></p>
+
+<p>Ranking框架图的serving部分，和Candidate Generation框架图上的同样令人一眼看去摸不着头脑。</p>
 
 <h1 id="参考">参考</h1>
 
