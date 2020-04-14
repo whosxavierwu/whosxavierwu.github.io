@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4304/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4304/" rel="alternate" type="text/html" /><updated>2020-04-13T22:34:15+08:00</updated><id>http://localhost:4304/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Deep Neural Network for YouTube Recommendation System</title><link href="http://localhost:4304/recommender/2020/04/13/dnn-for-youtube-recommend.html" rel="alternate" type="text/html" title="Deep Neural Network for YouTube Recommendation System" /><published>2020-04-13T00:00:00+08:00</published><updated>2020-04-13T00:00:00+08:00</updated><id>http://localhost:4304/recommender/2020/04/13/dnn-for-youtube-recommend</id><content type="html" xml:base="http://localhost:4304/recommender/2020/04/13/dnn-for-youtube-recommend.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-04-14T16:44:31+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Deep Neural Network for YouTube Recommendation System</title><link href="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html" rel="alternate" type="text/html" title="Deep Neural Network for YouTube Recommendation System" /><published>2020-04-13T00:00:00+08:00</published><updated>2020-04-13T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;这篇论文是对YouTube中基于DNN的推荐系统的整体描述。本文旨在对论文进行总结。&lt;/p&gt;
 
@@ -6,11 +6,11 @@
 
 &lt;p&gt;下图是整体框架：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-whole.jpg&quot; alt=&quot;整体框架&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-whole.jpg&quot; alt=&quot;整体框架&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;一召回&quot;&gt;一、召回&lt;/h1&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-candidate-generate.jpg&quot; alt=&quot;Candidate Generation&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-candidate-generate.jpg&quot; alt=&quot;Candidate Generation&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;1-问题定义&quot;&gt;1. 问题定义&lt;/h2&gt;
 
@@ -22,8 +22,6 @@
 
 &lt;p&gt;通过这样的问题转化以后，理想情况下，我们能预测到在当前用户、当前情景下，每个视频被观看的概率。取概率最高的前M个视频即可作为召回模块的输出。&lt;/p&gt;
 
-&lt;p&gt;一个显而易见的问题是：当类别数量多达数百万时，如何使模型仍然能有效地进行学习？YouTube所选择的解决方案是 Negative Sampling，这点留待数据与特征之后，再进行展开。&lt;/p&gt;
-
 &lt;h2 id=&quot;2-数据准备&quot;&gt;2. 数据准备&lt;/h2&gt;
 
 &lt;p&gt;在准备数据样本时，需要注意：&lt;/p&gt;
@@ -34,13 +32,13 @@
   &lt;li&gt;注意避免样本数据中掺入未来信息，模型的输入应该始终只有打标签以前的数据。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-dataset.jpg&quot; alt=&quot;训练数据筛选&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-dataset.jpg&quot; alt=&quot;训练数据筛选&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;3-特征处理&quot;&gt;3. 特征处理&lt;/h2&gt;
 
 &lt;p&gt;特征方面，抽象来看，主要涉及用户属性、用户行为与事件时间特征三大块。作者在论文中给出了不同特征组合的效果对比：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-feature-select.jpg&quot; alt=&quot;Features&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-feature-select.jpg&quot; alt=&quot;Features&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;31-用户属性特征&quot;&gt;3.1 用户属性特征&lt;/h3&gt;
 
@@ -54,27 +52,29 @@
 
 &lt;h4 id=&quot;watch-vector&quot;&gt;“watch vector”&lt;/h4&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;Inspired by continuous bag of words language models [14], we learn high dimensional embeddings for each video in a fixed vocabulary&lt;/p&gt;
-&lt;/blockquote&gt;
-
 &lt;p&gt;从用户的视频观看历史中挖掘特征主要分两步：&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;通过单独的模型预训练好每个视频的embedding。&lt;/li&gt;
   &lt;li&gt;取出用户历史（&lt;em&gt;All or Top-k?&lt;/em&gt;）观看的视频的embedding取均值，作为 “watch vectors”。&lt;/li&gt;
 &lt;/ol&gt;
 
+&lt;p&gt;具体而言，是如何做embedding的呢？文中只是简单的提了一下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Inspired by continuous bag of words language models, we learn high dimensional embeddings for each video in a fixed vocabulary&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;从我的理解来看，应该是将每个用户历史观看的视频ID序列，看作一个“句子”，所有用户的“句子”汇聚成一个语料集合；进而参考Word2Vec中基于CBOW的训练方式来做训练，从而获得每个视频的embedding。&lt;/p&gt;
+
+&lt;p&gt;作者还提到了一句：&lt;/p&gt;
+
 &lt;blockquote&gt;
   &lt;p&gt;Importantly, the embeddings are learned jointly with all other model parameters through normal gradient descent backpropagation updates&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;em&gt;具体而言，是如何做embedding的？&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;这个我不太理解。&lt;/p&gt;
 
 &lt;h4 id=&quot;search-vector&quot;&gt;“search vector”&lt;/h4&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Search history is treated similarly to watch history - each query is tokenized into unigrams and bigrams and each token is embedded. Once averaged, the user’s tokenized, embedded queries represent a summarized dense search history&lt;/p&gt;
-&lt;/blockquote&gt;
 
 &lt;p&gt;从用户的搜索历史中挖掘特征的步骤，与前面相似：&lt;/p&gt;
 &lt;ol&gt;
@@ -82,7 +82,11 @@
   &lt;li&gt;汇总所有的这些embedding求均值，作为 “search vector”&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;em&gt;具体而言，是如何做embedding的？&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Search history is treated similarly to watch history - each query is tokenized into unigrams and bigrams and each token is embedded. Once averaged, the user’s tokenized, embedded queries represent a summarized dense search history&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;从作者的描述来看，应该就是基于用户的搜索预料来训练Word2Vec模型，从而得到embedding向量。&lt;/p&gt;
 
 &lt;h3 id=&quot;33-事件时间特征&quot;&gt;3.3 事件时间特征&lt;/h3&gt;
 
@@ -100,30 +104,76 @@
 
 &lt;p&gt;$t_N$指的是样本打标签的时间，也就是当前的事件的时间戳，这个好理解。&lt;/p&gt;
 
-&lt;p&gt;但说得模糊的是，$t_{max}$到底指的是全体训练样本中的最大观测时间？还是当前样本事件发生之前的最大观测时间？&lt;/p&gt;
+&lt;p&gt;虽然说得比较模糊，但结合前面的描述：在serving时，该特征被置为零。所以$t_{max}$应该是指全体训练样本中的最大观测时间。&lt;/p&gt;
 
-&lt;p&gt;结合前面所说的，在serving时，该特征被置为零，我更倾向于是前者。&lt;/p&gt;
+&lt;p&gt;至于具体是用秒？分钟？小时？还是天？则没有提及，考虑到不同量纲之间可以通过线性变换来相互切换，所以这个问题的影响不大。&lt;/p&gt;
 
-&lt;p&gt;另一个细节就是，时间距离用的是秒？分钟？小时？还是天？&lt;/p&gt;
+&lt;p&gt;作者通过统计分析表明，模型在加入了”Example Age”之后，能比较好的捕捉到视频上传时间的影响。&lt;/p&gt;
 
-&lt;p&gt;作者通过一张图来说明 “Example Age” 的有效性：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-example-age.jpg&quot; alt=&quot;Example Age&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-example-age.jpg&quot; alt=&quot;Example Age&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;那么问题来了，为什么不直接用”Days Since Upload”来做特征呢？&lt;/p&gt;
 
-&lt;h2 id=&quot;negative-sampling&quot;&gt;Negative Sampling&lt;/h2&gt;
+&lt;h2 id=&quot;4-模型训练与线上服务&quot;&gt;4. 模型训练与线上服务&lt;/h2&gt;
 
-&lt;p&gt;&lt;em&gt;TODO：具体细节？&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&quot;41-训练技巧-negative-sampling&quot;&gt;4.1 训练技巧： Negative Sampling&lt;/h3&gt;
 
-&lt;h2 id=&quot;4-模型上线&quot;&gt;4. 模型上线&lt;/h2&gt;
+&lt;p&gt;一般情况下，基于 SoftMax 的 Cross-Entropy Loss 形式如下：&lt;/p&gt;
 
-&lt;p&gt;“video vectors”具体含义：
-需要单独的embed video vector，还是延用最下方的embedded video watches里面的已经embed好的结果？&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;logit(i)=\frac{exp(w_{i}x)}{\sum^{M}_{j}{exp({w_{j}x})}}&lt;/script&gt;
 
-&lt;p&gt;online serving 为什么不直接用模型进行预测？而是采用 nearest neighbor search ?&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;loss=-log(logit(i))=-(w_ix)+log(\sum^{M}_{j}{exp(w_jx)})&lt;/script&gt;
+
+&lt;p&gt;可以看到，当类别数$M$多达数百万的时候，损失函数的后半部分$ log(\sum^{M}_{j}exp(w_jx)) $的计算量将会特别大。&lt;/p&gt;
+
+&lt;p&gt;而 Negative Sampling 的思路则是，通过采样指定$K$个类别，从而把计算量从$O(M) \to O(K)$控制了下来。作者在论文中指出，一般$K$取数千。&lt;/p&gt;
+
+&lt;p&gt;这里有几个细节：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;$K$是否把类别$i$包含在内？&lt;/li&gt;
+  &lt;li&gt;具体如何进行随机采样？均匀采样？&lt;/li&gt;
+  &lt;li&gt;是每个训练样本都做一次采样？还是每个batch做一次采样？&lt;/li&gt;
+  &lt;li&gt;每次负采样、训练时，并不会更新$K$个被选中的类别以外的类别权重。那么如果存在某个类别的样本数量相对较大，会不会对模型效果有影响？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;42-线上服务&quot;&gt;4.2 线上服务&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-recall-serving.jpg&quot; alt=&quot;Candidate Generation Serving&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;模型框架图中的这个细节，是我一开始没有留意到的。&lt;/p&gt;
+
+&lt;p&gt;当时只是想当然的认为，在做serving时，每次用户来到时，跑一遍模型预测，然后取出概率值Top N的视频来召回。而从YouTube的框架图来看，实际做serving时是以下步骤：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;从最后一层ReLU层获取用户向量$\vec{u}$（256维）；&lt;/li&gt;
+  &lt;li&gt;从SoftMax层获取视频向量$\vec{v_j}$；&lt;/li&gt;
+  &lt;li&gt;通过最近邻搜索来找到近似的Top N视频。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;以上的简要描述可能仍然不好理解。&lt;/p&gt;
+
+&lt;p&gt;我们知道，在ReLU和SoftMax两层之间存在一个大小为$(256, V)$的权重矩阵$\vec{W}$，$V$表示视频总数；$\vec{W}$通过训练学习到。&lt;/p&gt;
+
+&lt;p&gt;来看常规的feedward流程：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;计算至最后的ReLU层得到$\vec{u}$；&lt;/li&gt;
+  &lt;li&gt;进行矩阵乘法$\vec{z}=\vec{u}^T\vec{W}$；&lt;/li&gt;
+  &lt;li&gt;进行指数运算$exp(\vec{z})$；&lt;/li&gt;
+  &lt;li&gt;归一化$\vec{y}=exp(\vec{z})/||exp(\vec{z})||_1$；&lt;/li&gt;
+  &lt;li&gt;按$y_j$进行倒序取Top-N作为召回结果；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;观察到，由于指数运算具有单调性，且在进行召回时只关注模型输出的相对值，而不关注绝对值；我们发现3、4两步可以省略掉，直接在计算出${\vec{z}}$之后，取$z_j$的值来作为排序的依据即可。&lt;/p&gt;
+
+&lt;p&gt;由于视频数量巨大，$\vec{z}=\vec{u}^T\vec{W}$这一步仍然存在高昂的计算成本。为了提升效率，在完成了模型训练之后，可以提前把$\vec{W}$拆成一个个列向量$\vec{v_j}$。&lt;/p&gt;
+
+&lt;p&gt;线上serving时，计算出用户向量$\vec{u}$之后，下一步就变成了寻找与$\vec{u}$内积最大的N个列向量${\vec{v_j}}$的问题。而这可以转化为最近邻搜索问题（作者引用论文：&lt;a href=&quot;http://www.cs.cmu.edu/~agray/approxnn.pdf&quot;&gt;An investigation of practical approximate nearest neighbor&lt;/a&gt;）。&lt;/p&gt;
 
 &lt;h1 id=&quot;二排序&quot;&gt;二、排序&lt;/h1&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4304/assets/youtube-dnn-ranking.jpg&quot; alt=&quot;Ranking&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-ranking.jpg&quot; alt=&quot;Ranking&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;1-问题定义-1&quot;&gt;1. 问题定义&lt;/h2&gt;
 
@@ -149,7 +199,7 @@
   &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/52504407&quot;&gt;王喆-十个工程问题&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/61827629&quot;&gt;王喆-模型Serving&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/38638747&quot;&gt;工程再现&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">Data Split</title><link href="http://localhost:4304/2019/10/07/data-split.html" rel="alternate" type="text/html" title="Data Split" /><published>2019-10-07T00:00:00+08:00</published><updated>2019-10-07T00:00:00+08:00</updated><id>http://localhost:4304/2019/10/07/data-split</id><content type="html" xml:base="http://localhost:4304/2019/10/07/data-split.html">&lt;h1 id=&quot;数据集划分方式&quot;&gt;数据集划分方式&lt;/h1&gt;
+&lt;/ol&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">Data Split</title><link href="http://localhost:4034/2019/10/07/data-split.html" rel="alternate" type="text/html" title="Data Split" /><published>2019-10-07T00:00:00+08:00</published><updated>2019-10-07T00:00:00+08:00</updated><id>http://localhost:4034/2019/10/07/data-split</id><content type="html" xml:base="http://localhost:4034/2019/10/07/data-split.html">&lt;h1 id=&quot;数据集划分方式&quot;&gt;数据集划分方式&lt;/h1&gt;
 
 &lt;p&gt;训练集、验证集、测试集、线上数据&lt;/p&gt;
 
@@ -182,13 +232,13 @@
 &lt;ol&gt;
   &lt;li&gt;完全随机的抽出来作为验证集&lt;/li&gt;
   &lt;li&gt;让验证集的分布跟可见集的分布接近&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><summary type="html">数据集划分方式</summary></entry><entry><title type="html">Qa Logistic Regression</title><link href="http://localhost:4304/2019/10/05/qa-logistic-regression.html" rel="alternate" type="text/html" title="Qa Logistic Regression" /><published>2019-10-05T00:00:00+08:00</published><updated>2019-10-05T00:00:00+08:00</updated><id>http://localhost:4304/2019/10/05/qa-logistic-regression</id><content type="html" xml:base="http://localhost:4304/2019/10/05/qa-logistic-regression.html">&lt;h1 id=&quot;qa-logistic-regression&quot;&gt;Q&amp;amp;A: Logistic Regression&lt;/h1&gt;
+&lt;/ol&gt;</content><author><name></name></author><summary type="html">数据集划分方式</summary></entry><entry><title type="html">Qa Logistic Regression</title><link href="http://localhost:4034/2019/10/05/qa-logistic-regression.html" rel="alternate" type="text/html" title="Qa Logistic Regression" /><published>2019-10-05T00:00:00+08:00</published><updated>2019-10-05T00:00:00+08:00</updated><id>http://localhost:4034/2019/10/05/qa-logistic-regression</id><content type="html" xml:base="http://localhost:4034/2019/10/05/qa-logistic-regression.html">&lt;h1 id=&quot;qa-logistic-regression&quot;&gt;Q&amp;amp;A: Logistic Regression&lt;/h1&gt;
 
 &lt;p&gt;Q1: 与线性回归相比，有何异同？&lt;/p&gt;
 
 &lt;p&gt;Q2: 如何用于多标签分类问题？&lt;/p&gt;
 
-&lt;p&gt;Q3: 线性回归在实现时是如何求解的？也是用梯度下降？&lt;/p&gt;</content><author><name></name></author><summary type="html">Q&amp;amp;A: Logistic Regression</summary></entry><entry><title type="html">自动文本摘要</title><link href="http://localhost:4304/text-summarization/2019/03/15/automatic-text-summarization.html" rel="alternate" type="text/html" title="自动文本摘要" /><published>2019-03-15T17:00:00+08:00</published><updated>2019-03-15T17:00:00+08:00</updated><id>http://localhost:4304/text-summarization/2019/03/15/automatic-text-summarization</id><content type="html" xml:base="http://localhost:4304/text-summarization/2019/03/15/automatic-text-summarization.html">&lt;p&gt;最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。&lt;/p&gt;
+&lt;p&gt;Q3: 线性回归在实现时是如何求解的？也是用梯度下降？&lt;/p&gt;</content><author><name></name></author><summary type="html">Q&amp;amp;A: Logistic Regression</summary></entry><entry><title type="html">自动文本摘要</title><link href="http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization.html" rel="alternate" type="text/html" title="自动文本摘要" /><published>2019-03-15T17:00:00+08:00</published><updated>2019-03-15T17:00:00+08:00</updated><id>http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization</id><content type="html" xml:base="http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization.html">&lt;p&gt;最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。&lt;/p&gt;
 
 &lt;h1 id=&quot;0概述&quot;&gt;0、概述&lt;/h1&gt;
 
@@ -438,9 +488,9 @@
 
 &lt;p&gt;A Deep Reinforced Model for Abstractive Summarization&lt;/p&gt;
 
-&lt;p&gt;Convolutional Sequence to Sequence Learning&lt;/p&gt;</content><author><name></name></author><summary type="html">最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。</summary></entry><entry><title type="html">（TODO） Bias-Variance Tradeoff</title><link href="http://localhost:4304/esl/2018/06/11/bias-variance-tradeoff.html" rel="alternate" type="text/html" title="（TODO） Bias-Variance Tradeoff" /><published>2018-06-11T11:15:00+08:00</published><updated>2018-06-11T11:15:00+08:00</updated><id>http://localhost:4304/esl/2018/06/11/bias-variance-tradeoff</id><content type="html" xml:base="http://localhost:4304/esl/2018/06/11/bias-variance-tradeoff.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+&lt;p&gt;Convolutional Sequence to Sequence Learning&lt;/p&gt;</content><author><name></name></author><summary type="html">最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。</summary></entry><entry><title type="html">（TODO） Bias-Variance Tradeoff</title><link href="http://localhost:4034/esl/2018/06/11/bias-variance-tradeoff.html" rel="alternate" type="text/html" title="（TODO） Bias-Variance Tradeoff" /><published>2018-06-11T11:15:00+08:00</published><updated>2018-06-11T11:15:00+08:00</updated><id>http://localhost:4034/esl/2018/06/11/bias-variance-tradeoff</id><content type="html" xml:base="http://localhost:4034/esl/2018/06/11/bias-variance-tradeoff.html">&lt;p&gt;（待填坑）&lt;/p&gt;
 
-&lt;p&gt;周末仔细研读了ESL的第二章，最大的收获就在于对Bias-Variance有了更清晰的了解。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">LeetCode #22</title><link href="http://localhost:4304/leetcode/2018/06/02/leetcode-22.html" rel="alternate" type="text/html" title="LeetCode #22" /><published>2018-06-02T22:30:00+08:00</published><updated>2018-06-02T22:30:00+08:00</updated><id>http://localhost:4304/leetcode/2018/06/02/leetcode-22</id><content type="html" xml:base="http://localhost:4304/leetcode/2018/06/02/leetcode-22.html">&lt;p&gt;最近重新开始了在刷题，也尽量多写一写吧。&lt;/p&gt;
+&lt;p&gt;周末仔细研读了ESL的第二章，最大的收获就在于对Bias-Variance有了更清晰的了解。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">LeetCode #22</title><link href="http://localhost:4034/leetcode/2018/06/02/leetcode-22.html" rel="alternate" type="text/html" title="LeetCode #22" /><published>2018-06-02T22:30:00+08:00</published><updated>2018-06-02T22:30:00+08:00</updated><id>http://localhost:4034/leetcode/2018/06/02/leetcode-22</id><content type="html" xml:base="http://localhost:4034/leetcode/2018/06/02/leetcode-22.html">&lt;p&gt;最近重新开始了在刷题，也尽量多写一写吧。&lt;/p&gt;
 
 &lt;h1 id=&quot;一题目大意&quot;&gt;一、题目大意&lt;/h1&gt;
 
@@ -566,13 +616,13 @@
 
 &lt;p&gt;python的好处在于，代码可以相当精简。同样的算法在c里面去实现的话，难度往往会大很多。
 python用久了之后，会发现自己“变笨了”，差不多连c都不会用了。
-所以偶尔还是得多练练手的。&lt;/p&gt;</content><author><name></name></author><summary type="html">最近重新开始了在刷题，也尽量多写一写吧。</summary></entry><entry><title type="html">TODO Exercises of ESL Chap.2</title><link href="http://localhost:4304/esl/2018/05/31/esl-2.html" rel="alternate" type="text/html" title="TODO Exercises of ESL Chap.2" /><published>2018-05-31T23:02:00+08:00</published><updated>2018-05-31T23:02:00+08:00</updated><id>http://localhost:4304/esl/2018/05/31/esl-2</id><content type="html" xml:base="http://localhost:4304/esl/2018/05/31/esl-2.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+所以偶尔还是得多练练手的。&lt;/p&gt;</content><author><name></name></author><summary type="html">最近重新开始了在刷题，也尽量多写一写吧。</summary></entry><entry><title type="html">TODO Exercises of ESL Chap.2</title><link href="http://localhost:4034/esl/2018/05/31/esl-2.html" rel="alternate" type="text/html" title="TODO Exercises of ESL Chap.2" /><published>2018-05-31T23:02:00+08:00</published><updated>2018-05-31T23:02:00+08:00</updated><id>http://localhost:4034/esl/2018/05/31/esl-2</id><content type="html" xml:base="http://localhost:4034/esl/2018/05/31/esl-2.html">&lt;p&gt;（待填坑）&lt;/p&gt;
 
-&lt;p&gt;近期重新拿起了经典的 “The Elements of Statistical Learning” 来好好学习。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO 实时标签</title><link href="http://localhost:4304/work/2018/05/31/realtime-tag.html" rel="alternate" type="text/html" title="TODO 实时标签" /><published>2018-05-31T23:01:00+08:00</published><updated>2018-05-31T23:01:00+08:00</updated><id>http://localhost:4304/work/2018/05/31/realtime-tag</id><content type="html" xml:base="http://localhost:4304/work/2018/05/31/realtime-tag.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+&lt;p&gt;近期重新拿起了经典的 “The Elements of Statistical Learning” 来好好学习。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO 实时标签</title><link href="http://localhost:4034/work/2018/05/31/realtime-tag.html" rel="alternate" type="text/html" title="TODO 实时标签" /><published>2018-05-31T23:01:00+08:00</published><updated>2018-05-31T23:01:00+08:00</updated><id>http://localhost:4034/work/2018/05/31/realtime-tag</id><content type="html" xml:base="http://localhost:4034/work/2018/05/31/realtime-tag.html">&lt;p&gt;（待填坑）&lt;/p&gt;
 
-&lt;p&gt;最近新接手的任务——用户实时标签生成。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO 流量预估</title><link href="http://localhost:4304/work/2018/05/31/impose-predict.html" rel="alternate" type="text/html" title="TODO 流量预估" /><published>2018-05-31T23:00:00+08:00</published><updated>2018-05-31T23:00:00+08:00</updated><id>http://localhost:4304/work/2018/05/31/impose-predict</id><content type="html" xml:base="http://localhost:4304/work/2018/05/31/impose-predict.html">&lt;p&gt;（待填坑）&lt;/p&gt;
+&lt;p&gt;最近新接手的任务——用户实时标签生成。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">TODO 流量预估</title><link href="http://localhost:4034/work/2018/05/31/impose-predict.html" rel="alternate" type="text/html" title="TODO 流量预估" /><published>2018-05-31T23:00:00+08:00</published><updated>2018-05-31T23:00:00+08:00</updated><id>http://localhost:4034/work/2018/05/31/impose-predict</id><content type="html" xml:base="http://localhost:4034/work/2018/05/31/impose-predict.html">&lt;p&gt;（待填坑）&lt;/p&gt;
 
-&lt;p&gt;最近在做的一个小需求——广告流量预估。这个需求给我带来的收获更多的是技术以外的经验。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">序</title><link href="http://localhost:4304/others/2018/05/26/my-first-post.html" rel="alternate" type="text/html" title="序" /><published>2018-05-26T17:16:00+08:00</published><updated>2018-05-26T17:16:00+08:00</updated><id>http://localhost:4304/others/2018/05/26/my-first-post</id><content type="html" xml:base="http://localhost:4304/others/2018/05/26/my-first-post.html">&lt;p&gt;寻思写博客这事，也不是一天两天了。&lt;/p&gt;
+&lt;p&gt;最近在做的一个小需求——广告流量预估。这个需求给我带来的收获更多的是技术以外的经验。&lt;/p&gt;</content><author><name></name></author><summary type="html">（待填坑）</summary></entry><entry><title type="html">序</title><link href="http://localhost:4034/others/2018/05/26/my-first-post.html" rel="alternate" type="text/html" title="序" /><published>2018-05-26T17:16:00+08:00</published><updated>2018-05-26T17:16:00+08:00</updated><id>http://localhost:4034/others/2018/05/26/my-first-post</id><content type="html" xml:base="http://localhost:4034/others/2018/05/26/my-first-post.html">&lt;p&gt;寻思写博客这事，也不是一天两天了。&lt;/p&gt;
 
 &lt;p&gt;和大家一样，我知道写博客有各种好处；和绝大多数人一样，我也没能累积下来多少篇。
 虽然不知道这次能坚持多久，但能写一篇算一篇吧。&lt;/p&gt;</content><author><name></name></author><summary type="html">寻思写博客这事，也不是一天两天了。</summary></entry></feed>

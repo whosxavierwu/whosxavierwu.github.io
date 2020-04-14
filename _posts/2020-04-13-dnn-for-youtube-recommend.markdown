@@ -31,8 +31,6 @@ $$
 
 通过这样的问题转化以后，理想情况下，我们能预测到在当前用户、当前情景下，每个视频被观看的概率。取概率最高的前M个视频即可作为召回模块的输出。
 
-一个显而易见的问题是：当类别数量多达数百万时，如何使模型仍然能有效地进行学习？YouTube所选择的解决方案是 Negative Sampling，这点留待数据与特征之后，再进行展开。
-
 ## 2. 数据准备
 
 在准备数据样本时，需要注意：
@@ -61,25 +59,31 @@ $$
 
 #### "watch vector"
 
-> Inspired by continuous bag of words language models [14], we learn high dimensional embeddings for each video in a fixed vocabulary
-
 从用户的视频观看历史中挖掘特征主要分两步：
 1. 通过单独的模型预训练好每个视频的embedding。
 2. 取出用户历史（*All or Top-k?*）观看的视频的embedding取均值，作为 "watch vectors"。
 
+具体而言，是如何做embedding的呢？文中只是简单的提了一下：
+
+> Inspired by continuous bag of words language models, we learn high dimensional embeddings for each video in a fixed vocabulary
+
+从我的理解来看，应该是将每个用户历史观看的视频ID序列，看作一个“句子”，所有用户的“句子”汇聚成一个语料集合；进而参考Word2Vec中基于CBOW的训练方式来做训练，从而获得每个视频的embedding。
+
+作者还提到了一句：
+
 > Importantly, the embeddings are learned jointly with all other model parameters through normal gradient descent backpropagation updates 
 
-*具体而言，是如何做embedding的？*
+这个我不太理解。
 
 #### "search vector"
-
-> Search history is treated similarly to watch history - each query is tokenized into unigrams and bigrams and each token is embedded. Once averaged, the user’s tokenized, embedded queries represent a summarized dense search history
 
 从用户的搜索历史中挖掘特征的步骤，与前面相似：
 1. 将每个query分词成unigrams跟bigrams，而token又是被embedding好的，
 2. 汇总所有的这些embedding求均值，作为 "search vector"
 
-*具体而言，是如何做embedding的？*
+> Search history is treated similarly to watch history - each query is tokenized into unigrams and bigrams and each token is embedded. Once averaged, the user’s tokenized, embedded queries represent a summarized dense search history
+
+从作者的描述来看，应该就是基于用户的搜索预料来训练Word2Vec模型，从而得到embedding向量。
 
 ### 3.3 事件时间特征
 
@@ -93,26 +97,70 @@ $$
 
 $t_N$指的是样本打标签的时间，也就是当前的事件的时间戳，这个好理解。
 
-但说得模糊的是，$t_{max}$到底指的是全体训练样本中的最大观测时间？还是当前样本事件发生之前的最大观测时间？
+虽然说得比较模糊，但结合前面的描述：在serving时，该特征被置为零。所以$t_{max}$应该是指全体训练样本中的最大观测时间。
 
-结合前面所说的，在serving时，该特征被置为零，我更倾向于是前者。
+至于具体是用秒？分钟？小时？还是天？则没有提及，考虑到不同量纲之间可以通过线性变换来相互切换，所以这个问题的影响不大。
 
-另一个细节就是，时间距离用的是秒？分钟？小时？还是天？
-
-作者通过一张图来说明 "Example Age" 的有效性：
+作者通过统计分析表明，模型在加入了"Example Age"之后，能比较好的捕捉到视频上传时间的影响。
 
 ![Example Age]({{ site.url }}/assets/youtube-dnn-example-age.jpg)
 
-## Negative Sampling
+那么问题来了，为什么不直接用"Days Since Upload"来做特征呢？
 
-*TODO：具体细节？*
+## 4. 模型训练与线上服务
 
-## 4. 模型上线
+### 4.1 训练技巧： Negative Sampling
 
-"video vectors"具体含义：
-需要单独的embed video vector，还是延用最下方的embedded video watches里面的已经embed好的结果？
+一般情况下，基于 SoftMax 的 Cross-Entropy Loss 形式如下：
 
-online serving 为什么不直接用模型进行预测？而是采用 nearest neighbor search ?
+$$
+logit(i)=\frac{exp(w_{i}x)}{\sum^{M}_{j}{exp({w_{j}x})}}
+$$
+
+$$
+loss=-log(logit(i))=-(w_ix)+log(\sum^{M}_{j}{exp(w_jx)})
+$$
+
+可以看到，当类别数$M$多达数百万的时候，损失函数的后半部分$ log(\sum^{M}_{j}exp(w_jx)) $的计算量将会特别大。
+
+而 Negative Sampling 的思路则是，通过采样指定$K$个类别，从而把计算量从$O(M) \to O(K)$控制了下来。作者在论文中指出，一般$K$取数千。
+
+这里有几个细节：
+
+1. $K$是否把类别$i$包含在内？
+2. 具体如何进行随机采样？均匀采样？
+3. 是每个训练样本都做一次采样？还是每个batch做一次采样？
+4. 每次负采样、训练时，并不会更新$K$个被选中的类别以外的类别权重。那么如果存在某个类别的样本数量相对较大，会不会对模型效果有影响？
+
+### 4.2 线上服务
+
+![Candidate Generation Serving]({{ site.url }}/assets/youtube-dnn-recall-serving.jpg)
+
+模型框架图中的这个细节，是我一开始没有留意到的。
+
+当时只是想当然的认为，在做serving时，每次用户来到时，跑一遍模型预测，然后取出概率值Top N的视频来召回。而从YouTube的框架图来看，实际做serving时是以下步骤：
+
+1. 从最后一层ReLU层获取用户向量$\vec{u}$（256维）；
+2. 从SoftMax层获取视频向量$\vec{v_j}$；
+3. 通过最近邻搜索来找到近似的Top N视频。
+
+以上的简要描述可能仍然不好理解。
+
+我们知道，在ReLU和SoftMax两层之间存在一个大小为$(256, V)$的权重矩阵$\vec{W}$，$V$表示视频总数；$\vec{W}$通过训练学习到。
+
+来看常规的feedward流程：
+
+1. 计算至最后的ReLU层得到$\vec{u}$；
+2. 进行矩阵乘法$\vec{z}=\vec{u}^T\vec{W}$；
+3. 进行指数运算$exp(\vec{z})$；
+4. 归一化$\vec{y}=exp(\vec{z})/\|\|exp(\vec{z})\|\|_1$；
+5. 按$y_j$进行倒序取Top-N作为召回结果；
+
+观察到，由于指数运算具有单调性，且在进行召回时只关注模型输出的相对值，而不关注绝对值；我们发现3、4两步可以省略掉，直接在计算出${\vec{z}}$之后，取$z_j$的值来作为排序的依据即可。
+
+由于视频数量巨大，$\vec{z}=\vec{u}^T\vec{W}$这一步仍然存在高昂的计算成本。为了提升效率，在完成了模型训练之后，可以提前把$\vec{W}$拆成一个个列向量$\vec{v_j}$。
+
+线上serving时，计算出用户向量$\vec{u}$之后，下一步就变成了寻找与$\vec{u}$内积最大的N个列向量${\vec{v_j}}$的问题。而这可以转化为最近邻搜索问题（作者引用论文：[An investigation of practical approximate nearest neighbor](http://www.cs.cmu.edu/~agray/approxnn.pdf)）。
 
 # 二、排序
 
