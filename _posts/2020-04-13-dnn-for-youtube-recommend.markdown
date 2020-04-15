@@ -224,47 +224,51 @@ YouTube的推荐系统中，将排序问题转化为预测：给用户$u_i$曝�
 
 ## 4. 模型训练与线上服务
 
-### 4.1 训练技巧： Weighted Logistic
-
-直觉来看，既然将排序问题转化为预测问题，似乎应该和常见的回归模型一样，用均方差等作为损失函数才对，而YouTube并没有这样做，而是用 Weighted Logistic Regression，为什么呢？
-
-以下记真实值为$y$，在正样本上的权重为$q$，预测值为：
-
-$$
-\begin{align}
-\hat{y} &= \frac{1}{1+exp(-z)} \\
-&= \frac{1}{1+exp(-(\vec{w}^T\vec{x}+b))}
-\end{align}
-$$
+直觉来看，既然将排序问题转化为预测问题，似乎应该和常见的回归模型一样，用均方差等作为损失函数才对，而YouTube并没有这样做，而是用 Cross-Entropy 结合 Logistic Regression，为什么可以这么做呢？
 
 我们知道，Sigmoid函数可以通过对对数几率进行线性回归推导得到：
 
 $$
+odds=\frac{\hat{y}}{1-\hat{y}} \\
 log(odds)=log(\frac{\hat{y}}{1-\hat{y}})=\vec{w}^T\vec{x}+b
 $$
 
-通常情况下，损失函数为：
-
 $$
-L=-y*log(\hat{y})-(1-y)*log(1-\hat{y})
+\hat{y} = \frac{1}{1+exp(-(\vec{w}^T\vec{x}+b))}
 $$
 
-加权后：
+上面的推导中，出发点是对$odds$的定义，我们将其定义为正样本概率与负样本概率的比例，值越大说明正负样本概率之间差距越大。对第二个式子做简单变换，得到： $odds=exp(\vec{w}^T\vec{x}+b)$。
+
+前面的$odds$我们可以认为是对点击事件的几率进行计算，也就是$odds(Click)$。下面来考虑基于视频观看时长计算几率。我们假设样本总数为$N$，其中正样本（点击并观看视频）的数量为$K$，正样本中视频观看时长记为$T_i$，负样本的视频观看时长统一认为是1，则$odds(WatchTime)$如下：
 
 $$
-L=-q*y*log(\hat{y})-(1-y)*log(1-\hat{y})
+\begin{align}
+odds &=\frac{E[T|Clicked]}{E[T|NotClicked]} =\frac{\frac{\sum^{K}_{i}{T_i}}{N-K+\sum^{K}_{i}{T_i}}}{\frac{N-K}{N-K+\sum^{K}_{i}{T_i}}} \\
+&=\frac{\sum^{K}_{i}{T_i}}{N-K} \\
+&=\frac{\sum^{K}_{i}{T_i}}{N}*\frac{N}{N-K} \\
+&=\frac{\sum^{K}_{i}{T_i}}{N}*\frac{1}{1-K/N} \\
+&=\frac{E[T]}{1-ctr}
+\end{align}
 $$
 
-### 4.2 线上服务
+于是，当$ctr$较小时，$odds$是接近于$E[T]$的；而YouTube框架图中的这看似诡异的部分，背后思想则源于此：
 
 ![Ranking Serving]({{ site.url }}/assets/youtube-dnn-ranking-serving.jpg)
 
-Ranking框架图的serving部分，和Candidate Generation框架图上的同样令人一眼看去摸不着头脑。
+serving时采用几率$odds$，而不是$sigmoid$来作为对视频观看时长的近似。
+
+而训练时，采用 Weighted Logistic Regression：对正样本按$T_i$加权，对负样本按$1$加权。
+
+# 结语
+
+把这篇论文读下来，零零散散花了我三四天；整理成脑图的过程中，陆续发现了很多细节问题，又花了一天；写博客的过程中，抠细节、查资料、补知识点，花了三天时间。这一番折腾下来实在太累，好在YouTube的这篇论文也完全值得我这番精读。
+
+目前文中还是不得已的留下了很多未找到答案的疑问，留着后续慢慢填坑了。
 
 # 参考
 
 1. [论文地址](https://dl.acm.org/doi/10.1145/2959100.2959190)
-2. [王喆-1](https://zhuanlan.zhihu.com/p/52169807)
+2. [王喆-整体介绍](https://zhuanlan.zhihu.com/p/52169807)
 3. [王喆-十个工程问题](https://zhuanlan.zhihu.com/p/52504407)
 4. [王喆-模型Serving](https://zhuanlan.zhihu.com/p/61827629)
 5. [工程再现](https://zhuanlan.zhihu.com/p/38638747)
