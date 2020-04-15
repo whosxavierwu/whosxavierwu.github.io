@@ -180,53 +180,80 @@ YouTube的推荐系统中，将排序问题转化为预测：给用户$u_i$曝�
 
 ![Ranking Features]({{ site.url }}/assets/youtube-dnn-ranking-feature.jpg)
 
-抽象来看，所用到的特征可以分为：用户属性特征、用户行为特征、视频属性特征、上下文特征。
+论文中简单的按照特征值类型分别展开论述。
 
-### 3.1. "video embedding"
+### 3.1 离散值特征
+
+离散值特征需要进行embedding，在图中也展示了主要的两种：对视频ID的embedding，以及对文本的embedding。
+
+#### "video embedding"
 
 对于视频ID，先按照召回模块中相似的处理方式（是否完全一样？），单独训练得到video embedding，维度约为$klog(V)$。**注意：作者提到，对于点击次数较少的长尾视频，直接采用零向量作为embedding。**
 
-- 对于输入的视频ID，直接取相应的embedding输入到网络中；
+- 对于模型输入的视频ID（有且仅有一个），直接取相应的embedding输入到网络中；
 - 对于用户观看过的视频ID序列（全部或者最近K个？），获取相应的embedding取均值输入到网络中；
 
-### 3.2. "language embedding"
+#### "language embedding"
 
-作者没有明说，但按我理解应该是指文本相关的特征，例如用户上一次搜索的数据等。
+图中说得很模糊，按我理解应该是指文本相关的特征，包括对"user language"、"video language"两块的embedding。这两方面具体是指哪些信息？不知道。
 
-### 3.3. "time since last watch"
+### 3.2. 连续值特征
 
-对于连续值特征，YouTube采用了一种颇为特别的处理方式。
+对于连续值特征，YouTube采用了颇为特别的处理方式。
 
-首先是对连续值特征进行正则化：假设$x$的分布函数是$f$，则正则化后$\acute{x}=\int^1_0{x}$
+首先是对连续值特征进行正则化：假设$x$的分布函数是$f$，则通过$\tilde{x}=\int^{x}_{-\infty}{df}$进行正则化。式中的积分，通过基于特征值分位数的线性插值进行估计。更具体的操作论文中没有展开说。
 
-> A continuous feature x with distribution f is transformed to ˜ x by
-scaling the values such that the feature is equally distributed
-in [0, 1) using the cumulative distribution, ˜ x = R"1 x df.
-This integral is approximated with linear interpolation on
-the quantiles of the feature values computed in a single pass
-over the data before training begins.
+> A continuous feature x with distribution f is transformed to $\tilde{x}$ by scaling the values such that the feature is equally distributed in [0, 1) using the cumulative distribution, $\tilde{x}=\int^{x}_{-\infty}{df}$. This integral is approximated with linear interpolation on the quantiles of the feature values computed in a single pass over the data before training begins.
 
-其次是在正则化后的值基础上，还通过取平方$x^2$与开根号$\sqrt{x}$引入了两个特征值，进而引入了非线性特征。
+其次是在正则化后的值基础上，还通过取平方${\tilde{x}}^2$与开根号$\sqrt{\tilde{x}}$引入了两种特征值，进而引入了非线性特征。
 
-### 3.4. "number of previous impressions"
+架构图中明确指出进行了正则化的特征有两个：
 
-当前视频给这个用户曝光过多少次？
+1. "time since last watch"，也就是“距离上一次观看的时间”。但具体来讲，“上一次观看”是指“该视频上一次被任意用户观看的时间”？还是“该用户上一次观看任意视频的时间”？还是“该用户对该视频的上一次观看的时间”？不得而知。
+2. "# previous impressions"，也就是“此前曝光的数量”。但具体来讲，“曝光”是指“给该用户的该视频的曝光次数”？还是“给该用户的任意视频的曝光次数”？还是“给任意用户的该视频的曝光次数”？这里我认为是第一种，因为论文在其他地方提到，如果已经给用户曝光过某视频但用户没有点击，那后面应该逐渐减少这个视频的推荐，进而从用户的角度看，推荐列表是在逐渐变化的。
 
-### 其他
-用户看过多少同频道的视频？
-用户上一次看同频道或同主题的视频是什么时候？
+### 3.3 其他
 
-用户过往与相似视频的交互特征特别重要
+其他一些论文中提到了，但是没有放到图中的，大概有这些：
 
-来自召回模块的特征：
-
-用户是否登录
+- 用户看过多少同频道的视频？
+- 用户上一次看同频道或同主题的视频是什么时候？
+- 用户过往与相似视频的交互特征特别重要
+- 来自召回模块的特征
+- 用户是否登录
 
 ## 4. 模型训练与线上服务
 
 ### 4.1 训练技巧： Weighted Logistic
 
-直觉来看，既然将排序问题转化为预测问题，似乎应该和常见的回归模型一样，用均方差等作为损失函数才对，而YouTube并没有这样做，而是继续用Logistic Regression，为什么呢？
+直觉来看，既然将排序问题转化为预测问题，似乎应该和常见的回归模型一样，用均方差等作为损失函数才对，而YouTube并没有这样做，而是用 Weighted Logistic Regression，为什么呢？
+
+以下记真实值为$y$，在正样本上的权重为$q$，预测值为：
+
+$$
+\begin{align}
+\hat{y} &= \frac{1}{1+exp(-z)} \\
+&= \frac{1}{1+exp(-(\vec{w}^T\vec{x}+b))}
+\end{align}
+$$
+
+我们知道，Sigmoid函数可以通过对对数几率进行线性回归推导得到：
+
+$$
+log(odds)=log(\frac{\hat{y}}{1-\hat{y}})=\vec{w}^T\vec{x}+b
+$$
+
+通常情况下，损失函数为：
+
+$$
+L=-y*log(\hat{y})-(1-y)*log(1-\hat{y})
+$$
+
+加权后：
+
+$$
+L=-q*y*log(\hat{y})-(1-y)*log(1-\hat{y})
+$$
 
 ### 4.2 线上服务
 
