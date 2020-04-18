@@ -1,20 +1,142 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-04-18T17:55:11+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches</title><link href="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html" rel="alternate" type="text/html" title="Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches" /><published>2020-04-18T00:00:00+08:00</published><updated>2020-04-18T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-04-18T21:57:17+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches</title><link href="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html" rel="alternate" type="text/html" title="Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches" /><published>2020-04-18T00:00:00+08:00</published><updated>2020-04-18T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html">&lt;h1 id=&quot;1概述&quot;&gt;1、概述&lt;/h1&gt;
 
 &lt;p&gt;这篇 RecSys 2019 的 Best Paper，从标题看来就很强，有种“在座各位都是……”的感觉。这两天通读下来，个人认为论文的贡献主要还是在于对学界敲响警钟，而不在于 new idea。&lt;/p&gt;
 
-&lt;p&gt;总的来说，作者从2018年的顶会里挑选了18篇文章（基于深度学习的推荐模型），发现其中只有7篇的结果能被不那么难的进行复现，而这7篇之中有6篇是往往能被相对简单的算法超越。剩下的一篇确实能显著的超越baseline，但并不总能超越非神经网络的线性排序算法。&lt;/p&gt;
+&lt;p&gt;总的来说，作者从2018年的顶会里挑选了18篇（RecSys:7, KDD:4, WWW:4, SIGIR:3）深度学习Top-N推荐模型的文章，发现其中只有7篇（RecSys:1, KDD:3, WWW:2, SIGIR:1）的结果能被不那么难的进行复现，而这7篇之中有6篇是往往能被相对简单的算法超越。剩下的一篇确实能显著的超越baseline，但并不总能超越非神经网络的线性排序算法。&lt;/p&gt;
 
-&lt;p&gt;毕竟通篇强调 Reproducibility，作者当然有将实验代码公开到 GitHub 上： &lt;a href=&quot;https://github.com/MaurizioFD/RecSys2019_DeepLearning_Evaluation&quot;&gt;https://github.com/MaurizioFD/RecSys2019_DeepLearning_Evaluation&lt;/a&gt;，有兴趣的同学可以进一步研究。&lt;/p&gt;
+&lt;p&gt;毕竟通篇强调 Reproducibility，作者当然有将实验代码公开到 GitHub 上： &lt;a href=&quot;https://github.com/MaurizioFD/RecSys2019_DeepLearning_Evaluation&quot;&gt;https://github.com/MaurizioFD/RecSys2019_DeepLearning_Evaluation&lt;/a&gt; ，有兴趣的同学可以进一步研究。&lt;/p&gt;
 
-&lt;h1 id=&quot;论文列表&quot;&gt;论文列表&lt;/h1&gt;
+&lt;h1 id=&quot;2baseline&quot;&gt;2、Baseline&lt;/h1&gt;
 
-&lt;h1 id=&quot;baseline&quot;&gt;Baseline&lt;/h1&gt;
+&lt;p&gt;作为参考，论文选择了以下7个算法作为 Baseline 算法。&lt;/p&gt;
 
-&lt;h1 id=&quot;实验&quot;&gt;实验&lt;/h1&gt;
+&lt;h2 id=&quot;21-toppopular&quot;&gt;2.1 TopPopular&lt;/h2&gt;
+
+&lt;p&gt;顾名思义，直接取热门商品种的Top-N。其中热门程度通过显性或隐性的打分数量。&lt;/p&gt;
+
+&lt;h2 id=&quot;22-itemknn&quot;&gt;2.2 ItemKNN&lt;/h2&gt;
+
+&lt;p&gt;传统的基于kNN与物品间相似度的协同过滤算法。&lt;/p&gt;
+
+&lt;p&gt;用$\vec{r_i}, \vec{r_j} \in R^{|U|}$分别表示物品$i, j$的打分向量，向量维度$|U|$表示用户总数；则物品间相似度可通过余弦相似度进行计算：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;s_{ij} = \frac{\vec{r_i}\vec{r_j}}{||\vec{r_i}||*||\vec{r_j}|| + h}&lt;/script&gt;
+
+&lt;p&gt;其中，打分向量可选用 TF-IDF 或者 BM25 进行加权；相似度也可不用余弦相似度，而直接用向量内积。&lt;/p&gt;
+
+&lt;p&gt;得到物品间相似度以后，根据用户所浏览过的物品找到相似的物品即可。&lt;/p&gt;
+
+&lt;h2 id=&quot;23-userknn&quot;&gt;2.3 UserKNN&lt;/h2&gt;
+
+&lt;p&gt;传统的基于kNN与用户间相似度的协同过滤算法。&lt;/p&gt;
+
+&lt;p&gt;整体流程与 ItemKNN 相似。用$\vec{r_i}, \vec{r_j} \in R^{|I|}$分别表示用户$i, j$的打分向量，向量维度$|I|$表示物品总数；则用户间相似度可通过余弦相似度进行计算：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;s_{ij} = \frac{\vec{r_i}\vec{r_j}}{||\vec{r_i}||*||\vec{r_j}|| + h}&lt;/script&gt;
+
+&lt;p&gt;同样的，打分向量可选用 TF-IDF 或者 BM25 进行加权；相似度也可不用余弦相似度，而直接用向量内积。&lt;/p&gt;
+
+&lt;p&gt;得到用户间相似度以后，根据用户找到与其相似的用户，推送相似用户所浏览过的物品即可。&lt;/p&gt;
+
+&lt;h2 id=&quot;24-itemknn-cbf&quot;&gt;2.4 ItemKNN-CBF&lt;/h2&gt;
+
+&lt;p&gt;与 ItemKNN 基本一致，只是不是简单的使用的物品的打分向量，而是采用基于物品content计算物品的特征向量。&lt;/p&gt;
+
+&lt;p&gt;用$\vec{f_i}, \vec{f_j} \in R^{|F|}$分别表示物品$i, j$的特征向量，向量维度$|F|$表示特征总数；则物品间相似度可通过余弦相似度进行计算：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;s_{ij} = \frac{\vec{f_i}\vec{f_j}}{||\vec{f_i}||*||\vec{f_j}|| + h}&lt;/script&gt;
+
+&lt;h2 id=&quot;25-itemknn-cfcbf&quot;&gt;2.5 ItemKNN-CFCBF&lt;/h2&gt;
+
+&lt;p&gt;结合 ItemKNN 与 ItemKN-CBF ，将$\vec{r_i}$与$\vec{f_i}$简单拼接成$\vec{v_i}=[\vec{r_i}, w\vec{f_i}]$。后面的步骤一样，不再赘述。&lt;/p&gt;
+
+&lt;h2 id=&quot;26-p3alpha&quot;&gt;2.6 $P^3\alpha$&lt;/h2&gt;
+
+&lt;p&gt;基于图上random-walk的思想。&lt;/p&gt;
+
+&lt;p&gt;用$r_{ui}$表示用户$u$对物品$i$的打分，$N_u$表示用户$u$打分的总数，$N_i$表示物品$i$打分的总数。物品相似度计算如下：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+s_{ij} &amp;= \sum_{u}p_{ju}*p_{ui} \\
+&amp;= \sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;后面的步骤则与 ItemKNN 的一样。&lt;/p&gt;
+
+&lt;h2 id=&quot;27-rp3beta&quot;&gt;2.7 $RP^3\beta$&lt;/h2&gt;
+
+&lt;p&gt;在 $P^3\alpha$ 的基础上进行改进。假设物品的热门度为$h_{i}$。（存疑？）则物品相似度改为：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^\beta*q_j^\beta)
+\end{align}&lt;/script&gt;
+
+&lt;h1 id=&quot;3实验&quot;&gt;3、实验&lt;/h1&gt;
+
+&lt;p&gt;对于所有的Baseline算法，统一利用 Scikit-Optimize 通过 Bayesian Search 自动找到最优参数。$k$取5~800，$h$取0~1000，$\alpha, \beta$取0~2。&lt;/p&gt;
+
+&lt;h2 id=&quot;31-collaborative-memory-networks-cmn&quot;&gt;3.1 Collaborative Memory Networks (CMN)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Travis Ebesu, Bin Shen, and Yi Fang. 2018. Collaborative Memory Network for Recommendation Systems. In Proceedings SIGIR ’18. 515–524.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/cmn_vs_baseline.png&quot; alt=&quot;CMN vs baseline&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;32-metapath-based-context-for-recommendation-mcrec&quot;&gt;3.2 Metapath based Context for RECommendation (MCRec)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Binbin Hu, Chuan Shi,Wayne Xin Zhao, and Philip S Yu. 2018. Leveraging metapath based context for top-n recommendation with a neural co-attention model. In Proceedings KDD ’18. 1531–1540.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/mcrec_vs_baseline.png&quot; alt=&quot;MCRec vs baseline&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;33-collaborative-variational-autoencoder-cvae&quot;&gt;3.3 Collaborative Variational Autoencoder (CVAE)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Xiaopeng Li and James She. 2017. Collaborative variational autoencoder for recommender systems. In Proceedings KDD ’17. 305–314.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/cvae_vs_baseline.png&quot; alt=&quot;CVAE vs baseline&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;34-collaborative-deep-learning-cdl&quot;&gt;3.4 Collaborative Deep Learning (CDL)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;HaoWang, NaiyanWang, and Dit-Yan Yeung. 2015. Collaborative deep learning for recommender systems. In Proceedings KDD ’15. 1235–1244.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/cdl_vs_baseline.png&quot; alt=&quot;CDL vs baseline&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;35-neural-collaborative-filtering-ncf&quot;&gt;3.5 Neural Collaborative Filtering (NCF)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Xiangnan He, Lizi Liao, Hanwang Zhang, Liqiang Nie, Xia Hu, and Tat-Seng Chua. 2017. Neural collaborative filtering. In Proceedings WWW ’17. 173–182.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/ncf_vs_baseline.png&quot; alt=&quot;NCF vs baseline&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;36-spectral-collaborative-filtering-spectralcf&quot;&gt;3.6 Spectral Collaborative Filtering (SpectralCF)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Lei Zheng, Chun-Ta Lu, Fei Jiang, Jiawei Zhang, and Philip S. Yu. 2018. Spectral Collaborative Filtering. In Proceedings RecSys ’18. 311–319.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/SpectralCF_vs_baseline.png&quot; alt=&quot;SpectralCF vs baseline&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;37-variational-autoencoders-for-collaborative-filtering-mult-vae&quot;&gt;3.7 Variational Autoencoders for Collaborative Filtering (Mult-VAE)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Dawen Liang, Rahul G Krishnan, Matthew D Hoffman, and Tony Jebara. 2018. Variational Autoencoders for Collaborative Filtering. In Proceedings WWW ’18. 689–698.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/multvae_vs_baseline.png&quot; alt=&quot;Mult-VAE vs baseline&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/multvae_vs_baseline-1.png&quot; alt=&quot;Mult-VAE-add vs baseline&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;结语&quot;&gt;结语&lt;/h1&gt;
 
-&lt;h1 id=&quot;参考&quot;&gt;参考&lt;/h1&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">Deep Neural Network for YouTube Recommendation System</title><link href="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html" rel="alternate" type="text/html" title="Deep Neural Network for YouTube Recommendation System" /><published>2020-04-13T00:00:00+08:00</published><updated>2020-04-13T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+&lt;p&gt;这里先对论文进行简单的总结与摘要。文中提到的七篇论文的对比实验……光看数据也没有什么收获，得等后面具体的看七篇论文后再展开来说了。&lt;/p&gt;</content><author><name></name></author><summary type="html">1、概述</summary></entry><entry><title type="html">Deep Neural Network for YouTube Recommendation System</title><link href="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html" rel="alternate" type="text/html" title="Deep Neural Network for YouTube Recommendation System" /><published>2020-04-13T00:00:00+08:00</published><updated>2020-04-13T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;这篇论文是对YouTube中基于DNN的推荐系统的整体描述。本文旨在对论文进行总结。&lt;/p&gt;
 
