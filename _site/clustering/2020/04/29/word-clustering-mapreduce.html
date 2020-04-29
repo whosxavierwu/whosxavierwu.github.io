@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>基于MapReduce的大规模词汇聚类 | whosxavierwu’s blog</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="基于MapReduce的大规模词汇聚类" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="1、背景" />
+<meta property="og:description" content="1、背景" />
+<link rel="canonical" href="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html" />
+<meta property="og:url" content="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html" />
+<meta property="og:site_name" content="whosxavierwu’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-29T22:50:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html"},"url":"http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html","description":"1、背景","headline":"基于MapReduce的大规模词汇聚类","dateModified":"2020-04-29T22:50:00+08:00","datePublished":"2020-04-29T22:50:00+08:00","@type":"BlogPosting","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4034/feed.xml" title="whosxavierwu's blog" /></head>
+<body><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      inlineMath: [['$','$']]
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">基于MapReduce的大规模词汇聚类</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2020-04-29T22:50:00+08:00" itemprop="datePublished">Apr 29, 2020
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="1背景">1、背景</h1>
+
+<p>基于百家号的汽车相关文章，进行词汇聚类。</p>
+
+<h1 id="2算法">2、算法</h1>
+
+<ol>
+  <li>提取出网页中的文本数据；</li>
+  <li>分句、分词</li>
+  <li>统计词频</li>
+  <li>基于高频词共现矩阵，计算词汇特征向量</li>
+  <li>KMeans聚类</li>
+</ol>
+
+
+  </div><a class="u-url" href="/clustering/2020/04/29/word-clustering-mapreduce.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">whosxavierwu&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">whosxavierwu&#39;s blog</li><li><a class="u-email" href="mailto:whosxavierwu@gmail.com">whosxavierwu@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/whosxavierwu"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">whosxavierwu</span></a></li><li><a href="https://www.linkedin.com/in/zeweiwu"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">zeweiwu</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Keep learning, deep learning. </p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
