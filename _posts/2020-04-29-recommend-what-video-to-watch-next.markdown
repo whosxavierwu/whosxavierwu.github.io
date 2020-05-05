@@ -8,8 +8,9 @@ categories: recommender
 # 概述
 
 在该论文中，YouTube提出了一种双塔结构的排序模型，新颖的点主要在于：
-1. 借鉴广告CTR中的思想，引入了用于消除位置偏差的浅层网络；
-2. 引入了MMoE，带门控的专家网络；
+1. 模型是基于多目标进行训练的；
+2. 借鉴广告CTR中的思想，引入了用于消除位置偏差的浅层网络；
+3. 引入了MMoE，带门控的专家网络；
 
 需要注意的一点是，该论文的应用场景与YouTube之前那篇经典论文["Deep Neural Network for YouTube Recommendation System"](https://whosxavierwu.github.io/recommender/2020/04/12/dnn-for-youtube-recommend.html)不同，之前的推荐场景是在首页推荐频道中，而本文的推荐场景是发生在，用户正在看或看完一个视频以后，紧接着YouTube进行推荐。
 
@@ -49,13 +50,23 @@ categories: recommender
 
 # 二、排序
 
-# 2、模型
+## 1. 问题定义
 
-## 2.1 整体结构
+前面说到，本文是对多目标进行建模，所以对问题、优化目标的定义是和通常情况下的不太一样。
 
-## 2.2 MMoE
+通常情况下，我们的模型训练目标是点击CTR或视频观看时长，抽象来看，是对用户参与程度的反映。YouTube的该论文认为，除了参与度"engagement objectives"以外，推荐系统还应该考虑用户的满意度，也就是"satisfaction objectives"。满意度可以从用户对所推荐的视频点击like或者dismiss的操作来体现。
 
-## 2.3 位置消偏
+## 2. 数据准备
+
+## 3. 特征处理
+
+## 4. 模型训练
+
+### 4.1 整体结构
+
+### 4.2 MMoE
+
+### 4.3 位置消偏
 
 # 结语
 

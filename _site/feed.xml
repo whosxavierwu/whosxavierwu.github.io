@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-05-04T22:35:55+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-05-05T22:53:27+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;在该论文中，YouTube提出了一种双塔结构的排序模型，新颖的点主要在于：&lt;/p&gt;
 &lt;ol&gt;
+  &lt;li&gt;模型是基于多目标进行训练的；&lt;/li&gt;
   &lt;li&gt;借鉴广告CTR中的思想，引入了用于消除位置偏差的浅层网络；&lt;/li&gt;
   &lt;li&gt;引入了MMoE，带门控的专家网络；&lt;/li&gt;
 &lt;/ol&gt;
@@ -56,13 +57,23 @@
 
 &lt;h1 id=&quot;二排序&quot;&gt;二、排序&lt;/h1&gt;
 
-&lt;h1 id=&quot;2模型&quot;&gt;2、模型&lt;/h1&gt;
+&lt;h2 id=&quot;1-问题定义&quot;&gt;1. 问题定义&lt;/h2&gt;
 
-&lt;h2 id=&quot;21-整体结构&quot;&gt;2.1 整体结构&lt;/h2&gt;
+&lt;p&gt;前面说到，本文是对多目标进行建模，所以对问题、优化目标的定义是和通常情况下的不太一样。&lt;/p&gt;
 
-&lt;h2 id=&quot;22-mmoe&quot;&gt;2.2 MMoE&lt;/h2&gt;
+&lt;p&gt;通常情况下，我们的模型训练目标是点击CTR或视频观看时长，抽象来看，是对用户参与程度的反映。YouTube的该论文认为，除了参与度”engagement objectives”以外，推荐系统还应该考虑用户的满意度，也就是”satisfaction objectives”。满意度可以从用户对所推荐的视频点击like或者dismiss的操作来体现。&lt;/p&gt;
 
-&lt;h2 id=&quot;23-位置消偏&quot;&gt;2.3 位置消偏&lt;/h2&gt;
+&lt;h2 id=&quot;2-数据准备&quot;&gt;2. 数据准备&lt;/h2&gt;
+
+&lt;h2 id=&quot;3-特征处理&quot;&gt;3. 特征处理&lt;/h2&gt;
+
+&lt;h2 id=&quot;4-模型训练&quot;&gt;4. 模型训练&lt;/h2&gt;
+
+&lt;h3 id=&quot;41-整体结构&quot;&gt;4.1 整体结构&lt;/h3&gt;
+
+&lt;h3 id=&quot;42-mmoe&quot;&gt;4.2 MMoE&lt;/h3&gt;
+
+&lt;h3 id=&quot;43-位置消偏&quot;&gt;4.3 位置消偏&lt;/h3&gt;
 
 &lt;h1 id=&quot;结语&quot;&gt;结语&lt;/h1&gt;
 
