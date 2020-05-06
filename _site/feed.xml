@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-05-05T22:53:27+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-05-06T20:42:31+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;在该论文中，YouTube提出了一种双塔结构的排序模型，新颖的点主要在于：&lt;/p&gt;
 &lt;ol&gt;
@@ -57,23 +57,101 @@
 
 &lt;h1 id=&quot;二排序&quot;&gt;二、排序&lt;/h1&gt;
 
-&lt;h2 id=&quot;1-问题定义&quot;&gt;1. 问题定义&lt;/h2&gt;
+&lt;p&gt;一图胜千言，先看一眼论文中所提出的模型框架：&lt;/p&gt;
 
-&lt;p&gt;前面说到，本文是对多目标进行建模，所以对问题、优化目标的定义是和通常情况下的不太一样。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-model-overview.png&quot; alt=&quot;整体架构&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;虚线框标出了几个主要模块：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;1. Training&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;虽然标着是Training，但其实是用户日志，标为Data会更合适一些。可以看到，把用户日志分了两类，一类是反映用户参与度的行为，如点击、观看；另一类是反映用户满意度的行为，如like、dismiss。为什么分了两类行为？往下看就看到了它的意图——对多目标进行建模学习，主要分为参与度和满意度两类目标。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2. User Engagement Objectives&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;3. User Satisfaction Objectives&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;通常情况下，我们的模型训练目标是点击CTR或视频观看时长，抽象来看，是对用户参与程度的反映。YouTube的该论文认为，除了参与度”engagement objectives”以外，推荐系统还应该考虑用户的满意度，也就是”satisfaction objectives”。满意度可以从用户对所推荐的视频点击like或者dismiss的操作来体现。&lt;/p&gt;
 
-&lt;h2 id=&quot;2-数据准备&quot;&gt;2. 数据准备&lt;/h2&gt;
+&lt;p&gt;从参与度和满意度两类目标的框图中，我们看到了熟悉的”Sigmoid”方块。可以猜想，每个”Sigmoid”方块代表一个预测值，例如用户click的概率、用户like的概率、用户dismiss的概率。&lt;/p&gt;
 
-&lt;h2 id=&quot;3-特征处理&quot;&gt;3. 特征处理&lt;/h2&gt;
+&lt;p&gt;这两个虚线框内，主要的区别在于，用户参与度的部分多了一个标为”Logit for selection bias”的小加号。从字面意思来看，这里是加入了“选择性偏差”到预测值中。什么是选择性偏差？这对了解广告CTR预估的同学来说应该是很熟悉了。&lt;/p&gt;
 
-&lt;h2 id=&quot;4-模型训练&quot;&gt;4. 模型训练&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;4. Input Features&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;41-整体结构&quot;&gt;4.1 整体结构&lt;/h3&gt;
+&lt;p&gt;特征包括三大块：视频特征、用户上下文特征、消偏用特征。&lt;/p&gt;
 
-&lt;h3 id=&quot;42-mmoe&quot;&gt;4.2 MMoE&lt;/h3&gt;
+&lt;p&gt;从视频特征中得到”query video”和”candidate video”的embedding；结合用户上下文特征中得到综合的embedding以及一些dense features；消偏用的特征则是通过一个所谓的”shallow tower”去生成前面所说的”Logit for selection bias”。&lt;/p&gt;
 
-&lt;h3 id=&quot;43-位置消偏&quot;&gt;4.3 位置消偏&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;5. Mixture-of-Experts&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;6. Gating Networks&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;MoE 和 Gating Networks 组成了 MMoE，初次见到这种模块，对我来说是挺新鲜的。深入了解过后，感觉其实和CNN中的多channel有点类似。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;7. Serving&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;在这里我们看到了它是如何把多个目标统一起来学习的，就是做加权。具体怎么加权？&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The weights are manually tuned to achieve best performance on both user engagements and user satisfactions.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;也就是调参调出来的……&lt;/p&gt;
+
+&lt;p&gt;论文中重点展开的是”Selection Bias”和”MMoE”两部分，以下我们分别来看。&lt;/p&gt;
+
+&lt;h2 id=&quot;1-模型&quot;&gt;1. 模型&lt;/h2&gt;
+
+&lt;h3 id=&quot;11-selection-bias&quot;&gt;1.1 Selection Bias&lt;/h3&gt;
+
+&lt;p&gt;选择性偏差指的是，我们看到的用户历史行为数据，有受到过往的推荐算法以及诸如位置、设备等环境的影响的。&lt;/p&gt;
+
+&lt;p&gt;假设之前的推荐算法特别简单粗暴，只推综艺类视频，并直接拉历史CTR作为打分进行排序、推荐。那么如果不采取特殊手段，我们的推荐模型会被“教坏”，模型的推荐结果严重偏好综艺类视频，且偏好封面党、标题党。&lt;/p&gt;
+
+&lt;p&gt;最常见的一种选择性偏差是位置偏差——热搜榜第一条跟第20条，显然你更容易点击第一条。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-selection-bias.png&quot; alt=&quot;Modeling Selection Bias&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这张图里稍微详细了一点，但依旧没有解释”shallow tower”到底是什么。&lt;/p&gt;
+
+&lt;p&gt;作者提到：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Our proposed model architecture is similar to the Wide &amp;amp; Deep model architecture&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;所以可能”shallow tower”就只是一两层ReLU……&lt;/p&gt;
+
+&lt;p&gt;还提到了一个小细节：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;In training, the positions of all impressions are used, with a 10% feature drop-out rate to prevent our model from over-relying on the position feature. At serving time, position feature is treated as missing.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这种training和serving的略为不同，应该也都是工程师们的宝贵经验吧。&lt;/p&gt;
+
+&lt;p&gt;仔细看这幅图，还会有个小发现：”Click &amp;amp; Watch Completion Ratio”。点击自然不用说，我觉得有意思的是对于观看行为，这里不是采用预测具体的观看时间（像之前那篇YouTube论文那样），而是采用了视频的“完读率”，即用户看了某个视频中的多大比例。具体实践时，可能还得考虑：如果用户拉了进度条呢？我看了几秒，然后直接拉到50%，再拉到70%，那么整体怎么算？也就是说，在计算比例时，分母是视频时长，分子是什么？&lt;/p&gt;
+
+&lt;h3 id=&quot;12-mmoe-multi-gate-mixture-of-experts&quot;&gt;1.2 MMoE: Multi-gate Mixture-of-Experts&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-mmoe.png&quot; alt=&quot;MMoE&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;2-实验&quot;&gt;2. 实验&lt;/h2&gt;
+
+&lt;h3 id=&quot;20-整体实验对比&quot;&gt;2.0 整体实验对比&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-live-result.png&quot; alt=&quot;Live Results&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;21-selection-bias&quot;&gt;2.1 Selection Bias&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-position-ctr.png&quot; alt=&quot;position CTR&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-position-bias.png&quot; alt=&quot;position bias&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;22-mmoe&quot;&gt;2.2 MMoE&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-expert.png&quot; alt=&quot;Expert&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;结语&quot;&gt;结语&lt;/h1&gt;
 

@@ -50,23 +50,95 @@ categories: recommender
 
 # 二、排序
 
-## 1. 问题定义
+一图胜千言，先看一眼论文中所提出的模型框架：
 
-前面说到，本文是对多目标进行建模，所以对问题、优化目标的定义是和通常情况下的不太一样。
+![整体架构]({{ site.url }}/assets/youtube-watch-next-model-overview.png)
+
+虚线框标出了几个主要模块：
+
+**1. Training**
+
+虽然标着是Training，但其实是用户日志，标为Data会更合适一些。可以看到，把用户日志分了两类，一类是反映用户参与度的行为，如点击、观看；另一类是反映用户满意度的行为，如like、dismiss。为什么分了两类行为？往下看就看到了它的意图——对多目标进行建模学习，主要分为参与度和满意度两类目标。
+
+**2. User Engagement Objectives**
+
+**3. User Satisfaction Objectives**
 
 通常情况下，我们的模型训练目标是点击CTR或视频观看时长，抽象来看，是对用户参与程度的反映。YouTube的该论文认为，除了参与度"engagement objectives"以外，推荐系统还应该考虑用户的满意度，也就是"satisfaction objectives"。满意度可以从用户对所推荐的视频点击like或者dismiss的操作来体现。
 
-## 2. 数据准备
+从参与度和满意度两类目标的框图中，我们看到了熟悉的"Sigmoid"方块。可以猜想，每个"Sigmoid"方块代表一个预测值，例如用户click的概率、用户like的概率、用户dismiss的概率。
 
-## 3. 特征处理
+这两个虚线框内，主要的区别在于，用户参与度的部分多了一个标为"Logit for selection bias"的小加号。从字面意思来看，这里是加入了“选择性偏差”到预测值中。什么是选择性偏差？这对了解广告CTR预估的同学来说应该是很熟悉了。
 
-## 4. 模型训练
+**4. Input Features**
 
-### 4.1 整体结构
+特征包括三大块：视频特征、用户上下文特征、消偏用特征。
 
-### 4.2 MMoE
+从视频特征中得到"query video"和"candidate video"的embedding；结合用户上下文特征中得到综合的embedding以及一些dense features；消偏用的特征则是通过一个所谓的"shallow tower"去生成前面所说的"Logit for selection bias"。
 
-### 4.3 位置消偏
+**5. Mixture-of-Experts**
+
+**6. Gating Networks**
+
+MoE 和 Gating Networks 组成了 MMoE，初次见到这种模块，对我来说是挺新鲜的。深入了解过后，感觉其实和CNN中的多channel有点类似。
+
+**7. Serving**
+
+在这里我们看到了它是如何把多个目标统一起来学习的，就是做加权。具体怎么加权？
+
+> The weights are manually tuned to achieve best performance on both user engagements and user satisfactions.
+
+也就是调参调出来的……
+
+论文中重点展开的是"Selection Bias"和"MMoE"两部分，以下我们分别来看。
+
+## 1. 模型
+
+### 1.1 Selection Bias
+
+选择性偏差指的是，我们看到的用户历史行为数据，有受到过往的推荐算法以及诸如位置、设备等环境的影响的。
+
+假设之前的推荐算法特别简单粗暴，只推综艺类视频，并直接拉历史CTR作为打分进行排序、推荐。那么如果不采取特殊手段，我们的推荐模型会被“教坏”，模型的推荐结果严重偏好综艺类视频，且偏好封面党、标题党。
+
+最常见的一种选择性偏差是位置偏差——热搜榜第一条跟第20条，显然你更容易点击第一条。
+
+![Modeling Selection Bias]({{ site.url }}/assets/youtube-watch-next-selection-bias.png)
+
+这张图里稍微详细了一点，但依旧没有解释"shallow tower"到底是什么。
+
+作者提到：
+
+> Our proposed model architecture is similar to the Wide & Deep model architecture
+
+所以可能"shallow tower"就只是一两层ReLU……
+
+还提到了一个小细节：
+
+> In training, the positions of all impressions are used, with a 10% feature drop-out rate to prevent our model from over-relying on the position feature. At serving time, position feature is treated as missing.
+
+这种training和serving的略为不同，应该也都是工程师们的宝贵经验吧。
+
+仔细看这幅图，还会有个小发现："Click & Watch Completion Ratio"。点击自然不用说，我觉得有意思的是对于观看行为，这里不是采用预测具体的观看时间（像之前那篇YouTube论文那样），而是采用了视频的“完读率”，即用户看了某个视频中的多大比例。具体实践时，可能还得考虑：如果用户拉了进度条呢？我看了几秒，然后直接拉到50%，再拉到70%，那么整体怎么算？也就是说，在计算比例时，分母是视频时长，分子是什么？
+
+### 1.2 MMoE: Multi-gate Mixture-of-Experts
+
+![MMoE]({{ site.url }}/assets/youtube-watch-next-mmoe.png)
+
+## 2. 实验
+
+### 2.0 整体实验对比
+
+![Live Results]({{ site.url }}/assets/youtube-watch-next-live-result.png)
+
+### 2.1 Selection Bias
+
+![position CTR]({{ site.url }}/assets/youtube-watch-next-position-ctr.png)
+
+![position bias]({{ site.url }}/assets/youtube-watch-next-position-bias.png)
+
+### 2.2 MMoE
+
+![Expert]({{ site.url }}/assets/youtube-watch-next-expert.png)
 
 # 结语
 
