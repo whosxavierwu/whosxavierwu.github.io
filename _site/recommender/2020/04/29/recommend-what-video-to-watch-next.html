@@ -170,13 +170,51 @@
   <p>In training, the positions of all impressions are used, with a 10% feature drop-out rate to prevent our model from over-relying on the position feature. At serving time, position feature is treated as missing.</p>
 </blockquote>
 
-<p>这种training和serving的略为不同，应该也都是工程师们的宝贵经验吧。</p>
+<p>这种training和serving的略为不同， 想必也都是工程师们的宝贵经验吧。</p>
 
 <p>仔细看这幅图，还会有个小发现：”Click &amp; Watch Completion Ratio”。点击自然不用说，我觉得有意思的是对于观看行为，这里不是采用预测具体的观看时间（像之前那篇YouTube论文那样），而是采用了视频的“完读率”，即用户看了某个视频中的多大比例。具体实践时，可能还得考虑：如果用户拉了进度条呢？我看了几秒，然后直接拉到50%，再拉到70%，那么整体怎么算？也就是说，在计算比例时，分母是视频时长，分子是什么？</p>
 
 <h3 id="12-mmoe-multi-gate-mixture-of-experts">1.2 MMoE: Multi-gate Mixture-of-Experts</h3>
 
+<p>对于MMoE模块，文中给出了这么一张对比图：</p>
+
 <p><img src="http://localhost:4034/assets/youtube-watch-next-mmoe.png" alt="MMoE" /></p>
+
+<p>在对两个任务同时进行学习时，我们可以像左图那样，在底层对Embedding层提取信息，然后把这一个底层”Shared Bottom Layer”同时给到两个任务去用，两个任务分别基于这个”Shared Bottom”去做学习。</p>
+
+<p>这种方案会带来什么问题呢？</p>
+
+<blockquote>
+  <p>However, such hard-parameter sharing techniques sometimes harm the learning of multiple objectives when correlation between tasks is low.</p>
+</blockquote>
+
+<p>抽象的来理解，假如同时学习的两个任务之间的相关性较弱，那么用”Shared Bottom”强行将两者捆绑在一起，学习过后，我猜测”Shared Bottom”可能会出现：</p>
+
+<ol>
+  <li>其中的每个神经元都处于“低活跃”的状态；</li>
+  <li>一半的神经元只学习任务1而几乎不学习任务2，另一半的神经元只学习任务2而几乎不学习任务1；</li>
+  <li>……</li>
+</ol>
+
+<p>当然了，以上只是我个人猜测。后面肯定还是得安排着继续看论文了：</p>
+
+<blockquote>
+  <p>Jiaqi Ma, Zhe Zhao, Xinyang Yi, Jilin Chen, Lichan Hong, and Ed H Chi. 2018. Modeling task relationships in multi-task learning with multi-gate mixture-of- experts. In Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining. ACM, 1930–1939.</p>
+</blockquote>
+
+<p>以上右图第一眼看着挺困惑的，但在我细看之后，发现其实和卷积层的多频道的概念有异曲同工之妙；我们也从前面的框架大图里面抠出来看，会更好理解一些。</p>
+
+<p><img src="http://localhost:4034/assets/youtube-watch-next-mmoe-close.png" alt="MMoE Overview" /></p>
+
+<p>从底层”Shared Bottom”同时输入给到专家网络和门控网络，门控网络同时还接收自专家网络的输入，然后再统一由门控网络输出。专家网络旨在分配若干个（不一定等于任务数）“专家”进行学习，每个“专家”是由两层ReLU层组成的网络；所有“专家”的最后一层输出，都会给到门控网络中的每个Softmax神经元中，每个Softmax神经元结合Shared Bottom再统一输出。</p>
+
+<p>所以能看到，在这里分多个专家处理，就类似于卷积层中分多个频道处理。</p>
+
+<p>文中采用了相对较少的专家数量：</p>
+
+<blockquote>
+  <p>we use a relatively small number of experts. This is set up to encourage sharing of experts by multiple gating networks and for training efciency.</p>
+</blockquote>
 
 <h2 id="2-实验">2. 实验</h2>
 
@@ -184,19 +222,35 @@
 
 <p><img src="http://localhost:4034/assets/youtube-watch-next-live-result.png" alt="Live Results" /></p>
 
+<p>这里颇为神奇的是，拿运算量来比较……也就是用来比较，相近模型复杂度的情况下，参与度指标和满意度指标有何变化。（用乘法运算量来作为模型复杂度的参考指标？这操作……）</p>
+
+<p>在相同模型复杂度之下，MMoE能显著提升参与度指标和满意度指标；</p>
+
 <h3 id="21-selection-bias">2.1 Selection Bias</h3>
 
+<p>对于位置偏差，作者给出了不同位置下的CTR情况：</p>
+
 <p><img src="http://localhost:4034/assets/youtube-watch-next-position-ctr.png" alt="position CTR" /></p>
+
+<p>以及学习得到的位置偏差：</p>
 
 <p><img src="http://localhost:4034/assets/youtube-watch-next-position-bias.png" alt="position bias" /></p>
 
 <h3 id="22-mmoe">2.2 MMoE</h3>
 
+<p>对于MMoE的分析，作者还给出了下图：</p>
+
 <p><img src="http://localhost:4034/assets/youtube-watch-next-expert.png" alt="Expert" /></p>
+
+<blockquote>
+  <p>To further understand how MMoE helps multi-objective optimization, we plot the accumulated probability in the softmax gating network for each task on each expert</p>
+</blockquote>
 
 <h1 id="结语">结语</h1>
 
-<h1 id="参考">参考</h1>
+<p>关于这篇论文的解读就先写到这里了。总的来说，论文着重讲的是引入了消偏以及MMoE模块后的整体多目标学习的模型结构；对于排序模型结构以外的东西，如数据处理、特征工程等讲得特别少。很难说换个业务场景是不是也能生效。</p>
+
+<p>后续可能需要看下MMoE的发布论文，以及如果有空的话，补充一下该论文在消偏部分可能遗漏了的一些细节。另外，多目标学习也是颇有意思的业务场景，值得继续深挖。</p>
 
   </div><a class="u-url" href="/recommender/2020/04/29/recommend-what-video-to-watch-next.html" hidden></a>
 </article>

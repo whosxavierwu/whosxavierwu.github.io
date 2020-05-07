@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-05-06T20:42:31+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-05-07T12:42:59+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;在该论文中，YouTube提出了一种双塔结构的排序模型，新颖的点主要在于：&lt;/p&gt;
 &lt;ol&gt;
@@ -129,13 +129,51 @@
   &lt;p&gt;In training, the positions of all impressions are used, with a 10% feature drop-out rate to prevent our model from over-relying on the position feature. At serving time, position feature is treated as missing.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;这种training和serving的略为不同，应该也都是工程师们的宝贵经验吧。&lt;/p&gt;
+&lt;p&gt;这种training和serving的略为不同， 想必也都是工程师们的宝贵经验吧。&lt;/p&gt;
 
 &lt;p&gt;仔细看这幅图，还会有个小发现：”Click &amp;amp; Watch Completion Ratio”。点击自然不用说，我觉得有意思的是对于观看行为，这里不是采用预测具体的观看时间（像之前那篇YouTube论文那样），而是采用了视频的“完读率”，即用户看了某个视频中的多大比例。具体实践时，可能还得考虑：如果用户拉了进度条呢？我看了几秒，然后直接拉到50%，再拉到70%，那么整体怎么算？也就是说，在计算比例时，分母是视频时长，分子是什么？&lt;/p&gt;
 
 &lt;h3 id=&quot;12-mmoe-multi-gate-mixture-of-experts&quot;&gt;1.2 MMoE: Multi-gate Mixture-of-Experts&lt;/h3&gt;
 
+&lt;p&gt;对于MMoE模块，文中给出了这么一张对比图：&lt;/p&gt;
+
 &lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-mmoe.png&quot; alt=&quot;MMoE&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在对两个任务同时进行学习时，我们可以像左图那样，在底层对Embedding层提取信息，然后把这一个底层”Shared Bottom Layer”同时给到两个任务去用，两个任务分别基于这个”Shared Bottom”去做学习。&lt;/p&gt;
+
+&lt;p&gt;这种方案会带来什么问题呢？&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;However, such hard-parameter sharing techniques sometimes harm the learning of multiple objectives when correlation between tasks is low.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;抽象的来理解，假如同时学习的两个任务之间的相关性较弱，那么用”Shared Bottom”强行将两者捆绑在一起，学习过后，我猜测”Shared Bottom”可能会出现：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;其中的每个神经元都处于“低活跃”的状态；&lt;/li&gt;
+  &lt;li&gt;一半的神经元只学习任务1而几乎不学习任务2，另一半的神经元只学习任务2而几乎不学习任务1；&lt;/li&gt;
+  &lt;li&gt;……&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;当然了，以上只是我个人猜测。后面肯定还是得安排着继续看论文了：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Jiaqi Ma, Zhe Zhao, Xinyang Yi, Jilin Chen, Lichan Hong, and Ed H Chi. 2018. Modeling task relationships in multi-task learning with multi-gate mixture-of- experts. In Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery &amp;amp; Data Mining. ACM, 1930–1939.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;以上右图第一眼看着挺困惑的，但在我细看之后，发现其实和卷积层的多频道的概念有异曲同工之妙；我们也从前面的框架大图里面抠出来看，会更好理解一些。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-mmoe-close.png&quot; alt=&quot;MMoE Overview&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;从底层”Shared Bottom”同时输入给到专家网络和门控网络，门控网络同时还接收自专家网络的输入，然后再统一由门控网络输出。专家网络旨在分配若干个（不一定等于任务数）“专家”进行学习，每个“专家”是由两层ReLU层组成的网络；所有“专家”的最后一层输出，都会给到门控网络中的每个Softmax神经元中，每个Softmax神经元结合Shared Bottom再统一输出。&lt;/p&gt;
+
+&lt;p&gt;所以能看到，在这里分多个专家处理，就类似于卷积层中分多个频道处理。&lt;/p&gt;
+
+&lt;p&gt;文中采用了相对较少的专家数量：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;we use a relatively small number of experts. This is set up to encourage sharing of experts by multiple gating networks and for training efciency.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h2 id=&quot;2-实验&quot;&gt;2. 实验&lt;/h2&gt;
 
@@ -143,19 +181,35 @@
 
 &lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-live-result.png&quot; alt=&quot;Live Results&quot; /&gt;&lt;/p&gt;
 
+&lt;p&gt;这里颇为神奇的是，拿运算量来比较……也就是用来比较，相近模型复杂度的情况下，参与度指标和满意度指标有何变化。（用乘法运算量来作为模型复杂度的参考指标？这操作……）&lt;/p&gt;
+
+&lt;p&gt;在相同模型复杂度之下，MMoE能显著提升参与度指标和满意度指标；&lt;/p&gt;
+
 &lt;h3 id=&quot;21-selection-bias&quot;&gt;2.1 Selection Bias&lt;/h3&gt;
 
+&lt;p&gt;对于位置偏差，作者给出了不同位置下的CTR情况：&lt;/p&gt;
+
 &lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-position-ctr.png&quot; alt=&quot;position CTR&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;以及学习得到的位置偏差：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-position-bias.png&quot; alt=&quot;position bias&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;22-mmoe&quot;&gt;2.2 MMoE&lt;/h3&gt;
 
+&lt;p&gt;对于MMoE的分析，作者还给出了下图：&lt;/p&gt;
+
 &lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-expert.png&quot; alt=&quot;Expert&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;To further understand how MMoE helps multi-objective optimization, we plot the accumulated probability in the softmax gating network for each task on each expert&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h1 id=&quot;结语&quot;&gt;结语&lt;/h1&gt;
 
-&lt;h1 id=&quot;参考&quot;&gt;参考&lt;/h1&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">基于MapReduce的大规模词汇聚类</title><link href="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html" rel="alternate" type="text/html" title="基于MapReduce的大规模词汇聚类" /><published>2020-04-29T22:50:00+08:00</published><updated>2020-04-29T22:50:00+08:00</updated><id>http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce</id><content type="html" xml:base="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html">&lt;h1 id=&quot;1背景&quot;&gt;1、背景&lt;/h1&gt;
+&lt;p&gt;关于这篇论文的解读就先写到这里了。总的来说，论文着重讲的是引入了消偏以及MMoE模块后的整体多目标学习的模型结构；对于排序模型结构以外的东西，如数据处理、特征工程等讲得特别少。很难说换个业务场景是不是也能生效。&lt;/p&gt;
+
+&lt;p&gt;后续可能需要看下MMoE的发布论文，以及如果有空的话，补充一下该论文在消偏部分可能遗漏了的一些细节。另外，多目标学习也是颇有意思的业务场景，值得继续深挖。&lt;/p&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">基于MapReduce的大规模词汇聚类</title><link href="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html" rel="alternate" type="text/html" title="基于MapReduce的大规模词汇聚类" /><published>2020-04-29T22:50:00+08:00</published><updated>2020-04-29T22:50:00+08:00</updated><id>http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce</id><content type="html" xml:base="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html">&lt;h1 id=&quot;1背景&quot;&gt;1、背景&lt;/h1&gt;
 
 &lt;p&gt;基于百家号的汽车相关文章，进行词汇聚类。&lt;/p&gt;
 
