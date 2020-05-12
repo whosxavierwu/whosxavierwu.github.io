@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-05-07T12:42:59+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-05-11T20:23:15+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;在该论文中，YouTube提出了一种双塔结构的排序模型，新颖的点主要在于：&lt;/p&gt;
 &lt;ol&gt;
@@ -209,19 +209,150 @@
 
 &lt;p&gt;关于这篇论文的解读就先写到这里了。总的来说，论文着重讲的是引入了消偏以及MMoE模块后的整体多目标学习的模型结构；对于排序模型结构以外的东西，如数据处理、特征工程等讲得特别少。很难说换个业务场景是不是也能生效。&lt;/p&gt;
 
-&lt;p&gt;后续可能需要看下MMoE的发布论文，以及如果有空的话，补充一下该论文在消偏部分可能遗漏了的一些细节。另外，多目标学习也是颇有意思的业务场景，值得继续深挖。&lt;/p&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">基于MapReduce的大规模词汇聚类</title><link href="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html" rel="alternate" type="text/html" title="基于MapReduce的大规模词汇聚类" /><published>2020-04-29T22:50:00+08:00</published><updated>2020-04-29T22:50:00+08:00</updated><id>http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce</id><content type="html" xml:base="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html">&lt;h1 id=&quot;1背景&quot;&gt;1、背景&lt;/h1&gt;
+&lt;p&gt;后续可能需要看下MMoE的发布论文，以及如果有空的话，补充一下该论文在消偏部分可能遗漏了的一些细节。另外，多目标学习也是颇有意思的业务场景，值得继续深挖。&lt;/p&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">大规模词汇聚类</title><link href="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html" rel="alternate" type="text/html" title="大规模词汇聚类" /><published>2020-04-29T22:50:00+08:00</published><updated>2020-04-29T22:50:00+08:00</updated><id>http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce</id><content type="html" xml:base="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html">&lt;h2 id=&quot;0业务背景&quot;&gt;0、业务背景&lt;/h2&gt;
 
-&lt;p&gt;基于百家号的汽车相关文章，进行词汇聚类。&lt;/p&gt;
+&lt;p&gt;新人练手项目。给定百家号中汽车类网页语料，需要从中提取出词汇，并对词汇进行聚类。&lt;/p&gt;
 
-&lt;h1 id=&quot;2算法&quot;&gt;2、算法&lt;/h1&gt;
+&lt;h2 id=&quot;1问题定义&quot;&gt;1、问题定义&lt;/h2&gt;
+
+&lt;p&gt;最常见的聚类问题是做句子/文档聚类，而这个任务是词汇聚类，处理起来其实也能用相似的方式。聚类问题的整体处理框架还是：&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;提取出网页中的文本数据；&lt;/li&gt;
-  &lt;li&gt;分句、分词&lt;/li&gt;
-  &lt;li&gt;统计词频&lt;/li&gt;
-  &lt;li&gt;基于高频词共现矩阵，计算词汇特征向量&lt;/li&gt;
-  &lt;li&gt;KMeans聚类&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><summary type="html">1、背景</summary></entry><entry><title type="html">Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches</title><link href="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html" rel="alternate" type="text/html" title="Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches" /><published>2020-04-18T00:00:00+08:00</published><updated>2020-04-18T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html">&lt;h1 id=&quot;1概述&quot;&gt;1、概述&lt;/h1&gt;
+  &lt;li&gt;准备好数据；这里指的是准备好语料，包括数据获取、数据清洗、分词等；&lt;/li&gt;
+  &lt;li&gt;对要聚类的item，构建对应的特征向量。在这里item指的是一个词；&lt;/li&gt;
+  &lt;li&gt;选择聚类算法模型进行相应开发；&lt;/li&gt;
+  &lt;li&gt;基于词向量，进行模型训练；&lt;/li&gt;
+  &lt;li&gt;取训练后的标签，进行效果评估；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;2数据准备&quot;&gt;2、数据准备&lt;/h2&gt;
+
+&lt;h3 id=&quot;21-数据源&quot;&gt;2.1 数据源&lt;/h3&gt;
+
+&lt;p&gt;源数据是百家号中汽车类网页的结构化数据，有125万条；写一个小脚本提取文章内容主体，得到56万篇文章。由于数据schema不明确，提取规则只是基于部分数据来定的，所以可能存在一些网页数据没能正确解析出文章内容主体。56万篇作为语料基本也够用了。&lt;/p&gt;
+
+&lt;h3 id=&quot;22-数据处理&quot;&gt;2.2 数据处理&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;对文章进行分句；&lt;/li&gt;
+  &lt;li&gt;对短句进行分词；&lt;/li&gt;
+  &lt;li&gt;对词进行清洗、处理；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这三步实际上是一起处理的。具体是基于PaddleNLP中分享的&lt;a href=&quot;https://github.com/PaddlePaddle/models/tree/develop/PaddleNLP/shared_modules/preprocess/tokenizer&quot;&gt;tokenizer&lt;/a&gt;做了些修改后使用。tokenizer接收的输入是一个句子，输出是进行tokenize后的词汇序列。实际上tokenizer所调用的模型是对单个字符的词性预测，预测的结果中除了词性（名词、动词等）还会带有“是否新词”的信息，进而达到分词的效果。基于此，我做的改动主要是：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;为了对文章进行分句，对每个字符判断是否属于“分句符号”，例如逗号、句号、叹号等；如果是，换行输出，将结果由每行一篇文章的格式变成每行一个分句的形式；（之所以要转换格式，因为后续是通过分句来统计词汇共现程度的）&lt;/li&gt;
+  &lt;li&gt;对于每个字符，在输出前进行了处理：统一大小写、统一标点符号；&lt;/li&gt;
+  &lt;li&gt;标点符号不输出。避免后续被当做一个“词汇”；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;3特征工程&quot;&gt;3、特征工程&lt;/h2&gt;
+
+&lt;p&gt;机器学习领域的基本共识是，数据和特征决定了整体效果的上限，而模型和算法只是不断地逼近这个上限。简单模型加上巧妙的特征工程之后，是可以得到比高深复杂的模型更好的效果的。&lt;/p&gt;
+
+&lt;p&gt;用怎样的特征向量来表示一个词汇，我认为可以分浅层和深层来考虑。深层特征要求对词汇的深层次语义有一定程度的理解，更接近自然语言理解的本质；而浅层特征则只停留在词汇的表面特征，例如词频、词共现等统计指标。&lt;/p&gt;
+
+&lt;h3 id=&quot;31-浅层特征&quot;&gt;3.1 浅层特征&lt;/h3&gt;
+
+&lt;p&gt;对于词汇的浅层特征，比较简单直接的一种思路是，观察词与词两两之间的共现频率。“共现”可以指两个词出现在同一篇文章、或同一个段落、或同一个句子、或同一个短句；这几种方式的区别在于对词汇上下文考虑的范围不同。&lt;/p&gt;
+
+&lt;p&gt;无论哪种方式，我们都需要先统计出词共现矩阵。用$C$表示词共现矩阵，其中元素$c_{ij}$表示词$w_i$与词$w_j$共现的次数。如果预料中共有$N$个词汇，则该矩阵的大小为$N*N$。&lt;/p&gt;
+
+&lt;p&gt;通常我们都需要按词频进行一个简单的过滤。在本次语料中，词汇（准确说是token）共有119万个，实际出现过的词对有8100万以上，如果不做删减的基于全量数据处理，后面各部分的效率显然是极低的。在本次任务中，我主要取高频的2~6万词汇。&lt;/p&gt;
+
+&lt;p&gt;基于词共现矩阵$C$计算某个词汇$w_i$的特征向量$\vec{v_i}$，可以有这么一些做法：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;直接取$C$中对应的一行，即 $\vec{v_i}=(c_{i0}, …, c_{ij}, …)$ ，$v_{ij}=c_{ij}$，向量维度为$N$；&lt;/li&gt;
+  &lt;li&gt;在第一种方式的基础上，除去该词汇的总出现次数，即 $v_{ij} = \frac{c_{ij}}{\sum_j^N c_{ij}}$ ；&lt;/li&gt;
+  &lt;li&gt;这第一种方式的基础上，除去与该词汇共现过的词汇的数量，即 $v_{ij} = \frac{c_{ij}}{ count\{j;c_{ij}&amp;gt;0\} }$ ；&lt;/li&gt;
+  &lt;li&gt;在第一种方式的基础上，进行MinMax归一化，即 $v_{ij} = \frac{c_{ij} - min(c_{ij}) + \epsilon }{ max(c_{ij};j) - min(c_{ij};j) }$ , $s.t. c_{ij}&amp;gt;0$ ；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;32-深层特征&quot;&gt;3.2 深层特征&lt;/h3&gt;
+
+&lt;p&gt;深层特征要求对词汇有一定的理解，在深度学习领域一般统称为Embedding。当前较为出名的是Word2Vec、ERNIE、BERT。都是通过大型语料预训练好的词向量。&lt;/p&gt;
+
+&lt;h2 id=&quot;4模型选择&quot;&gt;4、模型选择&lt;/h2&gt;
+
+&lt;h3 id=&quot;41-kmeans&quot;&gt;4.1 KMeans&lt;/h3&gt;
+
+&lt;p&gt;KMeans 的核心思想简单明了：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;通过某种方式（例如从样本中随机挑选）得到$K$个簇中心的特征向量;&lt;/li&gt;
+  &lt;li&gt;遍历每个样本点（也就是每个词），计算出离它最近的簇中心，分配到该簇中；&lt;/li&gt;
+  &lt;li&gt;对于每个簇，根据其中的所有样本点，重新计算（例如直接取均值）簇中心；&lt;/li&gt;
+  &lt;li&gt;重复2、3两步，直至某个条件；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;42-minibatchkmeans&quot;&gt;4.2 MiniBatchKMeans&lt;/h3&gt;
+
+&lt;h2 id=&quot;5模型训练&quot;&gt;5、模型训练&lt;/h2&gt;
+
+&lt;h2 id=&quot;6效果评估&quot;&gt;6、效果评估&lt;/h2&gt;
+
+&lt;h3 id=&quot;61-客观指标&quot;&gt;6.1 客观指标&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;指标&lt;/th&gt;
+      &lt;th&gt;计算方式&lt;/th&gt;
+      &lt;th&gt;值范围&lt;/th&gt;
+      &lt;th&gt;值含义&lt;/th&gt;
+      &lt;th&gt;优点&lt;/th&gt;
+      &lt;th&gt;缺点&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Inertia&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Silhouette Coefficient&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Calinski-Harabasz Index&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;62-主观评估&quot;&gt;6.2 主观评估&lt;/h3&gt;
+
+&lt;h2 id=&quot;7实验&quot;&gt;7、实验&lt;/h2&gt;
+
+&lt;h2 id=&quot;8思考&quot;&gt;8、思考&lt;/h2&gt;
+
+&lt;h3 id=&quot;81-如何确定k值&quot;&gt;8.1 如何确定K值？&lt;/h3&gt;
+
+&lt;p&gt;一种方案当然就是人为根据经验或者业务需求来拍一个值了。&lt;/p&gt;
+
+&lt;p&gt;另外一种相对可量化的做法是手肘法：取不同的K值各跑一边，观察某个指标的变化，通常来说这个指标在K值较小的时候的，会随着K值的增大而以比较快的速度变化，我们通过绘制相应的图像，来找到那个使效果较为稳定的最小的K值。&lt;/p&gt;
+
+&lt;h3 id=&quot;82-落地应用场景有哪些&quot;&gt;8.2 落地应用场景有哪些？&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;用于发现数据规律，找到一些潜在的模式；例如我会发现有一类词是“7500公里”、“8000公里”、“4000公里”；&lt;/li&gt;
+  &lt;li&gt;用于发现一些近义词，例如我发现有一个簇里面只有两个词：“档”和“挡”；&lt;/li&gt;
+  &lt;li&gt;可能可以发现同类车；&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><summary type="html">0、业务背景</summary></entry><entry><title type="html">Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches</title><link href="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html" rel="alternate" type="text/html" title="Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches" /><published>2020-04-18T00:00:00+08:00</published><updated>2020-04-18T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html">&lt;h1 id=&quot;1概述&quot;&gt;1、概述&lt;/h1&gt;
 
 &lt;p&gt;这篇 RecSys 2019 的 Best Paper，从标题看来就很强，有种“在座各位都是……”的感觉。这两天通读下来，个人认为论文的贡献主要还是在于对学界敲响警钟，而不在于 new idea。&lt;/p&gt;
 
