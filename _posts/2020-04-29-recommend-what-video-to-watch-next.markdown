@@ -3,6 +3,7 @@ layout: post
 title:  "Recommending What Video to Watch Next: A Multitask Ranking System"
 date:   2020-04-29 22:55:00 +0800
 categories: recommender
+typora-root-url: ../../whosxavierwu.github.io
 ---
 
 # 概述
@@ -14,7 +15,7 @@ categories: recommender
 
 需要注意的一点是，该论文的应用场景与YouTube之前那篇经典论文["Deep Neural Network for YouTube Recommendation System"](https://whosxavierwu.github.io/recommender/2020/04/12/dnn-for-youtube-recommend.html)不同，之前的推荐场景是在首页推荐频道中，而本文的推荐场景是发生在，用户正在看或看完一个视频以后，紧接着YouTube进行推荐。
 
-![Watch Next]({{ site.url }}/assets/youtube-watch_next.png)
+![Watch Next](/assets/youtube-watch_next.png)
 
 # 一、召回
 
@@ -52,7 +53,7 @@ categories: recommender
 
 一图胜千言，先看一眼论文中所提出的模型框架：
 
-![整体架构]({{ site.url }}/assets/youtube-watch-next-model-overview.png)
+![整体架构](/assets/youtube-watch-next-model-overview.png)
 
 虚线框标出了几个主要模块：
 
@@ -102,7 +103,7 @@ MoE 和 Gating Networks 组成了 MMoE，初次见到这种模块，对我来说
 
 最常见的一种选择性偏差是位置偏差——热搜榜第一条跟第20条，显然你更容易点击第一条。
 
-![Modeling Selection Bias]({{ site.url }}/assets/youtube-watch-next-selection-bias.png)
+![Modeling Selection Bias](/assets/youtube-watch-next-selection-bias.png)
 
 这张图里稍微详细了一点，但依旧没有解释"shallow tower"到底是什么。
 
@@ -124,7 +125,7 @@ MoE 和 Gating Networks 组成了 MMoE，初次见到这种模块，对我来说
 
 对于MMoE模块，文中给出了这么一张对比图：
 
-![MMoE]({{ site.url }}/assets/youtube-watch-next-mmoe.png)
+![MMoE](/assets/youtube-watch-next-mmoe.png)
 
 在对两个任务同时进行学习时，我们可以像左图那样，在底层对Embedding层提取信息，然后把这一个底层"Shared Bottom Layer"同时给到两个任务去用，两个任务分别基于这个"Shared Bottom"去做学习。
 
@@ -144,7 +145,7 @@ MoE 和 Gating Networks 组成了 MMoE，初次见到这种模块，对我来说
 
 以上右图第一眼看着挺困惑的，但在我细看之后，发现其实和卷积层的多频道的概念有异曲同工之妙；我们也从前面的框架大图里面抠出来看，会更好理解一些。
 
-![MMoE Overview]({{ site.url }}/assets/youtube-watch-next-mmoe-close.png)
+![MMoE Overview](/assets/youtube-watch-next-mmoe-close.png)
 
 从底层"Shared Bottom"同时输入给到专家网络和门控网络，门控网络同时还接收自专家网络的输入，然后再统一由门控网络输出。专家网络旨在分配若干个（不一定等于任务数）“专家”进行学习，每个“专家”是由两层ReLU层组成的网络；所有“专家”的最后一层输出，都会给到门控网络中的每个Softmax神经元中，每个Softmax神经元结合Shared Bottom再统一输出。
 
@@ -158,7 +159,7 @@ MoE 和 Gating Networks 组成了 MMoE，初次见到这种模块，对我来说
 
 ### 2.0 整体实验对比
 
-![Live Results]({{ site.url }}/assets/youtube-watch-next-live-result.png)
+![Live Results](/assets/youtube-watch-next-live-result.png)
 
 这里颇为神奇的是，拿运算量来比较……也就是用来比较，相近模型复杂度的情况下，参与度指标和满意度指标有何变化。（用乘法运算量来作为模型复杂度的参考指标？这操作……）
 
@@ -168,17 +169,17 @@ MoE 和 Gating Networks 组成了 MMoE，初次见到这种模块，对我来说
 
 对于位置偏差，作者给出了不同位置下的CTR情况：
 
-![position CTR]({{ site.url }}/assets/youtube-watch-next-position-ctr.png)
+![position CTR](/assets/youtube-watch-next-position-ctr.png)
 
 以及学习得到的位置偏差：
 
-![position bias]({{ site.url }}/assets/youtube-watch-next-position-bias.png)
+![position bias](/assets/youtube-watch-next-position-bias.png)
 
 ### 2.2 MMoE
 
 对于MMoE的分析，作者还给出了下图：
- 
-![Expert]({{ site.url }}/assets/youtube-watch-next-expert.png)
+
+![Expert](/assets/youtube-watch-next-expert.png)
 
 > To further understand how MMoE helps multi-objective optimization, we plot the accumulated probability in the softmax gating network for each task on each expert
 

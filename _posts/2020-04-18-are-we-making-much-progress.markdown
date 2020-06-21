@@ -3,6 +3,7 @@ layout: post
 title:  "Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches"
 date:   2020-04-18 00:00:00 +0800
 categories: recommender
+typora-root-url: ../../whosxavierwu.github.io
 ---
 
 # 1、概述
@@ -96,45 +97,45 @@ $$
 
 > Travis Ebesu, Bin Shen, and Yi Fang. 2018. Collaborative Memory Network for Recommendation Systems. In Proceedings SIGIR ’18. 515–524.
 
-![CMN vs baseline]({{ site.url }}/assets/cmn_vs_baseline.png)
+![CMN vs baseline](/assets/cmn_vs_baseline.png)
 
 ## 3.2 Metapath based Context for RECommendation (MCRec)
 
 > Binbin Hu, Chuan Shi,Wayne Xin Zhao, and Philip S Yu. 2018. Leveraging metapath based context for top-n recommendation with a neural co-attention model. In Proceedings KDD ’18. 1531–1540.
 
-![MCRec vs baseline]({{ site.url }}/assets/mcrec_vs_baseline.png)
+![MCRec vs baseline](/assets/mcrec_vs_baseline.png)
 
 ## 3.3 Collaborative Variational Autoencoder (CVAE)
 
 > Xiaopeng Li and James She. 2017. Collaborative variational autoencoder for recommender systems. In Proceedings KDD ’17. 305–314.
 
-![CVAE vs baseline]({{ site.url }}/assets/cvae_vs_baseline.png)
+![CVAE vs baseline](/assets/cvae_vs_baseline.png)
 
 ## 3.4 Collaborative Deep Learning (CDL)
 
 > HaoWang, NaiyanWang, and Dit-Yan Yeung. 2015. Collaborative deep learning for recommender systems. In Proceedings KDD ’15. 1235–1244.
 
-![CDL vs baseline]({{ site.url }}/assets/cdl_vs_baseline.png)
+![CDL vs baseline](/assets/cdl_vs_baseline.png)
 
 ## 3.5 Neural Collaborative Filtering (NCF)
 
 > Xiangnan He, Lizi Liao, Hanwang Zhang, Liqiang Nie, Xia Hu, and Tat-Seng Chua. 2017. Neural collaborative filtering. In Proceedings WWW ’17. 173–182.
 
-![NCF vs baseline]({{ site.url }}/assets/ncf_vs_baseline.png)
+![NCF vs baseline](/assets/ncf_vs_baseline.png)
 
 ## 3.6 Spectral Collaborative Filtering (SpectralCF)
 
 > Lei Zheng, Chun-Ta Lu, Fei Jiang, Jiawei Zhang, and Philip S. Yu. 2018. Spectral Collaborative Filtering. In Proceedings RecSys ’18. 311–319.
 
-![SpectralCF vs baseline]({{ site.url }}/assets/SpectralCF_vs_baseline.png)
+![SpectralCF vs baseline](/assets/SpectralCF_vs_baseline.png)
 
 ## 3.7 Variational Autoencoders for Collaborative Filtering (Mult-VAE)
 
 > Dawen Liang, Rahul G Krishnan, Matthew D Hoffman, and Tony Jebara. 2018. Variational Autoencoders for Collaborative Filtering. In Proceedings WWW ’18. 689–698.
 
-![Mult-VAE vs baseline]({{ site.url }}/assets/multvae_vs_baseline.png)
+![Mult-VAE vs baseline](/assets/multvae_vs_baseline.png)
 
-![Mult-VAE-add vs baseline]({{ site.url }}/assets/multvae_vs_baseline-1.png)
+![Mult-VAE-add vs baseline](/assets/multvae_vs_baseline-1.png)
 
 # 结语
 

@@ -3,6 +3,7 @@ layout: post
 title:  "大规模词汇聚类"
 date:   2020-04-29 22:50:00 +0800
 categories: clustering
+typora-root-url: ../../whosxavierwu.github.io
 ---
 
 ## 0、业务背景
