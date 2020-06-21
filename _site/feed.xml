@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-06-21T12:34:13+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-06-21T13:48:02+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;在该论文中，YouTube提出了一种双塔结构的排序模型，新颖的点主要在于：&lt;/p&gt;
 &lt;ol&gt;
@@ -490,7 +490,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
 
 &lt;h1 id=&quot;结语&quot;&gt;结语&lt;/h1&gt;
 
-&lt;p&gt;这里先对论文进行简单的总结与摘要。文中提到的七篇论文的对比实验……光看数据也没有什么收获，得等后面具体的看七篇论文后再展开来说了。&lt;/p&gt;</content><author><name></name></author><summary type="html">1、概述</summary></entry><entry><title type="html">Deep Neural Network for YouTube Recommendation System</title><link href="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html" rel="alternate" type="text/html" title="Deep Neural Network for YouTube Recommendation System" /><published>2020-04-13T00:00:00+08:00</published><updated>2020-04-13T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+&lt;p&gt;这里先对论文进行简单的总结与摘要。文中提到的七篇论文的对比实验……光看数据也没有什么收获，得等后面具体的看七篇论文后再展开来说了。&lt;/p&gt;</content><author><name></name></author><summary type="html">1、概述</summary></entry><entry><title type="html">Deep Neural Network for YouTube Recommendation System</title><link href="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html" rel="alternate" type="text/html" title="Deep Neural Network for YouTube Recommendation System" /><published>2020-04-13T08:00:00+08:00</published><updated>2020-04-13T08:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;这篇论文是对YouTube中基于DNN的推荐系统的整体描述。本文旨在对论文进行总结。&lt;/p&gt;
 
@@ -519,7 +519,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
 &lt;p&gt;在准备数据样本时，需要注意：&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;数据源方面，采用所有YouTube视频的观看事件（如嵌在其他网站的视频等），而不仅仅是YouTube主站上的。&lt;/li&gt;
+  &lt;li&gt;数据源方面，采用所有YouTube视频的观看事件（包含如嵌在其他网站的视频等），而不仅仅是YouTube主站上的。&lt;/li&gt;
   &lt;li&gt;对每个用户带来的训练样本数进行了限制，从而避免高活跃用户对模型的过度影响。&lt;/li&gt;
   &lt;li&gt;注意避免样本数据中掺入未来信息，模型的输入应该始终只有打标签以前的数据。&lt;/li&gt;
 &lt;/ol&gt;
@@ -564,14 +564,12 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
   &lt;p&gt;Importantly, the embeddings are learned jointly with all other model parameters through normal gradient descent backpropagation updates&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;这个我不太理解。&lt;/p&gt;
-
 &lt;h4 id=&quot;search-vector&quot;&gt;“search vector”&lt;/h4&gt;
 
 &lt;p&gt;从用户的搜索历史中挖掘特征的步骤，与前面相似：&lt;/p&gt;
 &lt;ol&gt;
-  &lt;li&gt;将每个query分词成unigrams跟bigrams，而token又是被embedding好的，&lt;/li&gt;
-  &lt;li&gt;汇总所有的这些embedding求均值，作为 “search vector”&lt;/li&gt;
+  &lt;li&gt;将每个query分词成unigrams跟bigrams，而token又是被embedding好的；&lt;/li&gt;
+  &lt;li&gt;汇总所有的这些embedding求均值，作为 “search vector”；&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;blockquote&gt;
@@ -603,8 +601,6 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
 &lt;p&gt;作者通过统计分析表明，模型在加入了”Example Age”之后，能比较好的捕捉到视频上传时间的影响。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/youtube-dnn-example-age.jpg&quot; alt=&quot;Example Age&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;那么问题来了，为什么不直接用”Days Since Upload”来做特征呢？&lt;/p&gt;
 
 &lt;h2 id=&quot;4-模型训练与线上服务&quot;&gt;4. 模型训练与线上服务&lt;/h2&gt;
 
@@ -698,7 +694,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
 
 &lt;h4 id=&quot;language-embedding&quot;&gt;“language embedding”&lt;/h4&gt;
 
-&lt;p&gt;图中说得很模糊，按我理解应该是指文本相关的特征，包括对”user language”、”video language”两块的embedding。这两方面具体是指哪些信息？不知道。&lt;/p&gt;
+&lt;p&gt;图中说得很模糊，按我理解应该是指文本相关的特征，包括对”user language”、”video language”两块的embedding。&lt;/p&gt;
 
 &lt;h3 id=&quot;32-连续值特征&quot;&gt;3.2. 连续值特征&lt;/h3&gt;
 

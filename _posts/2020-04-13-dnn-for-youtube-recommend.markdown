@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Deep Neural Network for YouTube Recommendation System"
-date:   2020-04-13 00:00:00 +0800
+date:   2020-04-13 08:00:00 +0800
 categories: recommender
 typora-root-url: ../../whosxavierwu.github.io
 ---
@@ -36,7 +36,7 @@ $$
 
 在准备数据样本时，需要注意：
 
-1. 数据源方面，采用所有YouTube视频的观看事件（如嵌在其他网站的视频等），而不仅仅是YouTube主站上的。
+1. 数据源方面，采用所有YouTube视频的观看事件（包含如嵌在其他网站的视频等），而不仅仅是YouTube主站上的。
 2. 对每个用户带来的训练样本数进行了限制，从而避免高活跃用户对模型的过度影响。
 3. 注意避免样本数据中掺入未来信息，模型的输入应该始终只有打标签以前的数据。
 
@@ -72,15 +72,13 @@ $$
 
 作者还提到了一句：
 
-> Importantly, the embeddings are learned jointly with all other model parameters through normal gradient descent backpropagation updates 
-
-这个我不太理解。
+> Importantly, the embeddings are learned jointly with all other model parameters through normal gradient descent backpropagation updates
 
 #### "search vector"
 
 从用户的搜索历史中挖掘特征的步骤，与前面相似：
-1. 将每个query分词成unigrams跟bigrams，而token又是被embedding好的，
-2. 汇总所有的这些embedding求均值，作为 "search vector"
+1. 将每个query分词成unigrams跟bigrams，而token又是被embedding好的；
+2. 汇总所有的这些embedding求均值，作为 "search vector"；
 
 > Search history is treated similarly to watch history - each query is tokenized into unigrams and bigrams and each token is embedded. Once averaged, the user’s tokenized, embedded queries represent a summarized dense search history
 
@@ -105,8 +103,6 @@ $t_N$指的是样本打标签的时间，也就是当前的事件的时间戳，
 作者通过统计分析表明，模型在加入了"Example Age"之后，能比较好的捕捉到视频上传时间的影响。
 
 ![Example Age](/assets/youtube-dnn-example-age.jpg)
-
-那么问题来了，为什么不直接用"Days Since Upload"来做特征呢？
 
 ## 4. 模型训练与线上服务
 
@@ -196,7 +192,7 @@ YouTube的推荐系统中，将排序问题转化为预测：给用户$u_i$曝�
 
 #### "language embedding"
 
-图中说得很模糊，按我理解应该是指文本相关的特征，包括对"user language"、"video language"两块的embedding。这两方面具体是指哪些信息？不知道。
+图中说得很模糊，按我理解应该是指文本相关的特征，包括对"user language"、"video language"两块的embedding。
 
 ### 3.2. 连续值特征
 
