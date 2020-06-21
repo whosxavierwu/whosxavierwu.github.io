@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-06-21T13:48:02+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-06-21T22:10:16+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;在该论文中，YouTube提出了一种双塔结构的排序模型，新颖的点主要在于：&lt;/p&gt;
 &lt;ol&gt;
@@ -9,7 +9,7 @@
 
 &lt;p&gt;需要注意的一点是，该论文的应用场景与YouTube之前那篇经典论文&lt;a href=&quot;https://whosxavierwu.github.io/recommender/2020/04/12/dnn-for-youtube-recommend.html&quot;&gt;“Deep Neural Network for YouTube Recommendation System”&lt;/a&gt;不同，之前的推荐场景是在首页推荐频道中，而本文的推荐场景是发生在，用户正在看或看完一个视频以后，紧接着YouTube进行推荐。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch_next.png&quot; alt=&quot;Watch Next&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-watch_next.png&quot; alt=&quot;Watch Next&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;一召回&quot;&gt;一、召回&lt;/h1&gt;
 
@@ -59,7 +59,7 @@
 
 &lt;p&gt;一图胜千言，先看一眼论文中所提出的模型框架：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-model-overview.png&quot; alt=&quot;整体架构&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-watch-next-model-overview.png&quot; alt=&quot;整体架构&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;虚线框标出了几个主要模块：&lt;/p&gt;
 
@@ -111,7 +111,7 @@
 
 &lt;p&gt;最常见的一种选择性偏差是位置偏差——热搜榜第一条跟第20条，显然你更容易点击第一条。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-selection-bias.png&quot; alt=&quot;Modeling Selection Bias&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-watch-next-selection-bias.png&quot; alt=&quot;Modeling Selection Bias&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这张图里稍微详细了一点，但依旧没有解释”shallow tower”到底是什么。&lt;/p&gt;
 
@@ -137,7 +137,7 @@
 
 &lt;p&gt;对于MMoE模块，文中给出了这么一张对比图：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-mmoe.png&quot; alt=&quot;MMoE&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-watch-next-mmoe.png&quot; alt=&quot;MMoE&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;在对两个任务同时进行学习时，我们可以像左图那样，在底层对Embedding层提取信息，然后把这一个底层”Shared Bottom Layer”同时给到两个任务去用，两个任务分别基于这个”Shared Bottom”去做学习。&lt;/p&gt;
 
@@ -163,7 +163,7 @@
 
 &lt;p&gt;以上右图第一眼看着挺困惑的，但在我细看之后，发现其实和卷积层的多频道的概念有异曲同工之妙；我们也从前面的框架大图里面抠出来看，会更好理解一些。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-mmoe-close.png&quot; alt=&quot;MMoE Overview&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-watch-next-mmoe-close.png&quot; alt=&quot;MMoE Overview&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;从底层”Shared Bottom”同时输入给到专家网络和门控网络，门控网络同时还接收自专家网络的输入，然后再统一由门控网络输出。专家网络旨在分配若干个（不一定等于任务数）“专家”进行学习，每个“专家”是由两层ReLU层组成的网络；所有“专家”的最后一层输出，都会给到门控网络中的每个Softmax神经元中，每个Softmax神经元结合Shared Bottom再统一输出。&lt;/p&gt;
 
@@ -179,7 +179,7 @@
 
 &lt;h3 id=&quot;20-整体实验对比&quot;&gt;2.0 整体实验对比&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-live-result.png&quot; alt=&quot;Live Results&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-watch-next-live-result.png&quot; alt=&quot;Live Results&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这里颇为神奇的是，拿运算量来比较……也就是用来比较，相近模型复杂度的情况下，参与度指标和满意度指标有何变化。（用乘法运算量来作为模型复杂度的参考指标？这操作……）&lt;/p&gt;
 
@@ -189,17 +189,17 @@
 
 &lt;p&gt;对于位置偏差，作者给出了不同位置下的CTR情况：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-position-ctr.png&quot; alt=&quot;position CTR&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-watch-next-position-ctr.png&quot; alt=&quot;position CTR&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;以及学习得到的位置偏差：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-position-bias.png&quot; alt=&quot;position bias&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-watch-next-position-bias.png&quot; alt=&quot;position bias&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;22-mmoe&quot;&gt;2.2 MMoE&lt;/h3&gt;
 
 &lt;p&gt;对于MMoE的分析，作者还给出了下图：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-watch-next-expert.png&quot; alt=&quot;Expert&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-watch-next-expert.png&quot; alt=&quot;Expert&quot; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;To further understand how MMoE helps multi-objective optimization, we plot the accumulated probability in the softmax gating network for each task on each expert&lt;/p&gt;
@@ -209,150 +209,7 @@
 
 &lt;p&gt;关于这篇论文的解读就先写到这里了。总的来说，论文着重讲的是引入了消偏以及MMoE模块后的整体多目标学习的模型结构；对于排序模型结构以外的东西，如数据处理、特征工程等讲得特别少。很难说换个业务场景是不是也能生效。&lt;/p&gt;
 
-&lt;p&gt;后续可能需要看下MMoE的发布论文，以及如果有空的话，补充一下该论文在消偏部分可能遗漏了的一些细节。另外，多目标学习也是颇有意思的业务场景，值得继续深挖。&lt;/p&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">大规模词汇聚类</title><link href="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html" rel="alternate" type="text/html" title="大规模词汇聚类" /><published>2020-04-29T22:50:00+08:00</published><updated>2020-04-29T22:50:00+08:00</updated><id>http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce</id><content type="html" xml:base="http://localhost:4034/clustering/2020/04/29/word-clustering-mapreduce.html">&lt;h2 id=&quot;0业务背景&quot;&gt;0、业务背景&lt;/h2&gt;
-
-&lt;p&gt;新人练手项目。给定百家号中汽车类网页语料，需要从中提取出词汇，并对词汇进行聚类。&lt;/p&gt;
-
-&lt;h2 id=&quot;1问题定义&quot;&gt;1、问题定义&lt;/h2&gt;
-
-&lt;p&gt;最常见的聚类问题是做句子/文档聚类，而这个任务是词汇聚类，处理起来其实也能用相似的方式。聚类问题的整体处理框架还是：&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;准备好数据；这里指的是准备好语料，包括数据获取、数据清洗、分词等；&lt;/li&gt;
-  &lt;li&gt;对要聚类的item，构建对应的特征向量。在这里item指的是一个词；&lt;/li&gt;
-  &lt;li&gt;选择聚类算法模型进行相应开发；&lt;/li&gt;
-  &lt;li&gt;基于词向量，进行模型训练；&lt;/li&gt;
-  &lt;li&gt;取训练后的标签，进行效果评估；&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;2数据准备&quot;&gt;2、数据准备&lt;/h2&gt;
-
-&lt;h3 id=&quot;21-数据源&quot;&gt;2.1 数据源&lt;/h3&gt;
-
-&lt;p&gt;源数据是百家号中汽车类网页的结构化数据，有125万条；写一个小脚本提取文章内容主体，得到56万篇文章。由于数据schema不明确，提取规则只是基于部分数据来定的，所以可能存在一些网页数据没能正确解析出文章内容主体。56万篇作为语料基本也够用了。&lt;/p&gt;
-
-&lt;h3 id=&quot;22-数据处理&quot;&gt;2.2 数据处理&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;对文章进行分句；&lt;/li&gt;
-  &lt;li&gt;对短句进行分词；&lt;/li&gt;
-  &lt;li&gt;对词进行清洗、处理；&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;这三步实际上是一起处理的。具体是基于PaddleNLP中分享的&lt;a href=&quot;https://github.com/PaddlePaddle/models/tree/develop/PaddleNLP/shared_modules/preprocess/tokenizer&quot;&gt;tokenizer&lt;/a&gt;做了些修改后使用。tokenizer接收的输入是一个句子，输出是进行tokenize后的词汇序列。实际上tokenizer所调用的模型是对单个字符的词性预测，预测的结果中除了词性（名词、动词等）还会带有“是否新词”的信息，进而达到分词的效果。基于此，我做的改动主要是：&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;为了对文章进行分句，对每个字符判断是否属于“分句符号”，例如逗号、句号、叹号等；如果是，换行输出，将结果由每行一篇文章的格式变成每行一个分句的形式；（之所以要转换格式，因为后续是通过分句来统计词汇共现程度的）&lt;/li&gt;
-  &lt;li&gt;对于每个字符，在输出前进行了处理：统一大小写、统一标点符号；&lt;/li&gt;
-  &lt;li&gt;标点符号不输出。避免后续被当做一个“词汇”；&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;3特征工程&quot;&gt;3、特征工程&lt;/h2&gt;
-
-&lt;p&gt;机器学习领域的基本共识是，数据和特征决定了整体效果的上限，而模型和算法只是不断地逼近这个上限。简单模型加上巧妙的特征工程之后，是可以得到比高深复杂的模型更好的效果的。&lt;/p&gt;
-
-&lt;p&gt;用怎样的特征向量来表示一个词汇，我认为可以分浅层和深层来考虑。深层特征要求对词汇的深层次语义有一定程度的理解，更接近自然语言理解的本质；而浅层特征则只停留在词汇的表面特征，例如词频、词共现等统计指标。&lt;/p&gt;
-
-&lt;h3 id=&quot;31-浅层特征&quot;&gt;3.1 浅层特征&lt;/h3&gt;
-
-&lt;p&gt;对于词汇的浅层特征，比较简单直接的一种思路是，观察词与词两两之间的共现频率。“共现”可以指两个词出现在同一篇文章、或同一个段落、或同一个句子、或同一个短句；这几种方式的区别在于对词汇上下文考虑的范围不同。&lt;/p&gt;
-
-&lt;p&gt;无论哪种方式，我们都需要先统计出词共现矩阵。用$C$表示词共现矩阵，其中元素$c_{ij}$表示词$w_i$与词$w_j$共现的次数。如果预料中共有$N$个词汇，则该矩阵的大小为$N*N$。&lt;/p&gt;
-
-&lt;p&gt;通常我们都需要按词频进行一个简单的过滤。在本次语料中，词汇（准确说是token）共有119万个，实际出现过的词对有8100万以上，如果不做删减的基于全量数据处理，后面各部分的效率显然是极低的。在本次任务中，我主要取高频的2~6万词汇。&lt;/p&gt;
-
-&lt;p&gt;基于词共现矩阵$C$计算某个词汇$w_i$的特征向量$\vec{v_i}$，可以有这么一些做法：&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;直接取$C$中对应的一行，即 $\vec{v_i}=(c_{i0}, …, c_{ij}, …)$ ，$v_{ij}=c_{ij}$，向量维度为$N$；&lt;/li&gt;
-  &lt;li&gt;在第一种方式的基础上，除去该词汇的总出现次数，即 $v_{ij} = \frac{c_{ij}}{\sum_j^N c_{ij}}$ ；&lt;/li&gt;
-  &lt;li&gt;这第一种方式的基础上，除去与该词汇共现过的词汇的数量，即 $v_{ij} = \frac{c_{ij}}{ count\{j;c_{ij}&amp;gt;0\} }$ ；&lt;/li&gt;
-  &lt;li&gt;在第一种方式的基础上，进行MinMax归一化，即 $v_{ij} = \frac{c_{ij} - min(c_{ij}) + \epsilon }{ max(c_{ij};j) - min(c_{ij};j) }$ , $s.t. c_{ij}&amp;gt;0$ ；&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;32-深层特征&quot;&gt;3.2 深层特征&lt;/h3&gt;
-
-&lt;p&gt;深层特征要求对词汇有一定的理解，在深度学习领域一般统称为Embedding。当前较为出名的是Word2Vec、ERNIE、BERT。都是通过大型语料预训练好的词向量。&lt;/p&gt;
-
-&lt;h2 id=&quot;4模型选择&quot;&gt;4、模型选择&lt;/h2&gt;
-
-&lt;h3 id=&quot;41-kmeans&quot;&gt;4.1 KMeans&lt;/h3&gt;
-
-&lt;p&gt;KMeans 的核心思想简单明了：&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;通过某种方式（例如从样本中随机挑选）得到$K$个簇中心的特征向量;&lt;/li&gt;
-  &lt;li&gt;遍历每个样本点（也就是每个词），计算出离它最近的簇中心，分配到该簇中；&lt;/li&gt;
-  &lt;li&gt;对于每个簇，根据其中的所有样本点，重新计算（例如直接取均值）簇中心；&lt;/li&gt;
-  &lt;li&gt;重复2、3两步，直至某个条件；&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;42-minibatchkmeans&quot;&gt;4.2 MiniBatchKMeans&lt;/h3&gt;
-
-&lt;h2 id=&quot;5模型训练&quot;&gt;5、模型训练&lt;/h2&gt;
-
-&lt;h2 id=&quot;6效果评估&quot;&gt;6、效果评估&lt;/h2&gt;
-
-&lt;h3 id=&quot;61-客观指标&quot;&gt;6.1 客观指标&lt;/h3&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;指标&lt;/th&gt;
-      &lt;th&gt;计算方式&lt;/th&gt;
-      &lt;th&gt;值范围&lt;/th&gt;
-      &lt;th&gt;值含义&lt;/th&gt;
-      &lt;th&gt;优点&lt;/th&gt;
-      &lt;th&gt;缺点&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Inertia&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Silhouette Coefficient&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Calinski-Harabasz Index&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h3 id=&quot;62-主观评估&quot;&gt;6.2 主观评估&lt;/h3&gt;
-
-&lt;h2 id=&quot;7实验&quot;&gt;7、实验&lt;/h2&gt;
-
-&lt;h2 id=&quot;8思考&quot;&gt;8、思考&lt;/h2&gt;
-
-&lt;h3 id=&quot;81-如何确定k值&quot;&gt;8.1 如何确定K值？&lt;/h3&gt;
-
-&lt;p&gt;一种方案当然就是人为根据经验或者业务需求来拍一个值了。&lt;/p&gt;
-
-&lt;p&gt;另外一种相对可量化的做法是手肘法：取不同的K值各跑一边，观察某个指标的变化，通常来说这个指标在K值较小的时候的，会随着K值的增大而以比较快的速度变化，我们通过绘制相应的图像，来找到那个使效果较为稳定的最小的K值。&lt;/p&gt;
-
-&lt;h3 id=&quot;82-落地应用场景有哪些&quot;&gt;8.2 落地应用场景有哪些？&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;用于发现数据规律，找到一些潜在的模式；例如我会发现有一类词是“7500公里”、“8000公里”、“4000公里”；&lt;/li&gt;
-  &lt;li&gt;用于发现一些近义词，例如我发现有一个簇里面只有两个词：“档”和“挡”；&lt;/li&gt;
-  &lt;li&gt;可能可以发现同类车；&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><summary type="html">0、业务背景</summary></entry><entry><title type="html">Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches</title><link href="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html" rel="alternate" type="text/html" title="Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches" /><published>2020-04-18T00:00:00+08:00</published><updated>2020-04-18T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html">&lt;h1 id=&quot;1概述&quot;&gt;1、概述&lt;/h1&gt;
+&lt;p&gt;后续可能需要看下MMoE的发布论文，以及如果有空的话，补充一下该论文在消偏部分可能遗漏了的一些细节。另外，多目标学习也是颇有意思的业务场景，值得继续深挖。&lt;/p&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches</title><link href="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html" rel="alternate" type="text/html" title="Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches" /><published>2020-04-18T00:00:00+08:00</published><updated>2020-04-18T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html">&lt;h1 id=&quot;1概述&quot;&gt;1、概述&lt;/h1&gt;
 
 &lt;p&gt;这篇 RecSys 2019 的 Best Paper，从标题看来就很强，有种“在座各位都是……”的感觉。这两天通读下来，个人认为论文的贡献主要还是在于对学界敲响警钟，而不在于 new idea。&lt;/p&gt;
 
@@ -436,7 +293,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
   &lt;p&gt;Travis Ebesu, Bin Shen, and Yi Fang. 2018. Collaborative Memory Network for Recommendation Systems. In Proceedings SIGIR ’18. 515–524.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/cmn_vs_baseline.png&quot; alt=&quot;CMN vs baseline&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/cmn_vs_baseline.png&quot; alt=&quot;CMN vs baseline&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;32-metapath-based-context-for-recommendation-mcrec&quot;&gt;3.2 Metapath based Context for RECommendation (MCRec)&lt;/h2&gt;
 
@@ -444,7 +301,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
   &lt;p&gt;Binbin Hu, Chuan Shi,Wayne Xin Zhao, and Philip S Yu. 2018. Leveraging metapath based context for top-n recommendation with a neural co-attention model. In Proceedings KDD ’18. 1531–1540.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/mcrec_vs_baseline.png&quot; alt=&quot;MCRec vs baseline&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/mcrec_vs_baseline.png&quot; alt=&quot;MCRec vs baseline&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;33-collaborative-variational-autoencoder-cvae&quot;&gt;3.3 Collaborative Variational Autoencoder (CVAE)&lt;/h2&gt;
 
@@ -452,7 +309,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
   &lt;p&gt;Xiaopeng Li and James She. 2017. Collaborative variational autoencoder for recommender systems. In Proceedings KDD ’17. 305–314.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/cvae_vs_baseline.png&quot; alt=&quot;CVAE vs baseline&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/cvae_vs_baseline.png&quot; alt=&quot;CVAE vs baseline&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;34-collaborative-deep-learning-cdl&quot;&gt;3.4 Collaborative Deep Learning (CDL)&lt;/h2&gt;
 
@@ -460,7 +317,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
   &lt;p&gt;HaoWang, NaiyanWang, and Dit-Yan Yeung. 2015. Collaborative deep learning for recommender systems. In Proceedings KDD ’15. 1235–1244.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/cdl_vs_baseline.png&quot; alt=&quot;CDL vs baseline&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/cdl_vs_baseline.png&quot; alt=&quot;CDL vs baseline&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;35-neural-collaborative-filtering-ncf&quot;&gt;3.5 Neural Collaborative Filtering (NCF)&lt;/h2&gt;
 
@@ -468,7 +325,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
   &lt;p&gt;Xiangnan He, Lizi Liao, Hanwang Zhang, Liqiang Nie, Xia Hu, and Tat-Seng Chua. 2017. Neural collaborative filtering. In Proceedings WWW ’17. 173–182.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/ncf_vs_baseline.png&quot; alt=&quot;NCF vs baseline&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/ncf_vs_baseline.png&quot; alt=&quot;NCF vs baseline&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;36-spectral-collaborative-filtering-spectralcf&quot;&gt;3.6 Spectral Collaborative Filtering (SpectralCF)&lt;/h2&gt;
 
@@ -476,7 +333,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
   &lt;p&gt;Lei Zheng, Chun-Ta Lu, Fei Jiang, Jiawei Zhang, and Philip S. Yu. 2018. Spectral Collaborative Filtering. In Proceedings RecSys ’18. 311–319.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/SpectralCF_vs_baseline.png&quot; alt=&quot;SpectralCF vs baseline&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/SpectralCF_vs_baseline.png&quot; alt=&quot;SpectralCF vs baseline&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;37-variational-autoencoders-for-collaborative-filtering-mult-vae&quot;&gt;3.7 Variational Autoencoders for Collaborative Filtering (Mult-VAE)&lt;/h2&gt;
 
@@ -484,9 +341,9 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
   &lt;p&gt;Dawen Liang, Rahul G Krishnan, Matthew D Hoffman, and Tony Jebara. 2018. Variational Autoencoders for Collaborative Filtering. In Proceedings WWW ’18. 689–698.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/multvae_vs_baseline.png&quot; alt=&quot;Mult-VAE vs baseline&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/multvae_vs_baseline.png&quot; alt=&quot;Mult-VAE vs baseline&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/multvae_vs_baseline-1.png&quot; alt=&quot;Mult-VAE-add vs baseline&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/multvae_vs_baseline-1.png&quot; alt=&quot;Mult-VAE-add vs baseline&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;结语&quot;&gt;结语&lt;/h1&gt;
 
@@ -773,7 +630,7 @@ odds &amp;=\frac{E[T|Clicked]}{E[T|NotClicked]} =\frac{\frac{\sum^{K}_{i}{T_i}}{
   &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/52504407&quot;&gt;王喆-十个工程问题&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/61827629&quot;&gt;王喆-模型Serving&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/38638747&quot;&gt;工程再现&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">自动文本摘要</title><link href="http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization.html" rel="alternate" type="text/html" title="自动文本摘要" /><published>2019-03-15T17:00:00+08:00</published><updated>2019-03-15T17:00:00+08:00</updated><id>http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization</id><content type="html" xml:base="http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization.html">&lt;p&gt;最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。&lt;/p&gt;
+&lt;/ol&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">自动文本摘要方面的一些调研</title><link href="http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization.html" rel="alternate" type="text/html" title="自动文本摘要方面的一些调研" /><published>2019-03-15T17:00:00+08:00</published><updated>2019-03-15T17:00:00+08:00</updated><id>http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization</id><content type="html" xml:base="http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization.html">&lt;p&gt;最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。&lt;/p&gt;
 
 &lt;h1 id=&quot;0概述&quot;&gt;0、概述&lt;/h1&gt;
 
@@ -937,7 +794,7 @@ odds &amp;=\frac{E[T|Clicked]}{E[T|NotClicked]} =\frac{\frac{\sum^{K}_{i}{T_i}}{
 
 &lt;p&gt;&lt;strong&gt;TextRank&lt;/strong&gt;的好处太多：易于实现、不需要训练集、效果还不错，总而言之，特别适合伸手党。&lt;/p&gt;
 
-&lt;p&gt;就PageRank具体而言，我们先构造一个图 $G={V,E}​$ 。把网页作为一个点，而如果 $V_j​$ 后跟随着 $V_i ​$ ，我们则认为存在一条 $V_j =&amp;gt; V_i​$ 的边。先对图中所有的点赋初始值，然后按照以下公式持续迭代：&lt;/p&gt;
+&lt;p&gt;就PageRank具体而言，我们先构造一个图 $G={V,E}$ 。把网页作为一个点，而如果 $V_j$ 后跟随着 $V_i $ ，我们则认为存在一条 $V_j =&amp;gt; V_i$ 的边。先对图中所有的点赋初始值，然后按照以下公式持续迭代：&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;WS(V_i)=(1-d)+d*\sum_{V_j\in IN(V_i)} \frac{w_{ji}}{\sum_{V_k \in OUT(V_j)} w_{jk}}*WS(V_j)&lt;/script&gt;
 
@@ -1023,134 +880,7 @@ odds &amp;=\frac{E[T|Clicked]}{E[T|NotClicked]} =\frac{\frac{\sum^{K}_{i}{T_i}}{
 
 &lt;p&gt;A Deep Reinforced Model for Abstractive Summarization&lt;/p&gt;
 
-&lt;p&gt;Convolutional Sequence to Sequence Learning&lt;/p&gt;</content><author><name></name></author><summary type="html">最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。</summary></entry><entry><title type="html">LeetCode #22</title><link href="http://localhost:4034/leetcode/2018/06/02/leetcode-22.html" rel="alternate" type="text/html" title="LeetCode #22" /><published>2018-06-02T22:30:00+08:00</published><updated>2018-06-02T22:30:00+08:00</updated><id>http://localhost:4034/leetcode/2018/06/02/leetcode-22</id><content type="html" xml:base="http://localhost:4034/leetcode/2018/06/02/leetcode-22.html">&lt;p&gt;最近重新开始了在刷题，也尽量多写一写吧。&lt;/p&gt;
-
-&lt;h1 id=&quot;一题目大意&quot;&gt;一、题目大意&lt;/h1&gt;
-
-&lt;p&gt;指定有N对括号，需要输出所有可能的、形式上正确的括号组合情况。例如N=3时，有&lt;/p&gt;
-
-&lt;blockquote&gt;
-
-  &lt;p&gt;[
-  “((()))”,
-  “(()())”,
-  “(())()”,
-  “()(())”,
-  “()()()”
-]&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;这五种可能的排列。&lt;/p&gt;
-
-&lt;h1 id=&quot;二解题思路&quot;&gt;二、解题思路：&lt;/h1&gt;
-
-&lt;p&gt;主要参考两篇文章：&lt;/p&gt;
-
-&lt;p&gt;https://leetcode.com/problems/generate-parentheses/solution/&lt;/p&gt;
-
-&lt;p&gt;https://blog.csdn.net/runningtortoises/article/details/45625363&lt;/p&gt;
-
-&lt;p&gt;分别有这么几种思路：&lt;/p&gt;
-
-&lt;p&gt;1、暴力破解&lt;/p&gt;
-
-&lt;p&gt;把所有可能的串都输出来，然后逐个判断合法性。&lt;/p&gt;
-
-&lt;p&gt;2、回溯&lt;/p&gt;
-
-&lt;p&gt;3、Closure Number&lt;/p&gt;
-
-&lt;p&gt;这种思路是我最为喜欢的一种。我们可以发现，一个合法的串总是可以递归的表示为：&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;(&lt;/strong&gt;子串1&lt;strong&gt;)&lt;/strong&gt;子串2&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;两个合法的子串以及一对括号。&lt;/p&gt;
-
-&lt;p&gt;想到这一点之后，其实后面的思路很自然的也能想通了：
-两个子串的括号对数为N-1，我们只需要遍历所有可能的组合情况就行了，从(0, N-1), (1, N-2), …, (N-1, 0)。
-这种思路实际上是按顺序生成 0, 1, …, N 的所有解。&lt;/p&gt;
-
-&lt;p&gt;4、增量&lt;/p&gt;
-
-&lt;p&gt;不断的判断左右括号的数量，进而选择添加左括号还是添加右括号。&lt;/p&gt;
-
-&lt;h1 id=&quot;三具体实现&quot;&gt;三、具体实现：&lt;/h1&gt;
-
-&lt;p&gt;这里就只贴第二种思路的吧。&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
-    递归版
-    &quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;generateParenthesis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;xrange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;generateParenthesis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;generateParenthesis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'({}){}'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
-    非递归版
-    &quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;generateParenthesis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
-        :type n: int
-        :rtype: List[str]
-        &quot;&quot;&quot;&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;res_dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;tmp_res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left_count&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left_count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
-                    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
-                        &lt;span class=&quot;n&quot;&gt;tmp_res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'({}){}'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;res_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tmp_res&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;四、其他&lt;/p&gt;
-
-&lt;p&gt;python的好处在于，代码可以相当精简。同样的算法在c里面去实现的话，难度往往会大很多。
-python用久了之后，会发现自己“变笨了”，差不多连c都不会用了。
-所以偶尔还是得多练练手的。&lt;/p&gt;</content><author><name></name></author><summary type="html">最近重新开始了在刷题，也尽量多写一写吧。</summary></entry><entry><title type="html">聚类算法总结 - Hierarchical Clustering</title><link href="http://localhost:4034/datamining/2015/09/24/hierarchical-clustering.html" rel="alternate" type="text/html" title="聚类算法总结 - Hierarchical Clustering" /><published>2015-09-24T16:22:00+08:00</published><updated>2015-09-24T16:22:00+08:00</updated><id>http://localhost:4034/datamining/2015/09/24/hierarchical-clustering</id><content type="html" xml:base="http://localhost:4034/datamining/2015/09/24/hierarchical-clustering.html">&lt;table&gt;
+&lt;p&gt;Convolutional Sequence to Sequence Learning&lt;/p&gt;</content><author><name></name></author><summary type="html">最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。</summary></entry><entry><title type="html">聚类算法总结 - Hierarchical Clustering</title><link href="http://localhost:4034/datamining/2015/09/24/hierarchical-clustering.html" rel="alternate" type="text/html" title="聚类算法总结 - Hierarchical Clustering" /><published>2015-09-24T16:22:00+08:00</published><updated>2015-09-24T16:22:00+08:00</updated><id>http://localhost:4034/datamining/2015/09/24/hierarchical-clustering</id><content type="html" xml:base="http://localhost:4034/datamining/2015/09/24/hierarchical-clustering.html">&lt;table&gt;
   &lt;thead&gt;
     &lt;tr&gt;
       &lt;th&gt;算法&lt;/th&gt;
@@ -1250,276 +980,4 @@ python用久了之后，会发现自己“变笨了”，差不多连c都不会�
       &lt;td&gt;融合了PAM和CLARA两者的优点，是第一个用于空间数据库的聚类算法&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name></name></author><summary type="html">算法 概括 优缺点 k-means 每次从类中求均值作为中心点用到了EM的思想目标是最小化sum of squared error 要求预设k值易受噪音和离异点的影响 对不规则形状的类聚类效果不好不保证全局最优 k-means++ 目标是找到k个合理的初始种子点给k-means。1. 随机挑个随机点当“种子点”2. 对于每个点，计算其和最近的“种子点”的距离D(x)并保存，然后把这些距离加起来得到Sum(D(x))。3. 再取一个随机值，用权重的方式来取计算下一个“种子点”。这个算法的实现是，先取一个能落在Sum(D(x))中的随机值Random，然后用Random -= D(x)，直到其&amp;lt;=0，此时的点就是下一个“种子点”。4. 重复2和3直到k个中心被选出来5. 利用这k个初始的聚类中心来运行标准的k-means算法   k-modes K-Means算法的扩展对于分类型数据，用mode求中心点   k-prototypes 结合了k-means和k-modes   k-medoids 每次从类中找一个具体的点来做中心点。目标是最小化absolute error。PAM是一种典型的k-medoids实现。 对噪音和离异点不那么敏感然而计算量大很多 CLARA 先抽样，再用PAM 对于大数据比PAM好点主要是看sample的效果 CLARANS 每次随机的抓一个medoid跟一般点，然后判断，这两者如果替换的话，能不能减小absolute-error 融合了PAM和CLARA两者的优点，是第一个用于空间数据库的聚类算法</summary></entry><entry><title type="html">《30天自制操作系统》笔记五六</title><link href="http://localhost:4034/learning-note/2014/04/23/30days-os-part56.html" rel="alternate" type="text/html" title="《30天自制操作系统》笔记五六" /><published>2014-04-23T15:22:11+08:00</published><updated>2014-04-23T15:22:11+08:00</updated><id>http://localhost:4034/learning-note/2014/04/23/30days-os-part56</id><content type="html" xml:base="http://localhost:4034/learning-note/2014/04/23/30days-os-part56.html">&lt;p&gt;书上第五六天所涉及的内容主要是GDT、IDT以及PIC。这两部分我就合在一起写好了。（主要的原因是做完第五天的以后看到代码乱得惨不忍睹，就自己开始整理了一下，随后又发现第六天就是讲分割源文件的，所以就继续看了下去。）&lt;/p&gt;
-
-&lt;p&gt;第五天一上来，作者就介绍了结构体。于是，出现了struct boot_info，struct seg_desc，以及struct gate_desc三者。（命名我是按照自己的习惯来改动的。）&lt;/p&gt;
-
-&lt;p&gt;C语言语法上的东西就不提了。&lt;/p&gt;
-
-&lt;p&gt;有点意思的是，继之前恶心简洁的图形化界面之后，我们这次来做文字显示。&lt;/p&gt;
-
-&lt;p&gt;字体怎么来呢？最简单的一种方法就是按照之前做图像的时候的方法来做，也就是用boxfill8()，但是这样也太不专业了吧= =&lt;/p&gt;
-
-&lt;p&gt;我们有一种好一点的方法，就是重写一个putfont8()函数，用来做字符显示。（ps：后来我改名为print_char()了）直接用作者给的hankaku.txt来导入字体。（其实这个字体包也没有多高端嘛……要用到新的工具makefont.exe。可以从hankaku.txt得到hankaku.bin。之后我们再用bin2obj.exe来将其转化为hankaku.obj文件。同时，对应的修改Makefile。&lt;/p&gt;
-
-&lt;p&gt;值得注意的是：一定要加上”$BIN2OBJ ……“的说明！当时就是因为抄漏而导致了大量的失败。&lt;/p&gt;
-
-&lt;p&gt;而显示变量名按照上面的来做基本也没问题。不过不知道为什么，到后面我多加”#include “bootpack.h”“语句之后，直接就只声明“char s[40]”是不够的，要初始化！可以是”char s[40]={‘0’}”。如果没有初始化，就会发现那个字符就是显示不出来，然后你还以为是print_str或者print_char的问题，对照源代码N次！！！（TAT）&lt;/p&gt;
-
-&lt;p&gt;再来是鼠标的指针，这个其实还是蛮无聊有趣的。为了凸显我跟作者的不一样，我把指针弄成了8x8大小的，结果……其实也还是能用的，而且大小我（我不是处女座……）也刚好合适。&lt;/p&gt;
-
-&lt;p&gt;文件分割不难，略过。也就是多出了graphic.c，dsctbl.c，以及后面的int.c。&lt;/p&gt;
-
-&lt;p&gt;有一点是新学习到的，那就是Makefile的一般规则：&lt;/p&gt;
-
-&lt;h1 id=&quot;general-rules-for-gas-nas-and-obj&quot;&gt;general rules for *.gas, *.nas and *.obj&lt;/h1&gt;
-&lt;p&gt;%.gas : %.c Makefile
-	$(CC1) -o $&lt;em&gt;.gas $&lt;/em&gt;.c
-%.nas : %.gas Makefile
-	$(GAS2NASK) $&lt;em&gt;.gas $&lt;/em&gt;.nas
-%.obj : %.nas Makefile
-	$(NASK) $&lt;em&gt;.nas $&lt;/em&gt;.obj $*.lst
-关于Makefile，有个很详细的教程：http://bbs.chinaunix.net/thread-408225-1-1.html
-之后得找时间认真学习一下才行。&lt;/p&gt;
-
-&lt;p&gt;本次学习遇到的第一个重难点在于GDT以及IDT。&lt;/p&gt;
-
-&lt;p&gt;其实作者的文笔还是挺好的，写得很顺畅。（虽然到后来发现他有些地方机智的绕掉了……）&lt;/p&gt;
-
-&lt;p&gt;该记住的有：&lt;/p&gt;
-
-&lt;p&gt;GDT大小为2^13*(8B) = 64KB&lt;/p&gt;
-
-&lt;p&gt;/* segment descriptor, 8B &lt;em&gt;/
-/&lt;/em&gt; base	       : base_low(2B), base_mid(1B) and base_high(1B)&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;limit       : limit_low(1B) and limit_high(1B)&lt;/li&gt;
-  &lt;li&gt;access_right: the highest bit is Gbit, when Gbit==1, 
-              the unit of limit is PAGE; the highest 4bits are put into the 
-      highest 4bits of limit_high. thus, to program, access_right
-      is xxxx0000xxxxxxxx; the highest 4bits are “GD00”(used after 
-      386), G is Gbit, D means 32-mode or 16-mode.
-      lowest 8bits:
-      0x00: unused descriptor table
-      0x92: for system. RW-.
-      0x9a: for system. R-X.
-      0xf2: for applications. RW-.
-      0xfa: for applications. R-X.
- */
-struct seg_desc {
- short 	limit_low;
- short 	base_low;
- char 	base_mid; 
- char 	access_right;
- char 	limit_high; 
- char 	base_high;
-};
-而后面的gate_desc，类比一下就好。
-set_seg_desc，set_gate_desc，init_gdt_idt就慢慢看代码吧。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;C不能直接给GDTR赋值，所以要用load_gdtr，在naskfunc.nas中：&lt;/p&gt;
-
-&lt;p&gt;_load_gdtr:		; void load_gdtr(int limit, int addr);
-	; “MOV [ESP+6] [ESP+4]”
-	MOV	AX, [ESP+4]	; limit
-	MOV	[ESP+6], AX
-	LGDT	[ESP+6]
-	RET
-看起来，这段函数似乎做的就是”MOV [ESP+6] [ESP+4]”但是为什么要这么做呢？为什么不直接”LGDT [ESP+4]”呢？
-这其中可是大有奥秘的。&lt;/p&gt;
-
-&lt;p&gt;首先，GDTR的低16位是段上限，高32位是地址。我们不能直接用MOV来赋值，而只能直接指定一个内存地址，让它去读这48位。想想看，假设我们传的段上限是0x0000ffff，而地址是00270000（事实上我们用的也就是这个）。这时候，地址从ESP+4往高处走是：【FF FF 00 00 00 00 27 00】。但我们希望给GDTR的是这样一部分：【FF FF 00 00 27 00】那可以看到，作者在这里把ESP+4赋值到ESP+6，然后就变成了【FF FF FF FF 00 00 27 00】，只要直接从ESP+6开始读就可以了。&lt;/p&gt;
-
-&lt;p&gt;哎，在这里实在不得不感叹一声作者太神了！事实上如果你传参数的时候，两个参数的位置如果换一下的话，你会发现很不好处理！（我一开始是想这么干来着。）&lt;/p&gt;
-
-&lt;p&gt;set_seg_desc太高深，跳过。（作者也没讲多少）&lt;/p&gt;
-
-&lt;p&gt;然后就到PIC。一到硬件就各种蛋疼哎！&lt;/p&gt;
-
-&lt;p&gt;PIC指的是Programmable interrupt controller。&lt;/p&gt;
-
-&lt;p&gt;然后看图：&lt;/p&gt;
-
-&lt;p&gt;用图比较容易理解。&lt;/p&gt;
-
-&lt;p&gt;简而言之，PIC监视着输入管脚的8个中断信号，只要有一个中断信号进来，就将唯一的输出管脚信号变成ON，并通知CPU。&lt;/p&gt;
-
-&lt;p&gt;然后下面是一段咋看之下很不明觉厉的代码：&lt;/p&gt;
-
-&lt;p&gt;void init_pic(void);&lt;/p&gt;
-
-&lt;p&gt;#define PIC0_ICW1	0x0020
-#define PIC0_OCW2	0x0020
-#define PIC0_IMR	0x0021
-#define PIC0_ICW2	0x0021
-#define PIC0_ICW3	0x0021
-#define PIC0_ICW4	0x0021
-#define PIC1_ICW1	0x00a0
-#define PIC1_OCW2	0x00a0
-#define PIC1_IMR	0x00a1
-#define PIC1_ICW2	0x00a1
-#define PIC1_ICW3	0x00a1
-#define PIC1_ICW4	0x00a1 
-/* Initialization of pic &lt;em&gt;/
-void init_pic (void) {
-	io_out8(PIC0_IMR,  0xff  ); /&lt;/em&gt; disable all interrupts &lt;em&gt;/
-	io_out8(PIC1_IMR,  0xff  ); /&lt;/em&gt; disable all interrupts */&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;io_out8(PIC0_ICW1, 0x11  ); /* edge trigger mode*/
-io_out8(PIC0_ICW2, 0x20  ); /* IRQ-7 is received by INT20-27 */
-io_out8(PIC0_ICW3, 1 &amp;lt;&amp;lt; 2); /* PIC1 is connected by IRQ2*/
-io_out8(PIC0_ICW4, 0x01  ); /* no-buffer mode */
-
-io_out8(PIC1_ICW1, 0x11  ); /* edge trigger mode */
-io_out8(PIC1_ICW2, 0x28  ); /* IRQ-15 is received by INT28-2f */
-io_out8(PIC1_ICW3, 2     ); /* PIC1 is connected by IRQ2 */
-io_out8(PIC1_ICW4, 0x01  ); /* no-buffer mode */
-
-io_out8(PIC0_IMR,  0xfb  ); /* 11111011 disable all except PIC1 */
-io_out8(PIC1_IMR,  0xff  ); /* 11111111 disable all interrupt */ } 简单的翻译一下，IMR指的是interrupt mask register，ICW指的是&quot;initial control word&quot;，都是8位寄存器。 IMR中8位分别对应8个IRQ信号，如果某一位为1，则该为对应的信号被屏蔽，PIC就忽略之。
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;ICW不一定是16位，因硬件而不同。有4个，分别编号1~4，共有4个字节的数据。&lt;/p&gt;
-
-&lt;p&gt;ICW1和4与硬件有关，忽略之。&lt;/p&gt;
-
-&lt;p&gt;ICW3是有关主从连接的设定，对主PIC而言，第几号IRQ与从PIC相连，是用8位来决定的。如果把这些为全部设为1，则主PIC能驱动8个从PIC。&lt;/p&gt;
-
-&lt;p&gt;不过呢……这个是硬件决定的，我们也无力。&lt;/p&gt;
-
-&lt;p&gt;所以只能改ICW2咯。&lt;/p&gt;
-
-&lt;p&gt;ICW2决定了IRQ以哪一号中断通知CPU。通过PIC用数据信号线传送给CPU“0xcd 0x??”来实现的。这里的0xcd实际上就是调用BIOS时用的INT指令。&lt;/p&gt;
-
-&lt;p&gt;这次以INT0x20~0x2f接收中断信号IRQ0~15而设定的。&lt;/p&gt;
-
-&lt;p&gt;开始看程序，注意鼠标时IRQ12, 键盘是IRQ1。&lt;/p&gt;
-
-&lt;p&gt;void inthandler21(int &lt;em&gt;esp)
-/&lt;/em&gt; interrupt from PS/2 keyboard */
-{
-	struct boot_info *binfo = (struct boot_info *) BOOT_ADDR;
-	boxfill8(binfo-&amp;gt;vram, binfo-&amp;gt;scrnx, BLACK, 0, 0, 32 * 8 - 1, 15);
-	print_str(binfo-&amp;gt;vram, binfo-&amp;gt;scrnx, 0, 0, WHITE, “INT 21 (IRQ-1) : PS/2 keyboard”);
-	for (;;) {
-		io_hlt();
-	}
-}
-完了之后还得让它执行IRETD：
-_asm_inthandler21:
-		PUSH	ES
-		PUSH	DS
-		PUSHAD
-		MOV		EAX,ESP
-		PUSH	EAX
-		MOV		AX,SS
-		MOV		DS,AX
-		MOV		ES,AX
-		CALL	_inthandler21
-		POP		EAX
-		POPAD
-		POP		DS
-		POP		ES
-		IRETD
-关于栈，不解释。&lt;/p&gt;
-
-&lt;p&gt;这些差不多就是今天全部的内容了。（唉，累……）&lt;/p&gt;</content><author><name></name></author><summary type="html">书上第五六天所涉及的内容主要是GDT、IDT以及PIC。这两部分我就合在一起写好了。（主要的原因是做完第五天的以后看到代码乱得惨不忍睹，就自己开始整理了一下，随后又发现第六天就是讲分割源文件的，所以就继续看了下去。）</summary></entry><entry><title type="html">《30天自制操作系统》笔记四</title><link href="http://localhost:4034/learning-note/2014/04/22/30days-os-part4.html" rel="alternate" type="text/html" title="《30天自制操作系统》笔记四" /><published>2014-04-22T11:22:17+08:00</published><updated>2014-04-22T11:22:17+08:00</updated><id>http://localhost:4034/learning-note/2014/04/22/30days-os-part4</id><content type="html" xml:base="http://localhost:4034/learning-note/2014/04/22/30days-os-part4.html">&lt;p&gt;第四天我们所要做的事情是使用指针以及显示一个简单的图形界面。&lt;/p&gt;
-
-&lt;p&gt;对于有C语言基础的人来说，指针这一部分基本没问题，主要还是图形界面的设置上。&lt;/p&gt;
-
-&lt;p&gt;我们要修改的是bootpack.c以及naskfunc.nas。在naskfunc.nas中加入了一些IO相关的函数：&lt;/p&gt;
-
-&lt;p&gt;; io interrupt
-GLOBAL		_io_hlt, _io_cli, _io_sti, _io_stihlt
-; io in
-GLOBAL		_io_in8, _io_in16, _io_in32
-; io out
-GLOBAL 	_io_out8, _io_out16, _io_out32
-; about EFLAGS
-GLOBAL		_io_load_eflags, _io_store_eflags
-值得一提的是最后的两个函数。EFLAGS是一个存储着各种标志的寄存器。&lt;/p&gt;
-
-&lt;p&gt;接下来就是C语言的天地了。&lt;/p&gt;
-
-&lt;p&gt;关于颜色，由于这次使用的是320x200的8位颜色模式，也就是最多只能使用0~255共256种颜色了。这里我们只用16种：&lt;/p&gt;
-
-&lt;p&gt;先来初始化调色板：init_palette()&lt;/p&gt;
-
-&lt;p&gt;void init_palette (void) {
-	static unsigned char table_rgb[16 * 3] = {
-		/&lt;em&gt;R, G, B&lt;/em&gt;/
-		0x00, 0x00, 0x00,	/*  0:black&lt;em&gt;/
-		0xff, 0x00, 0x00,	/&lt;/em&gt;  1:light red&lt;em&gt;/
-		0x00, 0xff, 0x00,	/&lt;/em&gt;  2:light green&lt;em&gt;/
-		0xff, 0xff, 0x00,	/&lt;/em&gt;  3:light yellow&lt;em&gt;/
-		0x00, 0x00, 0xff,	/&lt;/em&gt;  4:light blue&lt;em&gt;/
-		0xff, 0x00, 0xff,	/&lt;/em&gt;  5:light purple&lt;em&gt;/
-		0x00, 0xff, 0xff,	/&lt;/em&gt;  6:soft light blue&lt;em&gt;/
-		0xff, 0xff, 0xff,	/&lt;/em&gt;  7:white&lt;em&gt;/
-		0xc6, 0xc6, 0xc6,	/&lt;/em&gt;  8:light grey&lt;em&gt;/
-		0x84, 0x00, 0x00,	/&lt;/em&gt;  9:dark red&lt;em&gt;/
-		0x00, 0x84, 0x00,	/&lt;/em&gt; 10:dark green&lt;em&gt;/
-		0x84, 0x84, 0x00,	/&lt;/em&gt; 11:dark yellow&lt;em&gt;/
-		0x00, 0x00, 0x84,	/&lt;/em&gt; 12:dark blue&lt;em&gt;/
-		0x84, 0x00, 0x84,	/&lt;/em&gt; 13:dark purple&lt;em&gt;/
-		0x00, 0x84, 0x84,	/&lt;/em&gt; 14:soft dark blue&lt;em&gt;/
-		0x84, 0x84, 0x84	/&lt;/em&gt; 15:dark grey*/
-	};
-	set_palette (0, 15, table_rgb);
-	return ;
-}
-其实主要就是对“调色板”table_rgb进行声明（虽然看起来真的很恶心……），然后再用set_palette来设置：
-void set_palette (int start, int end, unsigned char *rgb) {
-	int i;
-	int eflags = io_load_eflags();
-	io_cli();&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;io_out8(0x03c8, start);	
-for (i = start; i &amp;lt;= end; ++i) {
-	io_out8(0x03c9, *(rgb+0) / 4);
-	io_out8(0x03c9, *(rgb+1) / 4);
-	io_out8(0x03c9, *(rgb+2) / 4);
-	rgb += 3;
-}
-io_store_eflags(eflags);
-return ; } 这里跟作者给的代码有一点点的不同就在于我把rgb[0]改成了*(rgb+0)，主要是觉得在之前声明 的时候rgb是数组，如果第一眼看循环体内的代码可能会觉得是只用到了rgb数组的前三个。事实上，因为后面还有一句“rgb+=3”，使得代码是按照声明的部分当中一行一行的来进行io_out的。 这里我们还用到了和eflags有关的几个函数，是因为要进行防止设置调色板的这个过程被中断了。
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;而为什么是这样的来io_out，0x03c8以及0x03c9又是哪里来的呢？这里详情可以看：http://community.osdev.info/?VGA&lt;/p&gt;
-
-&lt;p&gt;书上的说法是：&lt;/p&gt;
-
-&lt;p&gt;完了以后我们就可以开始用色了。&lt;/p&gt;
-
-&lt;p&gt;这里书上的参考函数：&lt;/p&gt;
-
-&lt;p&gt;void boxfill8(unsigned char *vram, int xsize, unsigned char c, 
-		int x0, int y0, int x1, int y1) {
-	int x, y;
-	for (y = y0; y &amp;lt;= y1; y++)
-		for (x = x0; x &amp;lt;= x1; x++)
-			vram[y * xsize + x] = c;
-	return;
-}
-就是绘制矩形。
-其中c代表的是color的编号，这里被我重新宏定义了（真不明白作者的宏定义为什么他自己可以看得懂……）&lt;/p&gt;
-
-&lt;p&gt;/* colors */
-#define BLACK		0
-#define LIGHT_RED	1
-#define LIGHT_GREEN	2
-#define LIGHT_YELLOW	3
-#define LIGHT_BLUE	4
-#define LIGHT_PURPLE	5
-#define SOFT_LIGHT_BLUE	6
-#define WHITE		7
-#define LIGHT_GREY	8
-#define DARK_RED	9
-#define DARK_GREEN	10
-#define DARK_YELLOW	11
-#define DARK_BLUE	12
-#define DARK_PURPLE	13
-#define SOFT_DARK_BLUE	14
-#define DARK_GREY	15
-今天的也就这么多了。&lt;/p&gt;</content><author><name></name></author><summary type="html">第四天我们所要做的事情是使用指针以及显示一个简单的图形界面。</summary></entry></feed>
+&lt;/table&gt;</content><author><name></name></author><summary type="html">算法 概括 优缺点 k-means 每次从类中求均值作为中心点用到了EM的思想目标是最小化sum of squared error 要求预设k值易受噪音和离异点的影响 对不规则形状的类聚类效果不好不保证全局最优 k-means++ 目标是找到k个合理的初始种子点给k-means。1. 随机挑个随机点当“种子点”2. 对于每个点，计算其和最近的“种子点”的距离D(x)并保存，然后把这些距离加起来得到Sum(D(x))。3. 再取一个随机值，用权重的方式来取计算下一个“种子点”。这个算法的实现是，先取一个能落在Sum(D(x))中的随机值Random，然后用Random -= D(x)，直到其&amp;lt;=0，此时的点就是下一个“种子点”。4. 重复2和3直到k个中心被选出来5. 利用这k个初始的聚类中心来运行标准的k-means算法   k-modes K-Means算法的扩展对于分类型数据，用mode求中心点   k-prototypes 结合了k-means和k-modes   k-medoids 每次从类中找一个具体的点来做中心点。目标是最小化absolute error。PAM是一种典型的k-medoids实现。 对噪音和离异点不那么敏感然而计算量大很多 CLARA 先抽样，再用PAM 对于大数据比PAM好点主要是看sample的效果 CLARANS 每次随机的抓一个medoid跟一般点，然后判断，这两者如果替换的话，能不能减小absolute-error 融合了PAM和CLARA两者的优点，是第一个用于空间数据库的聚类算法</summary></entry></feed>
