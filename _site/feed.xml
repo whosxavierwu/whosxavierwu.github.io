@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-06-21T12:28:44+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-06-21T12:34:13+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;在该论文中，YouTube提出了一种双塔结构的排序模型，新颖的点主要在于：&lt;/p&gt;
 &lt;ol&gt;
@@ -502,7 +502,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
 
 &lt;h1 id=&quot;一召回&quot;&gt;一、召回&lt;/h1&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-candidate-generate.jpg&quot; alt=&quot;Candidate Generation&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-dnn-candidate-generate.jpg&quot; alt=&quot;Candidate Generation&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;1-问题定义&quot;&gt;1. 问题定义&lt;/h2&gt;
 
@@ -524,13 +524,13 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
   &lt;li&gt;注意避免样本数据中掺入未来信息，模型的输入应该始终只有打标签以前的数据。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-dataset.jpg&quot; alt=&quot;训练数据筛选&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-dnn-dataset.jpg&quot; alt=&quot;训练数据筛选&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;3-特征处理&quot;&gt;3. 特征处理&lt;/h2&gt;
 
 &lt;p&gt;特征方面，抽象来看，主要涉及用户属性、用户行为与事件时间特征三大块。作者在论文中给出了不同特征组合的效果对比：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-feature-select.jpg&quot; alt=&quot;Features&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-dnn-feature-select.jpg&quot; alt=&quot;Features&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;31-用户属性特征&quot;&gt;3.1 用户属性特征&lt;/h3&gt;
 
@@ -602,7 +602,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
 
 &lt;p&gt;作者通过统计分析表明，模型在加入了”Example Age”之后，能比较好的捕捉到视频上传时间的影响。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-example-age.jpg&quot; alt=&quot;Example Age&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-dnn-example-age.jpg&quot; alt=&quot;Example Age&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;那么问题来了，为什么不直接用”Days Since Upload”来做特征呢？&lt;/p&gt;
 
@@ -631,7 +631,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
 
 &lt;h3 id=&quot;42-线上服务&quot;&gt;4.2 线上服务&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-recall-serving.jpg&quot; alt=&quot;Candidate Generation Serving&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-dnn-recall-serving.jpg&quot; alt=&quot;Candidate Generation Serving&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;模型框架图中的这个细节，是我一开始没有留意到的。&lt;/p&gt;
 
@@ -665,7 +665,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
 
 &lt;h1 id=&quot;二排序&quot;&gt;二、排序&lt;/h1&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-ranking.jpg&quot; alt=&quot;Ranking&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-dnn-ranking.jpg&quot; alt=&quot;Ranking&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;1-问题定义-1&quot;&gt;1. 问题定义&lt;/h2&gt;
 
@@ -679,7 +679,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
 
 &lt;h2 id=&quot;3-特征处理-1&quot;&gt;3. 特征处理&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-ranking-feature.jpg&quot; alt=&quot;Ranking Features&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-dnn-ranking-feature.jpg&quot; alt=&quot;Ranking Features&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;论文中简单的按照特征值类型分别展开论述。&lt;/p&gt;
 
@@ -757,7 +757,7 @@ odds &amp;=\frac{E[T|Clicked]}{E[T|NotClicked]} =\frac{\frac{\sum^{K}_{i}{T_i}}{
 
 &lt;p&gt;于是，当$ctr$较小时，$odds$是接近于$E[T]$的；而YouTube框架图中的这看似诡异的部分，背后思想则源于此：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4034/assets/youtube-dnn-ranking-serving.jpg&quot; alt=&quot;Ranking Serving&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/youtube-dnn-ranking-serving.jpg&quot; alt=&quot;Ranking Serving&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;serving时采用几率$odds$，而不是$sigmoid$来作为对视频观看时长的近似。&lt;/p&gt;
 

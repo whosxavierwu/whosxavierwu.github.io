@@ -18,7 +18,7 @@ typora-root-url: ../../whosxavierwu.github.io
 
 # 一、召回
 
-![Candidate Generation]({{ site.url }}/assets/youtube-dnn-candidate-generate.jpg)
+![Candidate Generation](/assets/youtube-dnn-candidate-generate.jpg)
 
 ## 1. 问题定义
 
@@ -40,13 +40,13 @@ $$
 2. 对每个用户带来的训练样本数进行了限制，从而避免高活跃用户对模型的过度影响。
 3. 注意避免样本数据中掺入未来信息，模型的输入应该始终只有打标签以前的数据。
 
-![训练数据筛选]({{ site.url }}/assets/youtube-dnn-dataset.jpg)
+![训练数据筛选](/assets/youtube-dnn-dataset.jpg)
 
 ## 3. 特征处理
 
 特征方面，抽象来看，主要涉及用户属性、用户行为与事件时间特征三大块。作者在论文中给出了不同特征组合的效果对比：
 
-![Features]({{ site.url }}/assets/youtube-dnn-feature-select.jpg)
+![Features](/assets/youtube-dnn-feature-select.jpg)
 
 ### 3.1 用户属性特征
 
@@ -104,7 +104,7 @@ $t_N$指的是样本打标签的时间，也就是当前的事件的时间戳，
 
 作者通过统计分析表明，模型在加入了"Example Age"之后，能比较好的捕捉到视频上传时间的影响。
 
-![Example Age]({{ site.url }}/assets/youtube-dnn-example-age.jpg)
+![Example Age](/assets/youtube-dnn-example-age.jpg)
 
 那么问题来了，为什么不直接用"Days Since Upload"来做特征呢？
 
@@ -135,7 +135,7 @@ $$
 
 ### 4.2 线上服务
 
-![Candidate Generation Serving]({{ site.url }}/assets/youtube-dnn-recall-serving.jpg)
+![Candidate Generation Serving](/assets/youtube-dnn-recall-serving.jpg)
 
 模型框架图中的这个细节，是我一开始没有留意到的。
 
@@ -165,7 +165,7 @@ $$
 
 # 二、排序
 
-![Ranking]({{ site.url }}/assets/youtube-dnn-ranking.jpg)
+![Ranking](/assets/youtube-dnn-ranking.jpg)
 
 ## 1. 问题定义
 
@@ -179,7 +179,7 @@ YouTube的推荐系统中，将排序问题转化为预测：给用户$u_i$曝�
 
 ## 3. 特征处理
 
-![Ranking Features]({{ site.url }}/assets/youtube-dnn-ranking-feature.jpg)
+![Ranking Features](/assets/youtube-dnn-ranking-feature.jpg)
 
 论文中简单的按照特征值类型分别展开论述。
 
@@ -254,7 +254,7 @@ $$
 
 于是，当$ctr$较小时，$odds$是接近于$E[T]$的；而YouTube框架图中的这看似诡异的部分，背后思想则源于此：
 
-![Ranking Serving]({{ site.url }}/assets/youtube-dnn-ranking-serving.jpg)
+![Ranking Serving](/assets/youtube-dnn-ranking-serving.jpg)
 
 serving时采用几率$odds$，而不是$sigmoid$来作为对视频观看时长的近似。
 

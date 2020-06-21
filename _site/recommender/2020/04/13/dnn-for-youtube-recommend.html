@@ -51,7 +51,7 @@
 
 <h1 id="一召回">一、召回</h1>
 
-<p><img src="http://localhost:4034/assets/youtube-dnn-candidate-generate.jpg" alt="Candidate Generation" /></p>
+<p><img src="/assets/youtube-dnn-candidate-generate.jpg" alt="Candidate Generation" /></p>
 
 <h2 id="1-问题定义">1. 问题定义</h2>
 
@@ -73,13 +73,13 @@
   <li>注意避免样本数据中掺入未来信息，模型的输入应该始终只有打标签以前的数据。</li>
 </ol>
 
-<p><img src="http://localhost:4034/assets/youtube-dnn-dataset.jpg" alt="训练数据筛选" /></p>
+<p><img src="/assets/youtube-dnn-dataset.jpg" alt="训练数据筛选" /></p>
 
 <h2 id="3-特征处理">3. 特征处理</h2>
 
 <p>特征方面，抽象来看，主要涉及用户属性、用户行为与事件时间特征三大块。作者在论文中给出了不同特征组合的效果对比：</p>
 
-<p><img src="http://localhost:4034/assets/youtube-dnn-feature-select.jpg" alt="Features" /></p>
+<p><img src="/assets/youtube-dnn-feature-select.jpg" alt="Features" /></p>
 
 <h3 id="31-用户属性特征">3.1 用户属性特征</h3>
 
@@ -151,7 +151,7 @@
 
 <p>作者通过统计分析表明，模型在加入了”Example Age”之后，能比较好的捕捉到视频上传时间的影响。</p>
 
-<p><img src="http://localhost:4034/assets/youtube-dnn-example-age.jpg" alt="Example Age" /></p>
+<p><img src="/assets/youtube-dnn-example-age.jpg" alt="Example Age" /></p>
 
 <p>那么问题来了，为什么不直接用”Days Since Upload”来做特征呢？</p>
 
@@ -180,7 +180,7 @@
 
 <h3 id="42-线上服务">4.2 线上服务</h3>
 
-<p><img src="http://localhost:4034/assets/youtube-dnn-recall-serving.jpg" alt="Candidate Generation Serving" /></p>
+<p><img src="/assets/youtube-dnn-recall-serving.jpg" alt="Candidate Generation Serving" /></p>
 
 <p>模型框架图中的这个细节，是我一开始没有留意到的。</p>
 
@@ -214,7 +214,7 @@
 
 <h1 id="二排序">二、排序</h1>
 
-<p><img src="http://localhost:4034/assets/youtube-dnn-ranking.jpg" alt="Ranking" /></p>
+<p><img src="/assets/youtube-dnn-ranking.jpg" alt="Ranking" /></p>
 
 <h2 id="1-问题定义-1">1. 问题定义</h2>
 
@@ -228,7 +228,7 @@
 
 <h2 id="3-特征处理-1">3. 特征处理</h2>
 
-<p><img src="http://localhost:4034/assets/youtube-dnn-ranking-feature.jpg" alt="Ranking Features" /></p>
+<p><img src="/assets/youtube-dnn-ranking-feature.jpg" alt="Ranking Features" /></p>
 
 <p>论文中简单的按照特征值类型分别展开论述。</p>
 
@@ -306,7 +306,7 @@ odds &=\frac{E[T|Clicked]}{E[T|NotClicked]} =\frac{\frac{\sum^{K}_{i}{T_i}}{N-K+
 
 <p>于是，当$ctr$较小时，$odds$是接近于$E[T]$的；而YouTube框架图中的这看似诡异的部分，背后思想则源于此：</p>
 
-<p><img src="http://localhost:4034/assets/youtube-dnn-ranking-serving.jpg" alt="Ranking Serving" /></p>
+<p><img src="/assets/youtube-dnn-ranking-serving.jpg" alt="Ranking Serving" /></p>
 
 <p>serving时采用几率$odds$，而不是$sigmoid$来作为对视频观看时长的近似。</p>
 
