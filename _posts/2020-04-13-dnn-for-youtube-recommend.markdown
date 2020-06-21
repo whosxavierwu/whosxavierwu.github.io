@@ -3,6 +3,7 @@ layout: post
 title:  "Deep Neural Network for YouTube Recommendation System"
 date:   2020-04-13 00:00:00 +0800
 categories: recommender
+typora-root-url: ../../whosxavierwu.github.io
 ---
 
 # 概述
@@ -13,7 +14,7 @@ categories: recommender
 
 下图是整体框架：
 
-![整体框架](../assets/youtube-dnn-whole.jpg)
+![整体框架](/assets/youtube-dnn-whole.jpg)
 
 # 一、召回
 
