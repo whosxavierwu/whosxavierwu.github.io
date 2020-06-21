@@ -13,7 +13,7 @@ categories: recommender
 
 下图是整体框架：
 
-![整体框架]({{ site.url }}/assets/youtube-dnn-whole.jpg)
+![整体框架](../assets/youtube-dnn-whole.jpg)
 
 # 一、召回
 
