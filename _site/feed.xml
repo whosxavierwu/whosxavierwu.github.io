@@ -1,4 +1,368 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4034/" rel="alternate" type="text/html" /><updated>2020-06-21T22:10:16+08:00</updated><id>http://localhost:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://0.0.0.0:4034/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4034/" rel="alternate" type="text/html" /><updated>2020-07-19T21:50:42+08:00</updated><id>http://0.0.0.0:4034/</id><title type="html">whosxavierwu’s blog</title><subtitle>Keep learning, deep learning. </subtitle><entry><title type="html">汽车类词汇聚类 - 项目总结</title><link href="http://0.0.0.0:4034/clustering/2020/06/27/word-clustering-project-review.html" rel="alternate" type="text/html" title="汽车类词汇聚类 - 项目总结" /><published>2020-06-27T15:18:00+08:00</published><updated>2020-06-27T15:18:00+08:00</updated><id>http://0.0.0.0:4034/clustering/2020/06/27/word-clustering-project-review</id><content type="html" xml:base="http://0.0.0.0:4034/clustering/2020/06/27/word-clustering-project-review.html">&lt;h2 id=&quot;背景&quot;&gt;背景&lt;/h2&gt;
+
+&lt;p&gt;这次项目是此前刚进公司的一个练手项目。做完项目之后，通过文档整理、部门内分享等形式的总结，除了发现自己技术上不成熟的地方以外，还看到了一些做事方法上的问题。本文的重点不在于“让我重做一遍的话技术上我会怎么改进”，而是“让我重做一遍的话项目方法上我会怎么改进”。因此下面将按项目的实际历程来复盘、总结，而不是按项目常规流程来写。希望通过这样一个写作的过程，让自己也再反思一遍，避免以后重蹈覆辙吧。此外，由于这段时间有每天写日报的要求，正好能看下自己每次写的“明日计划”到底执行得怎样。&lt;/p&gt;
+
+&lt;p&gt;整个项目描述起来并不复杂：从百家号的网页数据中，提取出词汇，并对词汇进行聚类。&lt;/p&gt;
+
+&lt;p&gt;项目中还给指定了一种特定的特征向量计算方式（我们一直没想太清楚具体为什么这样做）：先构建词汇共现矩阵$C$，然后对每个词的特征向量$\vec{c_i}$，除去与该词汇共现过的词汇的数量，即&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;v_{ij} = \frac{c_{ij}}{ count\{j;c_{ij}&gt;0\} }&lt;/script&gt;
+
+&lt;h2 id=&quot;历程&quot;&gt;历程&lt;/h2&gt;
+
+&lt;p&gt;下面按时间轴来进行回顾，其中“当日完成”与“次日计划”基本都是直接从我的日报中摘下来的，部分做了些精简。另外项目期间有假期等其他情况，也都给跳过了。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---01&quot;&gt;Day - 01&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;完成了初步代码开发，在小批量数据中跑通了；具体分为文章内容提取、tokenize、词汇特征向量计算、词汇聚类这四块；&lt;/p&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;细调代码（更细致的数据清洗、用哪些符号分行、词汇特征向量的计算是否有误、尝试其他特征建模方式、KMeans调参等），并在全量数据集中跑通；&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;拿到任务的当天，我要到原始网页数据集后就直接开始敲代码了。看起来思路清晰明了：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;从网页中（用BeautifulSoup）提取出文章的内容；&lt;/li&gt;
+  &lt;li&gt;把这些文章（拿&lt;a href=&quot;https://github.com/PaddlePaddle/models/tree/develop/PaddleNLP&quot;&gt;PaddleNLP&lt;/a&gt;中预处理所用的&lt;a href=&quot;https://github.com/PaddlePaddle/models/tree/develop/PaddleNLP/shared_modules/preprocess/tokenizer&quot;&gt;tokenizer&lt;/a&gt;）进行tokenize：分短句、分词；&lt;/li&gt;
+  &lt;li&gt;按照任务指定的方式来计算词共现矩阵，进而得到特征向量；&lt;/li&gt;
+  &lt;li&gt;用&lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html&quot;&gt;sklearn中的KMeans&lt;/a&gt;对词汇进行聚类。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;沿着这个思路，一顿操作猛如虎，一天就开发了一版，在小量数据中跑通了以后感觉信心满满。后面我们会看到，这个方案中其实存在很多bug。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---02&quot;&gt;Day - 02&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;从全量百家号网页数据（125万）中提取出文章内容（56万）作为全量语料；&lt;/li&gt;
+    &lt;li&gt;尝试对全量语料进行分句、分词。存在代码执行效率问题，未全部跑出，暂时只用跑出来的约120万短句进行后续流程；&lt;/li&gt;
+    &lt;li&gt;基于120万短句，分词后取Top-1w的词汇，基于两词共现次数计算特征向量；发现构建稀疏特征矩阵（1wx1w）时效率低下，且特征维度如果想升至2w时，内存不够用；&lt;/li&gt;
+    &lt;li&gt;在前一步的结果中尝试基于sklearn跑KMeans聚类，报MemoryError；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;考虑优化词汇特征向量（词共现矩阵）的构建效率；&lt;/li&gt;
+    &lt;li&gt;考虑如何提升特征维度，需要由1w升至6w；&lt;/li&gt;
+    &lt;li&gt;Debug看为什么KMeans跑出错；&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;第二天就翻车了：把小量数据一换成全量数据，整个就垮掉。&lt;/p&gt;
+
+&lt;p&gt;容易看出，问题主要在于此前&lt;strong&gt;没有考虑时间、空间复杂度&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;对文章进行tokenize的效率不行。主要的原因在于，当时所采用的方式是&lt;strong&gt;单进程&lt;/strong&gt;的：从sys.stdin中&lt;strong&gt;读入一行&lt;/strong&gt;数据，然后用tokenizer&lt;strong&gt;加载模型&lt;/strong&gt;进行inference。所以至少有几个优化方向：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;改为多进程；&lt;/li&gt;
+  &lt;li&gt;调用模型进行inference时，应该增加batch的大小；&lt;/li&gt;
+  &lt;li&gt;应该考虑能否只加载一次模型；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;特征工程方面，很快就遇到了内存瓶颈。这其实在接任务时就隐约感觉到了——N维特征向量是不是太大了些？&lt;/p&gt;
+
+&lt;p&gt;“存储一个1w*1w的矩阵，需要多大的空间？”这个问题如果是在面试的过程中遇到，我能直接答出应该怎么算；而在实际项目进行中，我很少进行这样的思考与计算，基本都是“现在的内存感觉够不够用？先试试吧？”&lt;/p&gt;
+
+&lt;p&gt;仔细想来，&lt;strong&gt;提前对内存开支与执行效率做预估，是一件性价比很高的事情。&lt;/strong&gt;因为粗略的估算并花不了太多的时间，而如果存在致命的资源（时间或空间）瓶颈而提前不知道，后面改动整个方案将会耗费大量的精力。&lt;/p&gt;
+
+&lt;p&gt;对比当天实际工作跟前一天安排的计划，发现前一天&lt;strong&gt;安排计划时过于自信&lt;/strong&gt;，认为在全量数据上跑通并不难。而回过头来想，如果前一天下班前就顺手用全量数据跑一下，问题马上也就暴露出来了。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---03&quot;&gt;Day - 03&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;发现用scipy的稀疏矩阵来构建共现矩阵的做法存在效率瓶颈，转为使用MapReduce之后效率大幅度提升，由数小时降为10分钟内；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;共现矩阵目前是&amp;lt;token_pair, count&amp;gt;的形式，接下来需要考虑能否用MapReduce直接做KMeans聚类，或者转成稀疏矩阵后再调用sklearn进行处理&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;发现内存不够以后，想到第一个优化方向是改numpy数组为&lt;a href=&quot;https://docs.scipy.org/doc/scipy/reference/sparse.html&quot;&gt;scipy中的稀疏数组&lt;/a&gt;。为此还搜集资料盘点了三种稀疏矩阵的异同。这样一来确实内存是能hold住了，但是构建稀疏矩阵的过程太慢了。然后决定转用MapReduce来计算词共现矩阵——效率大幅度提升。&lt;/p&gt;
+
+&lt;p&gt;回过头来看，为什么一开始我没想到用MapReduce呢？主要还是&lt;strong&gt;认知水平上的局限&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;不习惯：我习惯了用sklearn做所有事情；&lt;/li&gt;
+  &lt;li&gt;不熟悉：虽然知道MapReduce的原理以及大概的编写方式，但此前几乎就没有自己写过MR脚本，&lt;strong&gt;潜意识中给自己设限了&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;对比实际工作跟前一天安排的计划，整体上是沿着计划在走的：优化词共现矩阵的构建效率。只是光这一点就花去了一天时间，而没来得及做提高特征维度以及debug聚类模型的事情。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---04&quot;&gt;Day - 04&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;将昨天的MapReduce改了一下，改成按&amp;lt;token, count_vector&amp;gt;的形式，并跑通；&lt;/li&gt;
+    &lt;li&gt;跑出了一个更大的短句语料（共3555万行，未用全部文章语料），并得到107w*107w的词汇共现矩阵；&lt;/li&gt;
+    &lt;li&gt;取Top 6w的词汇，分别输出了利用不同类别数的KMeans算法结果（10，50，100，300，500，700，1000）；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;人工评估不同K值输出的聚类效果，并思考优化方向；（目前程序取Top 10w的词汇，K取1000，2000，3000，4000，5000在执行中）&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;注意到，当天还换了MR程序的输出格式，这说明我此前并&lt;strong&gt;没有想清楚该模块跟后续模块的数据对接方式&lt;/strong&gt;。更进一步的，&lt;strong&gt;为什么不提前做好系统设计再开发呢？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;另外，一切似乎过于顺利？107万*107万的词共现矩阵，因为MR是神器就那么轻松的跑出来了？6万*6万的数据量，那么快就跑出了7种结果，真的只是因为KMeans的高效？&lt;/p&gt;
+
+&lt;h3 id=&quot;day---05&quot;&gt;Day - 05&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;今天发现了一个重要的代码bug（编码问题导致之前MapReduce计算词汇共现是错误的），已处理；&lt;/li&gt;
+    &lt;li&gt;改了bug之后，数据量变正常了，也大了许多（取Top 6w的话，共现词对有5千万），因此针对执行效率做了些代码优化；目前已经得到Top 6w的词汇特征矩阵；但用sklearn的KMeans做聚类时，发现执行效率特别低；目前安排了K=500的正在跑；&lt;/li&gt;
+    &lt;li&gt;尝试开发了一版基于MapReduce计算KMeans，但未调试；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;了解有没有办法优化sklearn的执行效率&lt;/li&gt;
+    &lt;li&gt;调通MapReduce版的KMeans；&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;进展过于顺利的时候似乎需要更多的注意。&lt;/p&gt;
+
+&lt;p&gt;代码有bug是不可避免的，而这里暴露的主要问题是，此前虽然跑出了一个共现矩阵的结果，但&lt;strong&gt;没有做数据校验&lt;/strong&gt;。只要看下6万*6万的矩阵中有多少非空元素，不需要太多的常识就能发现矩阵过于稀疏了。所以&lt;strong&gt;在跑数之前就应该对怎么验数有一定的思考&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;说来惭愧，数据校验这个意识，最早在两年前就在一个项目中被领导提醒过。&lt;/p&gt;
+
+&lt;p&gt;另外，由于此前用MR计算词共现矩阵发现“真香”，于是看到sklearn的KMeans跑得慢的时候，也想自己动手来个MR版的KMeans。&lt;/p&gt;
+
+&lt;p&gt;这一天由于代码的bug，事情的进展自然跟计划的完全不一样了。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---06&quot;&gt;Day - 06&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;多次尝试优化sklearn的KMeans聚类算法的执行效率，一直没有提升；收集资料后决定换为sklearn的MiniBatchKMeans，效率上来了，但效果（仅从轮廓系数 silhouette score来看）可能略差一些；目前已有N=2w，K=1000的结果，正在跑K=1500和K=2000的结果；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;【避坑】&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;使用sklearn的模型进行训练时经常设置n_jobs=-1，这在python=2.7.3的时候可能会报错，改用python&amp;gt;=2.7.17能避免；&lt;/li&gt;
+    &lt;li&gt;对python脚本输出重定向时，需要及时用sys.stdout.flush() 清缓存，否则日志可能要等很久才看的到；&lt;/li&gt;
+    &lt;li&gt;多查看博客，参考别人的做法；会更快发现MiniBatchKMeans可能更好用；&lt;/li&gt;
+    &lt;li&gt;要及时评估当前算法执行效率、节省时间；而不是丢在一边干等待；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;人为评估聚类效果&lt;/li&gt;
+    &lt;li&gt;数据清洗（统一大小写、标点符号过滤）&lt;/li&gt;
+    &lt;li&gt;增大数据量（N从2w往上增加）&lt;/li&gt;
+    &lt;li&gt;仔细阅读MiniBatchKMeans文档，进行调参（K值、迭代次数等其他参数）；&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;现在想来，还好当时发现了sklearn中还有个&lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MiniBatchKMeans.html&quot;&gt;MiniBatchKMeans&lt;/a&gt;的“神器”，不然如果朝着MR版的KMeans折腾下去不知道还要走多少弯路。KMeans算法虽然简单易懂，但是要造个MR版的轮子，可一点都不简单——我在看了KMeans的&lt;a href=&quot;https://github.com/scikit-learn/scikit-learn/blob/fd237278e/sklearn/cluster/_kmeans.py#L745&quot;&gt;源代码&lt;/a&gt;后才发现其中有那么多的门道。&lt;/p&gt;
+
+&lt;p&gt;正如日报中所说的，需要吸取的经验是：多看博客、收集资料，参考别人的做法；以及&lt;strong&gt;执行脚本前都应该预估执行效率&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;改用MiniBatchKMeans后，效率不再是主要问题，也才终于可以开始做优化了。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---07&quot;&gt;Day - 07&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;主要花时间在数据清洗上，通过修改PaddleNLP中给出的tokenizer.py，统一成小写、统一标点符号、去除标点符号。并修改成pipe的方式，进而实现多CPU并行inference的效果；&lt;/li&gt;
+    &lt;li&gt;通读了sklearn中MiniBatchKMeans的源代码；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;进行聚类效果评估；&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;通读sklearn中&lt;a href=&quot;https://github.com/scikit-learn/scikit-learn/blob/fd237278e/sklearn/cluster/_kmeans.py#L1428&quot;&gt;MiniBatchKMeans的源代码&lt;/a&gt;的过程中，我才发现自己此前对KMeans类算法的理解有多肤浅。虽说官方文档写得已经很详细了，但如果不读源代码，还是不会懂：同样一个n_init参数在KMeans和MiniBatchKMeans中有什么区别？tol和reassignment_ratio到底是怎么影响最终收敛判断的？对每个batch迭代计算时又是怎么更新类标签的？&lt;/p&gt;
+
+&lt;p&gt;诸如此类的关键细节，在教科书上基本是不会看到的，只藏在代码中。&lt;strong&gt;学算法还是得多看源码&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---08&quot;&gt;Day - 08&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;利用昨天清洗后的数据，重新出了聚类结果；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;进行聚类效果评估；&lt;/li&gt;
+    &lt;li&gt;抽空整理代码、实验数据等，准备分享；&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;day---09&quot;&gt;Day - 09&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;抽样观察聚类结果；&lt;/li&gt;
+    &lt;li&gt;整理代码，拟了一份初步的总结文档；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;整理文档；&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;day---10&quot;&gt;Day - 10&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;今天主要是挑了一个具体的结果进行了较为细致的分析与评估，初步的结论是：当前的聚类算法方案，聚出来的类中，词汇量2~5的类别效果可接受，词汇量为1以及词汇量&amp;gt;=200的类效果不如预期；&lt;/p&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;讨论如何做优化等进一步问题；&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;接着三天主要是抽样了一些聚类的结果，进行人工评估，并开始写文档。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---11&quot;&gt;Day - 11&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;上午讨论发现聚类效果随K值的影响波动特别大，开始时怀疑是n_init=1导致，改为n_init=10后问题依旧存在；仔细研读MiniBatchKMeans库的源代码后，发现原因可能在于init_size=6000太小，改为init_size=20000后问题并未解决；目前怀疑效果波动是由于初始化时采用随机分配的方式所导致的，已经改init=random为init=k-means++正在跑，明天看效果；&lt;/p&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;基于现有结果做数据分析，寻找效果波动大的原因；&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;跟指导人讨论了以后，发现聚类效果随着K值的波动特别大。&lt;/p&gt;
+
+&lt;p&gt;这一点为什么此前三天的人工评估里面没有发现呢？回想起来，主要是因为当时&lt;strong&gt;没有明确实验目标以及实验计划&lt;/strong&gt;。我只是想着先出一份结果看看，而一直没有去想，做出来以后该&lt;strong&gt;如何评估聚类模型的效果&lt;/strong&gt;。只有对评估方案有较为清晰的定义，才能谈迭代优化。所以我才一直没有想到怎样去评估不同K值下带来的效果差异，以及如何挑选K值才是最为合适的。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---12&quot;&gt;Day - 12&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;主要是整理了此前做过的多次实验（共计68次），进行了汇总，尝试从中分析K值的选择；初步看来K值取1000较为合适；除了 Calinski-Harabasz Index 这个指标，目前正在用Silhouette Score 对之前的结果跑数，看了下其中几个结果，出现了负值，需要进一步分析；&lt;/p&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;梳理清楚两个指标的差异，明确为什么Silhouette Score会出现一些负值的现象；&lt;/li&gt;
+    &lt;li&gt;挑选Calinski-Harabasz Index较高以及较低的两份结果，人为对比分析，进而判断该指标是否确实适用；&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;既然发现了自己的问题，也就找到了方向——K值取多少较为合适。&lt;/p&gt;
+
+&lt;p&gt;聚类算法的效果评估本身就是个领域里的大问题。在搜集了一些资料后，摆在面前的主要有三种量化指标：inertia、&lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html&quot;&gt;Silhouette Score&lt;/a&gt;、&lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.metrics.calinski_harabasz_score.html&quot;&gt;Calinski-Harabasz Index&lt;/a&gt;。这里不展开谈三种指标的区别。而且坦白讲，当时我并没有仔细的去看这三种指标的区别！&lt;strong&gt;在没有完全理解指标的含义时就直接使用，是风险很大的事情&lt;/strong&gt;。一旦画出来的曲线“长得奇怪一些”，也就懵圈了。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---13&quot;&gt;Day - 13&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;梳理清楚inertia、Calinski-Harabasz Index、Silhouette Score的区别；&lt;/li&gt;
+    &lt;li&gt;在回查日志时发现，MiniBatchKMeans在每次迭代时内部inertia波动很大，搜集资料、并思考后发现，对数据进行normalize之后（即除去特征向量的模），整体效果更为稳定，可以看到内部迭代时inertia是稳定下降的；且随着K值的增大，整体inertia稳定下降，符合预期；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;对于新的结果，再次看了下Silhouette Score，仍旧都是负值，只是由原来的-0.5、-0.3调整到了-0.07、-0.08的量级，整体有效果提升；但仍需要定位原因、排查问题；&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在盘点清楚三种指标的区别之后，看曲线的时候也才能看出规律及异常来。同时，inertia曲线还启发了我在特征工程上的优化灵感。到这个时候，也就对“如何挑选K值”这个问题有了进一步的理解，后面的分析自然水到渠成了。&lt;/p&gt;
+
+&lt;h3 id=&quot;day---14&quot;&gt;Day - 14&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;当日完成&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;今天重新整理了实验数据，基于正则化前和正则化后做数据对比分析，观察簇内误差平方和（inertia）随K值的波动情况，挑选拐点k=900、k=2000、k=5000进行case分析；&lt;/li&gt;
+    &lt;li&gt;分析后整理了至今的一些结论：&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;聚类算法调优方面：&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;MiniBatchKMeans 的执行效率显著高于 KMeans；&lt;/li&gt;
+    &lt;li&gt;选择 k-means++ 的初始化方式，一般会优于 random 的，但是效率会慢很多；&lt;/li&gt;
+    &lt;li&gt;提前对特征进行正则化很重要，能让聚类效果更稳定、良好，同时效率也会提升；&lt;/li&gt;
+    &lt;li&gt;MiniBatchKMeans 在使用时，可以尽量调高 init_size 与n_init，使效果更稳定；&lt;/li&gt;
+    &lt;li&gt;挑选效果指标时应首选 inertia，因为该指标在 KMeans 训练完之后就能得到，不需要额外计算，其次再考虑其他指标，其中轮廓系数计算起来特别慢；&lt;/li&gt;
+    &lt;li&gt;挑选K值时，可以绘制 inertia 随着K值的变动情况，再寻找关键的拐点，挑选合适的K值；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;聚类效果方面：&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;K值如果太大，会孤立出许多词汇作为单独的簇，例如K=5000时，会有40%的词汇被孤立，这显然不符合业务预期；&lt;/li&gt;
+    &lt;li&gt;聚类出来的小簇（含有词汇量10个以内）通常效果较好，而K值越大，出来的簇普遍就小一些；相对于k=900而言，k=2000输出的小簇质量相当而数量更多，所以表现更好一些；&lt;/li&gt;
+    &lt;li&gt;对于中等大小的簇（含有10~100个词汇），关键是需要有个更明确的业务评估标准，才能进行评判；&lt;/li&gt;
+    &lt;li&gt;超大的簇应该尽量少，因为通常而言，这种簇难以在业务中应用；&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;&lt;strong&gt;次日计划&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;整理文档；&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;到这里项目基本就算结束了，出来的结论也算是靠谱。&lt;/p&gt;
+
+&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;总结来看，经过这次的项目，主要有这么一些体会（非技术层面）：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;开始做事前，要先搞清楚目标，最好是能有个量化的目标；&lt;/li&gt;
+  &lt;li&gt;开始敲代码之前，要先做系统设计：主要分哪些模块？模块间流转的数据是怎样的？方案的时间、空间复杂度如何？&lt;/li&gt;
+  &lt;li&gt;考虑方案前，多搜集资料，参考别人的做法；&lt;/li&gt;
+  &lt;li&gt;先定实验方案，再跑程序：实验目的是什么？有哪些假设？要做多少组实验？&lt;/li&gt;
+  &lt;li&gt;开始跑程序之前，最好先估计执行时间；&lt;/li&gt;
+  &lt;li&gt;在数据结果出来之后，自己先多做点数据校验；&lt;/li&gt;
+  &lt;li&gt;日常学习算法时，还是得多看开源代码；&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><summary type="html">背景</summary></entry><entry><title type="html">Recommending What Video to Watch Next: A Multitask Ranking System</title><link href="http://0.0.0.0:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html" rel="alternate" type="text/html" title="Recommending What Video to Watch Next: A Multitask Ranking System" /><published>2020-04-29T22:55:00+08:00</published><updated>2020-04-29T22:55:00+08:00</updated><id>http://0.0.0.0:4034/recommender/2020/04/29/recommend-what-video-to-watch-next</id><content type="html" xml:base="http://0.0.0.0:4034/recommender/2020/04/29/recommend-what-video-to-watch-next.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;在该论文中，YouTube提出了一种双塔结构的排序模型，新颖的点主要在于：&lt;/p&gt;
 &lt;ol&gt;
@@ -209,7 +573,7 @@
 
 &lt;p&gt;关于这篇论文的解读就先写到这里了。总的来说，论文着重讲的是引入了消偏以及MMoE模块后的整体多目标学习的模型结构；对于排序模型结构以外的东西，如数据处理、特征工程等讲得特别少。很难说换个业务场景是不是也能生效。&lt;/p&gt;
 
-&lt;p&gt;后续可能需要看下MMoE的发布论文，以及如果有空的话，补充一下该论文在消偏部分可能遗漏了的一些细节。另外，多目标学习也是颇有意思的业务场景，值得继续深挖。&lt;/p&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches</title><link href="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html" rel="alternate" type="text/html" title="Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches" /><published>2020-04-18T00:00:00+08:00</published><updated>2020-04-18T00:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/18/are-we-making-much-progress.html">&lt;h1 id=&quot;1概述&quot;&gt;1、概述&lt;/h1&gt;
+&lt;p&gt;后续可能需要看下MMoE的发布论文，以及如果有空的话，补充一下该论文在消偏部分可能遗漏了的一些细节。另外，多目标学习也是颇有意思的业务场景，值得继续深挖。&lt;/p&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches</title><link href="http://0.0.0.0:4034/recommender/2020/04/18/are-we-making-much-progress.html" rel="alternate" type="text/html" title="Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches" /><published>2020-04-18T00:00:00+08:00</published><updated>2020-04-18T00:00:00+08:00</updated><id>http://0.0.0.0:4034/recommender/2020/04/18/are-we-making-much-progress</id><content type="html" xml:base="http://0.0.0.0:4034/recommender/2020/04/18/are-we-making-much-progress.html">&lt;h1 id=&quot;1概述&quot;&gt;1、概述&lt;/h1&gt;
 
 &lt;p&gt;这篇 RecSys 2019 的 Best Paper，从标题看来就很强，有种“在座各位都是……”的感觉。这两天通读下来，个人认为论文的贡献主要还是在于对学界敲响警钟，而不在于 new idea。&lt;/p&gt;
 
@@ -347,7 +711,7 @@ s_{ij} = (\sum_{u}(\frac{r_{uj}}{N_j})^\alpha*(\frac{r_{ui}}{N_u})^\alpha)/(q_i^
 
 &lt;h1 id=&quot;结语&quot;&gt;结语&lt;/h1&gt;
 
-&lt;p&gt;这里先对论文进行简单的总结与摘要。文中提到的七篇论文的对比实验……光看数据也没有什么收获，得等后面具体的看七篇论文后再展开来说了。&lt;/p&gt;</content><author><name></name></author><summary type="html">1、概述</summary></entry><entry><title type="html">Deep Neural Network for YouTube Recommendation System</title><link href="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html" rel="alternate" type="text/html" title="Deep Neural Network for YouTube Recommendation System" /><published>2020-04-13T08:00:00+08:00</published><updated>2020-04-13T08:00:00+08:00</updated><id>http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend</id><content type="html" xml:base="http://localhost:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
+&lt;p&gt;这里先对论文进行简单的总结与摘要。文中提到的七篇论文的对比实验……光看数据也没有什么收获，得等后面具体的看七篇论文后再展开来说了。&lt;/p&gt;</content><author><name></name></author><summary type="html">1、概述</summary></entry><entry><title type="html">Deep Neural Network for YouTube Recommendation System</title><link href="http://0.0.0.0:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html" rel="alternate" type="text/html" title="Deep Neural Network for YouTube Recommendation System" /><published>2020-04-13T08:00:00+08:00</published><updated>2020-04-13T08:00:00+08:00</updated><id>http://0.0.0.0:4034/recommender/2020/04/13/dnn-for-youtube-recommend</id><content type="html" xml:base="http://0.0.0.0:4034/recommender/2020/04/13/dnn-for-youtube-recommend.html">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
 
 &lt;p&gt;这篇论文是对YouTube中基于DNN的推荐系统的整体描述。本文旨在对论文进行总结。&lt;/p&gt;
 
@@ -630,7 +994,7 @@ odds &amp;=\frac{E[T|Clicked]}{E[T|NotClicked]} =\frac{\frac{\sum^{K}_{i}{T_i}}{
   &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/52504407&quot;&gt;王喆-十个工程问题&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/61827629&quot;&gt;王喆-模型Serving&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/38638747&quot;&gt;工程再现&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">自动文本摘要方面的一些调研</title><link href="http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization.html" rel="alternate" type="text/html" title="自动文本摘要方面的一些调研" /><published>2019-03-15T17:00:00+08:00</published><updated>2019-03-15T17:00:00+08:00</updated><id>http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization</id><content type="html" xml:base="http://localhost:4034/text-summarization/2019/03/15/automatic-text-summarization.html">&lt;p&gt;最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。&lt;/p&gt;
+&lt;/ol&gt;</content><author><name></name></author><summary type="html">概述</summary></entry><entry><title type="html">自动文本摘要方面的一些调研</title><link href="http://0.0.0.0:4034/text-summarization/2019/03/15/automatic-text-summarization.html" rel="alternate" type="text/html" title="自动文本摘要方面的一些调研" /><published>2019-03-15T17:00:00+08:00</published><updated>2019-03-15T17:00:00+08:00</updated><id>http://0.0.0.0:4034/text-summarization/2019/03/15/automatic-text-summarization</id><content type="html" xml:base="http://0.0.0.0:4034/text-summarization/2019/03/15/automatic-text-summarization.html">&lt;p&gt;最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。&lt;/p&gt;
 
 &lt;h1 id=&quot;0概述&quot;&gt;0、概述&lt;/h1&gt;
 
@@ -880,7 +1244,7 @@ odds &amp;=\frac{E[T|Clicked]}{E[T|NotClicked]} =\frac{\frac{\sum^{K}_{i}{T_i}}{
 
 &lt;p&gt;A Deep Reinforced Model for Abstractive Summarization&lt;/p&gt;
 
-&lt;p&gt;Convolutional Sequence to Sequence Learning&lt;/p&gt;</content><author><name></name></author><summary type="html">最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。</summary></entry><entry><title type="html">聚类算法总结 - Hierarchical Clustering</title><link href="http://localhost:4034/datamining/2015/09/24/hierarchical-clustering.html" rel="alternate" type="text/html" title="聚类算法总结 - Hierarchical Clustering" /><published>2015-09-24T16:22:00+08:00</published><updated>2015-09-24T16:22:00+08:00</updated><id>http://localhost:4034/datamining/2015/09/24/hierarchical-clustering</id><content type="html" xml:base="http://localhost:4034/datamining/2015/09/24/hierarchical-clustering.html">&lt;table&gt;
+&lt;p&gt;Convolutional Sequence to Sequence Learning&lt;/p&gt;</content><author><name></name></author><summary type="html">最近因为项目需要，加上个人兴趣，就找了几篇有关自动文本摘要的综述论文，简单做了些调研、学习，这里做个小结。</summary></entry><entry><title type="html">聚类算法总结 - Hierarchical Clustering</title><link href="http://0.0.0.0:4034/datamining/2015/09/24/hierarchical-clustering.html" rel="alternate" type="text/html" title="聚类算法总结 - Hierarchical Clustering" /><published>2015-09-24T16:22:00+08:00</published><updated>2015-09-24T16:22:00+08:00</updated><id>http://0.0.0.0:4034/datamining/2015/09/24/hierarchical-clustering</id><content type="html" xml:base="http://0.0.0.0:4034/datamining/2015/09/24/hierarchical-clustering.html">&lt;table&gt;
   &lt;thead&gt;
     &lt;tr&gt;
       &lt;th&gt;算法&lt;/th&gt;
@@ -935,7 +1299,7 @@ odds &amp;=\frac{E[T|Clicked]}{E[T|NotClicked]} =\frac{\frac{\sum^{K}_{i}{T_i}}{
       &lt;td&gt;易于理解&lt;br /&gt;一般跟其他凝聚式层次聚类算法的效率差不多&lt;br /&gt;但是：it outputs only one hierarchy with respect to a chosen probabilistic model; it cannot handle the uncertainty of cluster hierarchies.&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name></name></author><summary type="html">算法 概括 优缺点 AGNES 典型的凝聚式层次聚类   DIANA 典型的划分式层次聚类 划分式层次聚类的复杂度比凝聚式的大得多，所以较为少用。 CURE 用到了kd-tree跟heap。合并两个类的时候，先选若干well-scattered的点。从中挑出离中心最远的点，之后再挑离该点最远的点…如此得到一堆代表点，基于这些点去做层次聚类。对于大数据：先随机抽样，再对样本进行分区，然后对每个分区局部聚类，最后对局部聚类进行全局聚类。 时间上最坏是：$O(n^2log(n))$若数据维度较小，可以降到：$O(n^2)$空间复杂度是：$O(n)$ ROCK 1.生成相似度矩阵。2.根据相似度阈值得到邻居矩阵-A。3.计算链接矩阵-L=A x A 4.计算相似性的度量（Goodness Measure），将相似性最高的两个对象合并。（用到了链接矩阵）ROCK算法首先用相似度阀值和共同邻居的概念，从给定的数据相似度矩阵中构建一个稀疏图，然后对该稀疏图使用分层聚类算法进行聚类 CURE算法不能处理枚举型数据，而ROCK算法是在CURE基础之上适用于枚举数据的聚结分层聚类算法。 Chameleon 1.由数据集构造成一个K-近邻图$G_k$2.通过图的划分算法将图$G_k$划分成大量的子图，每个子图代表一个初始子簇3.凝聚式层次聚类 Chameleon跟CURE和DBSCAN相比，在发现高质量的任意形状的聚类方面有更强的能力。但是，在最坏的情况下，高维数据的处理代价可能对n个对象需要$O(n^2)$的时间。 BIRCH 用到了$CF&amp;lt;n, LS, SS&amp;gt;$CF-tree类似于B-树，有两个参数：内部节点平衡因子$B$，叶节点平衡因子$L$，簇半径阈值$T$。1.自上而下选择最近的子节点2.到达子节点后，检查最近的元组$CF_i$能否吸收此数据点若能吸收，则更新CF值否则考虑是否可以添加一个新的元组如果可以，则添加一个新的元组否则，分裂最远的一对元组，作为种子，按最近距离重新分配其它元组3.更新每个非叶节点的CF信息，如果分裂节点，在父节点中插入新的元组，检查分裂，直到root BIRCH优点：1.节省内存。叶子节点放在磁盘分区2. 在对树进行插入或查找操作很快。3.一遍扫描数据库即可建树。4.可识别噪声点。5. 可作为其他聚类算法的预处理过程BIRCH缺点：1.结果依赖于数据点的插入顺序。2.对非球状的簇聚类效果不好。3.对高维数据聚类效果不好。4.最后得出来的簇可能和自然簇相差很大。5.在整个过程中算法一旦中断，一切必须从头再来。6.局部性 *BUBBLE 把BIRCH算法的中心和半径概念推广到普通的距离空间   *BUBBLE-FM 通过减少距离的计算次数，提高了BUBBLE算法的效率   Probabilistic agglomerative clustering 距离度量用： 如果dist小于零，则合并两个簇。 易于理解一般跟其他凝聚式层次聚类算法的效率差不多但是：it outputs only one hierarchy with respect to a chosen probabilistic model; it cannot handle the uncertainty of cluster hierarchies.</summary></entry><entry><title type="html">聚类算法总结 - Partitional Clustering</title><link href="http://localhost:4034/datamining/2015/09/21/partitinoal-clustering.html" rel="alternate" type="text/html" title="聚类算法总结 - Partitional Clustering" /><published>2015-09-21T10:31:05+08:00</published><updated>2015-09-21T10:31:05+08:00</updated><id>http://localhost:4034/datamining/2015/09/21/partitinoal-clustering</id><content type="html" xml:base="http://localhost:4034/datamining/2015/09/21/partitinoal-clustering.html">&lt;table&gt;
+&lt;/table&gt;</content><author><name></name></author><summary type="html">算法 概括 优缺点 AGNES 典型的凝聚式层次聚类   DIANA 典型的划分式层次聚类 划分式层次聚类的复杂度比凝聚式的大得多，所以较为少用。 CURE 用到了kd-tree跟heap。合并两个类的时候，先选若干well-scattered的点。从中挑出离中心最远的点，之后再挑离该点最远的点…如此得到一堆代表点，基于这些点去做层次聚类。对于大数据：先随机抽样，再对样本进行分区，然后对每个分区局部聚类，最后对局部聚类进行全局聚类。 时间上最坏是：$O(n^2log(n))$若数据维度较小，可以降到：$O(n^2)$空间复杂度是：$O(n)$ ROCK 1.生成相似度矩阵。2.根据相似度阈值得到邻居矩阵-A。3.计算链接矩阵-L=A x A 4.计算相似性的度量（Goodness Measure），将相似性最高的两个对象合并。（用到了链接矩阵）ROCK算法首先用相似度阀值和共同邻居的概念，从给定的数据相似度矩阵中构建一个稀疏图，然后对该稀疏图使用分层聚类算法进行聚类 CURE算法不能处理枚举型数据，而ROCK算法是在CURE基础之上适用于枚举数据的聚结分层聚类算法。 Chameleon 1.由数据集构造成一个K-近邻图$G_k$2.通过图的划分算法将图$G_k$划分成大量的子图，每个子图代表一个初始子簇3.凝聚式层次聚类 Chameleon跟CURE和DBSCAN相比，在发现高质量的任意形状的聚类方面有更强的能力。但是，在最坏的情况下，高维数据的处理代价可能对n个对象需要$O(n^2)$的时间。 BIRCH 用到了$CF&amp;lt;n, LS, SS&amp;gt;$CF-tree类似于B-树，有两个参数：内部节点平衡因子$B$，叶节点平衡因子$L$，簇半径阈值$T$。1.自上而下选择最近的子节点2.到达子节点后，检查最近的元组$CF_i$能否吸收此数据点若能吸收，则更新CF值否则考虑是否可以添加一个新的元组如果可以，则添加一个新的元组否则，分裂最远的一对元组，作为种子，按最近距离重新分配其它元组3.更新每个非叶节点的CF信息，如果分裂节点，在父节点中插入新的元组，检查分裂，直到root BIRCH优点：1.节省内存。叶子节点放在磁盘分区2. 在对树进行插入或查找操作很快。3.一遍扫描数据库即可建树。4.可识别噪声点。5. 可作为其他聚类算法的预处理过程BIRCH缺点：1.结果依赖于数据点的插入顺序。2.对非球状的簇聚类效果不好。3.对高维数据聚类效果不好。4.最后得出来的簇可能和自然簇相差很大。5.在整个过程中算法一旦中断，一切必须从头再来。6.局部性 *BUBBLE 把BIRCH算法的中心和半径概念推广到普通的距离空间   *BUBBLE-FM 通过减少距离的计算次数，提高了BUBBLE算法的效率   Probabilistic agglomerative clustering 距离度量用： 如果dist小于零，则合并两个簇。 易于理解一般跟其他凝聚式层次聚类算法的效率差不多但是：it outputs only one hierarchy with respect to a chosen probabilistic model; it cannot handle the uncertainty of cluster hierarchies.</summary></entry><entry><title type="html">聚类算法总结 - Partitional Clustering</title><link href="http://0.0.0.0:4034/datamining/2015/09/21/partitinoal-clustering.html" rel="alternate" type="text/html" title="聚类算法总结 - Partitional Clustering" /><published>2015-09-21T10:31:05+08:00</published><updated>2015-09-21T10:31:05+08:00</updated><id>http://0.0.0.0:4034/datamining/2015/09/21/partitinoal-clustering</id><content type="html" xml:base="http://0.0.0.0:4034/datamining/2015/09/21/partitinoal-clustering.html">&lt;table&gt;
   &lt;thead&gt;
     &lt;tr&gt;
       &lt;th&gt;算法&lt;/th&gt;
